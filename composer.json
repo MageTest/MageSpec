@@ -1,0 +1,40 @@
+{
+    "name": "phpspec/magespec",
+    "description": "Magento PHPSpec2 extension",
+    "require": {
+        "phpspec/phpspec2": "dev-master"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "minimun-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "PHPSpec2": "src/",
+            "": ["vendor/magento/lib","vendor/magento/app"],
+            "Mage": "vendor/magento/app/code/core"
+        }
+    },
+    "authors": [
+    {
+        "name": "Alistair Stead",
+        "email": "astead@sessiondigital.com"
+    },
+    {
+        "name": "Marcello Duarte",
+        "email": "mduarte@sessiondigital.com"
+    },
+    {
+        "name": "Sarunas",
+        "email": "sarunas@sessiondigital.com"
+    },
+    {
+        "name": "Daniel",
+        "email": "daniel@sessiondigital.com"
+    },
+    {
+        "name": "Mark Slocock",
+        "email": "mark@gpmd.co.uk"
+    }
+    ]
+}
