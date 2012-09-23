@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPSpec2\Magento\Container;
+namespace PHPSpec2\Magento;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder,
     Symfony\Component\DependencyInjection\Loader\XmlFileLoader,
@@ -25,7 +25,7 @@ class ContainerAwareSpecification
             $this->container,
             new FileLocator(
                 __DIR__ . DIRECTORY_SEPARATOR . 'Container'
-            );
+            )
         );
 
         $loader->load('services.xml');
