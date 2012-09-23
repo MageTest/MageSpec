@@ -6,8 +6,6 @@ use PHPSpec2\Specification;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . "SpecHelper.php"; 
 
-use 
-
 class ControllerSpecification extends ContainerAwareSpecification implements Specification
 {
 
