@@ -12,7 +12,7 @@
     "minimun-stability": "dev",
     "autoload": {
         "psr-0": {
-            "PHPSpec2": "src/",
+            "PHPSpec2\\Magento": "src",
             "": ["vendor/magento/lib","vendor/magento/app"],
             "Mage": "vendor/magento/app/code/core"
         }
