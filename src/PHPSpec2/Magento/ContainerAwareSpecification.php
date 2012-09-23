@@ -27,7 +27,7 @@ class ContainerAwareSpecification
                 __DIR__ . DIRECTORY_SEPARATOR . 'Container'
             )
         );
-
+        
         $loader->load('services.xml');
     }
 }

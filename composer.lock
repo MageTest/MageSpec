@@ -1,5 +1,5 @@
 {
-    "hash": "6be20eb913df84f2d2434fb02fef25fd",
+    "hash": "ec1fc685c795770fecb1363d6cc176a2",
     "packages": [
         {
             "name": "mockery/mockery",
@@ -128,7 +128,7 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-08-22 13:48:41",
+            "time": "2012-08-22 12:48:41",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -175,7 +175,7 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-08-22 12:48:41",
+            "time": "2012-08-22 11:48:41",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -230,7 +230,7 @@
                 "symfony/yaml": "2.1.*",
                 "symfony/config": "2.1.*"
             },
-            "time": "2012-09-17 20:41:57",
+            "time": "2012-09-17 19:41:57",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -284,7 +284,7 @@
                 "symfony/dependency-injection": "2.1.*",
                 "symfony/http-kernel": "2.1.*"
             },
-            "time": "2012-09-10 09:53:42",
+            "time": "2012-09-10 08:53:42",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -331,7 +331,7 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-08-22 12:48:41",
+            "time": "2012-08-22 11:48:41",
             "type": "library",
             "extra": {
                 "branch-alias": {
