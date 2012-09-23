@@ -2,7 +2,7 @@
     "name": "phpspec/magespec",
     "description": "Magento PHPSpec2 extension",
     "require": {
-        "phpspec/phpspec2": "dev-master",
+        "phpspec/phpspec2": "magento-demo",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },
