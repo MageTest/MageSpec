@@ -2,7 +2,8 @@
     "name": "magetest/magento-phpspec-extension",
     "description": "Magento PHPSpec2 extension",
     "require": {
-        "phpspec/phpspec2": "dev-master",
+        "phpspec/php-diff": "*@dev",
+        "phpspec/phpspec2": "dev-develop",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },

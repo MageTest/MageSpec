@@ -1,5 +1,5 @@
 {
-    "hash": "ec1fc685c795770fecb1363d6cc176a2",
+    "hash": "d64ae9746b3448eb3b3b8f37e0e20d18",
     "packages": [
         {
             "name": "mockery/mockery",
@@ -21,7 +21,6 @@
             "suggest": {
                 "Hamcrest": "1.0.0"
             },
-            "time": "2012-01-24 20:22:39",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -55,27 +54,56 @@
             ]
         },
         {
-            "name": "phpspec/phpspec2",
+            "name": "phpspec/php-diff",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/phpspec/phpspec2.git",
-                "reference": "6766461a6758b26e24fc822202f3128655a2a834"
+                "url": "https://github.com/phpspec/php-diff.git",
+                "reference": "7efe41e227eae44f3ad443905957f9081cf05e3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/phpspec/phpspec2/zipball/6766461a6758b26e24fc822202f3128655a2a834",
-                "reference": "6766461a6758b26e24fc822202f3128655a2a834",
+                "url": "https://github.com/phpspec/php-diff/zipball/7efe41e227eae44f3ad443905957f9081cf05e3b",
+                "reference": "7efe41e227eae44f3ad443905957f9081cf05e3b",
+                "shasum": ""
+            },
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Diff": "lib/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Chris Boulton"
+                }
+            ],
+            "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
+            "time": "1348700435"
+        },
+        {
+            "name": "phpspec/phpspec2",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpspec/phpspec2.git",
+                "reference": "46ae5bb9ffeb424323b54d4acb25b3423b9197a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/phpspec/phpspec2/zipball/46ae5bb9ffeb424323b54d4acb25b3423b9197a3",
+                "reference": "46ae5bb9ffeb424323b54d4acb25b3423b9197a3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.1",
-                "mockery/mockery": "0.7.*",
                 "symfony/console": ">=2.1.0,<2.2.0",
                 "symfony/event-dispatcher": ">=2.1.0,<2.2.0",
-                "symfony/finder": ">=2.1.0,<2.2.0"
+                "symfony/finder": ">=2.1.0,<2.2.0",
+                "mockery/mockery": "0.7.*",
+                "phpspec/php-diff": "*@dev"
             },
-            "time": "1347727695",
             "bin": [
                 "bin/phpspec"
             ],
@@ -108,7 +136,8 @@
                 "spec",
                 "SpecBDD",
                 "specification"
-            ]
+            ],
+            "time": "1351057816"
         },
         {
             "name": "symfony/config",
@@ -128,7 +157,6 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-08-22 12:48:41",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -175,7 +203,6 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-08-22 11:48:41",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -230,7 +257,6 @@
                 "symfony/yaml": "2.1.*",
                 "symfony/config": "2.1.*"
             },
-            "time": "2012-09-17 19:41:57",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -284,7 +310,6 @@
                 "symfony/dependency-injection": "2.1.*",
                 "symfony/http-kernel": "2.1.*"
             },
-            "time": "2012-09-10 08:53:42",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -331,7 +356,6 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-08-22 11:48:41",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -367,6 +391,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "phpspec/php-diff": 20,
         "phpspec/phpspec2": 20
     }
 }
