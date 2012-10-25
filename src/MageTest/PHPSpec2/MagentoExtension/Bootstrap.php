@@ -2,7 +2,7 @@
 
 namespace MageTest\PHPSpec2\MagentoExtension;
 
-use PHPSpec2\Magento\Bootstrap\App;
+use MageTest\PHPSpec2\MagentoExtension\Bootstrap\App;
 
 use Mage_Core_Model_App_Area,
     Mage_Core_Model_Config,

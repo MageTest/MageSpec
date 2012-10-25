@@ -2,12 +2,13 @@
 
 namespace spec\MageTest\PHPSpec2\MagentoExtension\Bootstrap;
 
-use PHPSpec2\Specification;
+use PHPSpec2\ObjectBehavior;
 
-class App implements Specification
+class App extends ObjectBehavior
 {
-    function it_should_exist()
+    function let()
     {
-        $this->object->shouldNotBe(null);
+        $app->beAMockOf('MageTest\PHPSpec2\MagentoExtension\Bootstrap\App');
+        $this->beConstructedWith($app);
     }
 }

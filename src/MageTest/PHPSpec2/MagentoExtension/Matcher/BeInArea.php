@@ -3,8 +3,9 @@
 namespace MageTest\PHPSpec2\MagentoExtension\Matcher;
 
 use PHPSpec2\Matcher\BasicMatcher,
-    PHPSpec2\Exception\Example\FailureException,
-    PHPSpec2\Formatter\Representer\BasicRepresenter;
+    PHPSpec2\Exception\Example\FailureException;
+    
+use PHPSpec2\Formatter\Presenter\PresenterInterface;
 
 use PHPSpec2\Magento\ControllerSpecification;
 
@@ -12,15 +13,15 @@ class BeInArea extends BasicMatcher
 {
     private $representer;
 
-    public function __construct(RepresenterInterface $representer = null)
+    public function __construct(PresenterInterface $presenter)
     {
-        $this->representer = $representer ?: new BasicRepresenter;;
+        $this->presenter = $presenter;
     }
 
     public function supports($alias, $subject, array $arguments)
     {
         return $alias === 'beInArea' &&
-               $subject instanceof ControllerSpecification &&
+               $subject instanceof \Mage_Core_Controller_Front_Action &&
                isset($arguments[0]) &&
                in_array($arguments[0], array('admin', 'frontend'));
     }
@@ -34,8 +35,10 @@ class BeInArea extends BasicMatcher
     {
         $area = $subject->get('mage')->app()->getArea();
         return new FailureException(sprintf(
-            'Expected to be in area <value>%s</value>, got <value>%d</value>.',
-            $this->representer->representValue($subject), $arguments[0], $area
+            'Expected %s to be in area %s, got %s.',
+            $this->presenter->presentValue($subject),
+            $this->presenter->presentString($arguments[0]),
+            $this->presenter->presentString($area)
         ));
     }
 
@@ -43,8 +46,9 @@ class BeInArea extends BasicMatcher
     {
         $area = $subject->get('mage')->app()->getArea();
         return new FailureException(sprintf(
-            'Expected not to be in area <value>%s</value>.',
-            $this->representer->representValue($subject), $arguments[0], $area
+            'Expected %s not to be in area %s.',
+            $this->presenter->presentValue($subject),
+            $this->presenter->presentValue($arguments[0])
         ));
     }
 }

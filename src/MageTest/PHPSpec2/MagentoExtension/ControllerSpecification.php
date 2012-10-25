@@ -2,12 +2,14 @@
 
 namespace MageTest\PHPSpec2\MagentoExtension;
 
-use PHPSpec2\Specification;
+use PHPSpec2\SpecificationInterface;
+use PHPSpec2\Prophet\ProphetInterface;
 
 //require_once __DIR__ . DIRECTORY_SEPARATOR . "SpecHelper.php"; 
 
-class ControllerSpecification extends ContainerAwareSpecification implements Specification
+class ControllerSpecification extends ContainerAwareSpecification implements SpecificationInterface
 {
+    protected $controller;
 
     // public function __call($method, $args)
     // {
@@ -23,10 +25,12 @@ class ControllerSpecification extends ContainerAwareSpecification implements Spe
     //     }
     // }
     
-    // private function createProphet($subject)
-    // {
-    //     return new Prophet($subject, clone $this->matchers, $this->mocker, $this->resolver);
-    // }
+    
+
+    public function setProphet(ProphetInterface $prophet)
+    {
+        $this->controller = $prophet;
+    }
     // 
     // private function _dispatch($action)
     // {

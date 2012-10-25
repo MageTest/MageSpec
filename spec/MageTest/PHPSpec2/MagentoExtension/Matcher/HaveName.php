@@ -2,9 +2,9 @@
 
 namespace spec\MageTest\PHPSpec2\MagentoExtension\Matcher;
 
-use PHPSpec2\Specification;
+use PHPSpec2\ObjectBehavior;
 
-class HaveName implements Specification
+class HaveName extends ObjectBehavior
 {
     function it_should_exist()
     {

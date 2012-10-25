@@ -2,9 +2,9 @@
 
 namespace spec\MageTest\PHPSpec2\MagentoExtension;
 
-use PHPSpec2\Specification;
+use PHPSpec2\ObjectBehavior;
 
-class ControllerSpecification implements Specification
+class ControllerSpecification extends ObjectBehavior
 {
     // function described_with($matchers)
     // {
