@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\PHPSpec2\Magento\Matcher;
+namespace spec\MageTest\PHPSpec2\MagentoExtension\Matcher;
 
 use PHPSpec2\Specification;
 

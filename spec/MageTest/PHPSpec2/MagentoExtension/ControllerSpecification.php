@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\PHPSpec2\Magento;
+namespace spec\MageTest\PHPSpec2\MagentoExtension;
 
 use PHPSpec2\Specification;
 

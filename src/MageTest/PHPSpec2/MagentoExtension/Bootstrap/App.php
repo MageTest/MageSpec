@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPSpec2\Magento\Bootstrap;
+namespace MageTest\PHPSpec2\MagentoExtension\Bootstrap;
 
 use Mage_Core_Model_App as BaseApp,
     MageTest_Core_Controller_Front;

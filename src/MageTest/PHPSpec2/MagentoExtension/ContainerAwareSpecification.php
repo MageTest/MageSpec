@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPSpec2\Magento;
+namespace MageTest\PHPSpec2\MagentoExtension;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder,
     Symfony\Component\DependencyInjection\Loader\XmlFileLoader,

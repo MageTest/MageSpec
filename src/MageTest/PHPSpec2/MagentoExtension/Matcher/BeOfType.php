@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPSpec2\Magento\Matcher;
+namespace MageTest\PHPSpec2\MagentoExtension\Matcher;
 
 class BeOfType
 {

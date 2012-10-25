@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPSpec2\Matcher;
+namespace MageTest\PHPSpec2\MagentoExtension\Matcher;
 
 class MatcherCollection
 {

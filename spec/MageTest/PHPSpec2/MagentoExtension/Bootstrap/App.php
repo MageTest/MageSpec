@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\PHPSpec2\Magento\Bootstrap;
+namespace spec\MageTest\PHPSpec2\MagentoExtension\Bootstrap;
 
 use PHPSpec2\Specification;
 

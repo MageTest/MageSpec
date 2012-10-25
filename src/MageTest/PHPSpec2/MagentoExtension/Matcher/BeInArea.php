@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPSpec2\Magento\Matcher;
+namespace MageTest\PHPSpec2\MagentoExtension\Matcher;
 
 use PHPSpec2\Matcher\BasicMatcher,
     PHPSpec2\Exception\Example\FailureException,
