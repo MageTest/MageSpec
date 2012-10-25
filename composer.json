@@ -1,5 +1,5 @@
 {
-    "name": "phpspec/magespec",
+    "name": "magetest/magento-phpspec-extension",
     "description": "Magento PHPSpec2 extension",
     "require": {
         "phpspec/phpspec2": "dev-master",
@@ -12,7 +12,7 @@
     "minimun-stability": "dev",
     "autoload": {
         "psr-0": {
-            "PHPSpec2\\Magento": "src",
+            "MageTest\\PHPSpec2\\MagentoExtension": "src",
             "": ["vendor/magento/lib","vendor/magento/app"],
             "Mage": "vendor/magento/app/code/core"
         }
