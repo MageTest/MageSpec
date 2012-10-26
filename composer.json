@@ -3,7 +3,7 @@
     "description": "Magento PHPSpec2 extension",
     "require": {
         "phpspec/php-diff": "*@dev",
-        "phpspec/phpspec2": "dev-feature/load-configuration",
+        "phpspec/phpspec2": "dev-feature/magento",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },
