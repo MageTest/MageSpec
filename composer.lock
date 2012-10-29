@@ -1,5 +1,5 @@
 {
-    "hash": "d64ae9746b3448eb3b3b8f37e0e20d18",
+    "hash": "1e766437deabed2e0dc247e3d92e3e27",
     "packages": [
         {
             "name": "mockery/mockery",
@@ -84,16 +84,16 @@
         },
         {
             "name": "phpspec/phpspec2",
-            "version": "dev-develop",
+            "version": "dev-feature/configuration",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec2.git",
-                "reference": "46ae5bb9ffeb424323b54d4acb25b3423b9197a3"
+                "reference": "e17bdb1ec034bfccf36d7af54818d3790e1c8a59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/phpspec/phpspec2/zipball/46ae5bb9ffeb424323b54d4acb25b3423b9197a3",
-                "reference": "46ae5bb9ffeb424323b54d4acb25b3423b9197a3",
+                "url": "https://github.com/phpspec/phpspec2/zipball/e17bdb1ec034bfccf36d7af54818d3790e1c8a59",
+                "reference": "e17bdb1ec034bfccf36d7af54818d3790e1c8a59",
                 "shasum": ""
             },
             "require": {
@@ -104,6 +104,7 @@
                 "mockery/mockery": "0.7.*",
                 "phpspec/php-diff": "*@dev"
             },
+            "time": "1351530635",
             "bin": [
                 "bin/phpspec"
             ],
@@ -136,8 +137,7 @@
                 "spec",
                 "SpecBDD",
                 "specification"
-            ],
-            "time": "1351057816"
+            ]
         },
         {
             "name": "symfony/config",
@@ -385,7 +385,9 @@
             "homepage": "http://symfony.com"
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+
+    ],
     "aliases": [
 
     ],

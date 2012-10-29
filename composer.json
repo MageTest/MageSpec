@@ -3,7 +3,7 @@
     "description": "Magento PHPSpec2 extension",
     "require": {
         "phpspec/php-diff": "*@dev",
-        "phpspec/phpspec2": "dev-feature/magento",
+        "phpspec/phpspec2": "dev-feature/configuration",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },
@@ -14,30 +14,33 @@
     "autoload": {
         "psr-0": {
             "MageTest\\PHPSpec2\\MagentoExtension": "src",
-            "": ["vendor/magento/lib","vendor/magento/app"],
+            "": [
+                "vendor/magento/lib",
+                "vendor/magento/app"
+            ],
             "Mage": "vendor/magento/app/code/core"
         }
     },
     "authors": [
-    {
-        "name": "Alistair Stead",
-        "email": "astead@sessiondigital.com"
-    },
-    {
-        "name": "Marcello Duarte",
-        "email": "mduarte@sessiondigital.com"
-    },
-    {
-        "name": "Sarunas",
-        "email": "sarunas@sessiondigital.com"
-    },
-    {
-        "name": "Daniel",
-        "email": "daniel@sessiondigital.com"
-    },
-    {
-        "name": "Mark Slocock",
-        "email": "mark@gpmd.co.uk"
-    }
+        {
+            "name": "Alistair Stead",
+            "email": "astead@sessiondigital.com"
+        },
+        {
+            "name": "Marcello Duarte",
+            "email": "mduarte@sessiondigital.com"
+        },
+        {
+            "name": "Sarunas",
+            "email": "sarunas@sessiondigital.com"
+        },
+        {
+            "name": "Daniel",
+            "email": "daniel@sessiondigital.com"
+        },
+        {
+            "name": "Mark Slocock",
+            "email": "mark@gpmd.co.uk"
+        }
     ]
 }
