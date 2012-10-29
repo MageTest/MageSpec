@@ -1,0 +1,31 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    coderay (1.0.8)
+    guard (1.5.2)
+      listen (>= 0.4.2)
+      lumberjack (>= 1.0.2)
+      pry (>= 0.9.10)
+      thor (>= 0.14.6)
+    guard-ctags-composer (0.0.1)
+      guard (>= 1.0.0)
+    guard-shell (0.5.1)
+      guard (>= 1.1.0)
+    listen (0.5.3)
+    lumberjack (1.0.2)
+    method_source (0.8.1)
+    pry (0.9.10)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.3.1)
+    rb-fsevent (0.9.2)
+    slop (3.3.3)
+    thor (0.16.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  guard-ctags-composer
+  guard-shell (~> 0.5.1)
+  rb-fsevent (~> 0.9.1)
