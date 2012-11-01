@@ -11,7 +11,7 @@ class Extension extends ObjectBehavior
      */
     public function it_should_call_extend_of_application($application)
     {
-        $application->extend()->shouldBeCalled();
+        $application->extend(ANY_ARGUMENTS)->shouldBeCalled();
         $this->setApplication($application);
         $this->extend();
     }
