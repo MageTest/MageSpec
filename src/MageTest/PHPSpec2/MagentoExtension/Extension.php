@@ -6,30 +6,18 @@ use PHPSpec2\Extension\ExtensionInterface,
     PHPSpec2\Console\ExtendableApplicationInterface as ApplicationInterface,
     PHPSpec2\Configuration\Configuration;
 
-use MageTest\PHPSpec2\MagentoExtension\Loader\SpecificationLoader;
+use MageTest\PHPSpec2\MagentoExtension\Loader\SpecificationClassLoader;
+use PHPSpec2\ServiceContainer;
 
 class Extension implements ExtensionInterface
 {
     private $application;
     private $configuration;
 
-    public function setApplication(ApplicationInterface $application)
+    public function initialize(ServiceContainer $container)
     {
-        $this->application = $application;
-    }
-
-    public function setConfiguration(Configuration $configuration)
-    {
-        $this->configuration = $configuration;
-    }
-
-    public function extend()
-    {
-        $this->application->extend(
-            'specification_loader',
-            $this->application->share(function($app){
-                return new SpecificationLoader;
-            })
-        );
+        $container->set('specifications_loader', $container->share(function($c) {
+            return new SpecificationClassLoader;
+        }));
     }
 }

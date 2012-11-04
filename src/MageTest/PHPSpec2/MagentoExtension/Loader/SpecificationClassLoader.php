@@ -2,6 +2,6 @@
 
 namespace MageTest\PHPSpec2\MagentoExtension\Loader;
 
-class SpecificationLoader
+class SpecificationClassLoader
 {
 }
