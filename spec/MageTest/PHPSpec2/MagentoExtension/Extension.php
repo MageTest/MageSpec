@@ -3,15 +3,12 @@
 namespace spec\MageTest\PHPSpec2\MagentoExtension;
 
 use PHPSpec2\ObjectBehavior;
-use MageTest\PHPSpec2\MagentoExtension\Loader\SpecificationClassLoader as MageTestClassLoader;
-use PHPSpec2\Loader\SpecificationsClassLoader as BaseClassLoader;
-
 
 class Extension extends ObjectBehavior
 {
     /**
      * @param  PHPSpec2\ServiceContainer $container
-     * @param  MageTest\PHPSpec2\MagentoExtension\Loader\SpecificationClassLoader $specClassLoader
+     * @param  MageTest\PHPSpec2\MagentoExtension\Loader\SpecificationsClassLoader $specClassLoader
      */
     function it_should_replace_spec_loader($container, $specClassLoader)
     {
