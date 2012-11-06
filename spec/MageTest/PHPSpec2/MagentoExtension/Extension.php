@@ -22,4 +22,16 @@ class Extension extends ObjectBehavior
             throw new \Exception("The Specification loader has not been extended");
         }
     }
+
+    /**
+     * 3 Additional commands should be added to PHPSpec2
+     *
+     * @param  PHPSpec2\ServiceContainer $container
+     */
+    function it_should_add_console_commands($container)
+    {
+        $container->extend('console.commands', ANY_ARGUMENT)->shouldBeCalled();
+
+        $this->initialize($container);
+    }
 }
