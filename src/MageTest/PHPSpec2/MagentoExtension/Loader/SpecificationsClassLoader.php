@@ -9,9 +9,9 @@ use PHPSpec2\Loader\Node\Specification as NodeSpecification;
 use ReflectionClass;
 use ReflectionException;
 
-class SpecificationsClassLoader
+class SpecificationsClassLoader implements \PHPSpec2\Loader\LoaderInterface
 {
-    public function loadFromfile($filename)
+    public function loadFromfile($filename, $line = null)
     {
         $specifications = array();
 
@@ -60,10 +60,29 @@ class SpecificationsClassLoader
         require_once $filename;
         try {
             $class = new ReflectionClass($className);
+            $this->validateSpecificationSuperClass($folder, $class);
         } catch (ReflectionException $e) {
             throw new LoaderException("Could not find $className in $filename");
         }
         return array(new NodeSpecification($className, $class));
+    }
+
+    private function validateSpecificationSuperClass($type, $class)
+    {
+        switch ($type) {
+            case 'Block':
+                if (!$class->isSubclassOf('MageTest\PHPSpec2\MagentoExtension\Specification\BlockBehavior')) {
+                    throw new LoaderException($class->getName() . " is not a BlockBehavior");
+                }
+                break;
+            case 'Helper':
+                if (!$class->isSubclassOf('MageTest\PHPSpec2\MagentoExtension\Specification\HelperBehavior')) {
+                    throw new LoaderException($class->getName() . " is not a HelperBehavior");
+                }
+                break;
+            default:
+
+        }
     }
 
     private function loadSetupScriptsSpec($matches)

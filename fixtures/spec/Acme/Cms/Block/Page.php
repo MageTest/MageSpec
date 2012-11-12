@@ -2,7 +2,9 @@
 
 namespace spec;
 
-class Acme_Cms_Block_Page
+use MageTest\PHPSpec2\MagentoExtension\Specification\BlockBehavior;
+
+class Acme_Cms_Block_Page extends BlockBehavior
 {
-	
+
 }
