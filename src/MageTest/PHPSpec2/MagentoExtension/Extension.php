@@ -12,7 +12,6 @@ use PHPSpec2\ServiceContainer;
 class Extension implements ExtensionInterface
 {
     private $application;
-    private $configuration;
 
     public function initialize(ServiceContainer $container)
     {
