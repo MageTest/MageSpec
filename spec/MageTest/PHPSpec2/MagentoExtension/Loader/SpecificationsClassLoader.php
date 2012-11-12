@@ -56,6 +56,18 @@ class SpecificationsClassLoader extends ObjectBehavior
         ));
     }
 
+    function it_loads_setup_scripts_specs()
+    {
+        $specification = $this->loadFromfile('spec/Acme/Cms/sql/install-0.1.0.php');
+
+        $specification->shouldBeLike(array(
+            new NodeSpecification(
+                'spec\Acme_Cms_Setup',
+                new \ReflectionClass('spec\Acme_Cms_Setup')
+            )
+        ));
+    }
+
     private $currentWorkingDirectory;
 
     function let()
