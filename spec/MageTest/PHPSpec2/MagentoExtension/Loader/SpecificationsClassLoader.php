@@ -68,6 +68,7 @@ class SpecificationsClassLoader extends ObjectBehavior
         ));
     }
 
+
     private $currentWorkingDirectory;
 
     function let()
