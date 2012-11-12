@@ -9,9 +9,9 @@ use PHPSpec2\Loader\Node\Specification as NodeSpecification;
 use ReflectionClass;
 use ReflectionException;
 
-class SpecificationsClassLoader
+class SpecificationsClassLoader implements \PHPSpec2\Loader\LoaderInterface
 {
-    public function loadFromfile($filename)
+    public function loadFromfile($filename, $line = null)
     {
         $specifications = array();
 
