@@ -19,6 +19,8 @@ class SpecificationsClassLoader
             $specifications = $this->loadControllerSpec($matches);
         } elseif (preg_match("/^spec\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)\/(Block|Helper|Model)\/(.*)/", $filename, $matches)) {
             $specifications = $this->loadStandardMagentoSpec($matches);
+        } elseif (preg_match("/^spec\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)\/(sql)\/(.*)/", $filename, $matches)) {
+            $specifications = $this->loadSetupScriptsSpec($matches);
         }
 
         return $specifications;
@@ -62,5 +64,20 @@ class SpecificationsClassLoader
             throw new LoaderException("Could not find $className in $filename");
         }
         return array(new NodeSpecification($className, $class));
+    }
+
+    private function loadSetupScriptsSpec($matches)
+    {
+        $vendor = $matches[1];
+        $module = $matches[2];
+        $path = "spec/{$vendor}/{$module}/sql";
+        $setupSpec = "{$vendor}_{$module}_Setup";
+
+        if (class_exists($setupSpec)) {
+            return array();
+        }
+
+        $factory = new SetupScriptNodeSpecificationFactory($setupSpec, $path);
+        return array($factory->create());
     }
 }
