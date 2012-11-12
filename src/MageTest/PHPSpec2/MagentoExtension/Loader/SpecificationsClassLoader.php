@@ -17,6 +17,8 @@ class SpecificationsClassLoader
 
         if (preg_match("/^spec\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)\/(controllers)\/(.*)/", $filename, $matches)) {
             $specifications = $this->loadControllerSpec($matches);
+        } elseif (preg_match("/^spec\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)\/(Block|Helper|Model)\/(.*)/", $filename, $matches)) {
+            $specifications = $this->loadStandardMagentoSpec($matches);
         }
 
         return $specifications;
@@ -40,5 +42,25 @@ class SpecificationsClassLoader
             throw new LoaderException("Could not find $controllerClass in $filename");
         }
         return array(new NodeSpecification($controllerClass, $class));
+    }
+
+    private function loadStandardMagentoSpec($matches)
+    {
+        $filename = $matches[0];
+        $vendor = $matches[1];
+        $module = $matches[2];
+        $folder = $matches[3];
+        $path = $matches[4];
+        $className = str_replace(".php", "", $path);
+        $className = str_replace("/", "_", $className);
+        $className = "spec\\{$vendor}_{$module}_{$folder}_{$className}";
+
+        require_once $filename;
+        try {
+            $class = new ReflectionClass($className);
+        } catch (ReflectionException $e) {
+            throw new LoaderException("Could not find $className in $filename");
+        }
+        return array(new NodeSpecification($className, $class));
     }
 }

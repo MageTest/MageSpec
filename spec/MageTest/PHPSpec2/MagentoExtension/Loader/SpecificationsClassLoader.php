@@ -32,6 +32,30 @@ class SpecificationsClassLoader extends ObjectBehavior
             ->shouldBe(true);
     }
 
+    function it_loads_block_specs()
+    {
+        $specification = $this->loadFromfile('spec/Acme/Cms/Block/Page.php');
+
+        $specification->shouldBeLike(array(
+            new NodeSpecification(
+                'spec\Acme_Cms_Block_Page',
+                new \ReflectionClass('spec\Acme_Cms_Block_Page')
+            )
+        ));
+    }
+
+    function it_loads_helper_specs()
+    {
+        $specification = $this->loadFromfile('spec/Acme/Cms/Helper/Data.php');
+
+        $specification->shouldBeLike(array(
+            new NodeSpecification(
+                'spec\Acme_Cms_Helper_Data',
+                new \ReflectionClass('spec\Acme_Cms_Helper_Data')
+            )
+        ));
+    }
+
     private $currentWorkingDirectory;
 
     function let()
