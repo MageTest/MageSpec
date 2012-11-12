@@ -2,7 +2,9 @@
 
 namespace spec;
 
-class Acme_Cms_Helper_Data
+use MageTest\PHPSpec2\MagentoExtension\Specification\HelperBehavior;
+
+class Acme_Cms_Helper_Data extends HelperBehavior
 {
-	
+
 }

@@ -68,6 +68,15 @@ class SpecificationsClassLoader extends ObjectBehavior
         ));
     }
 
+    function it_checks_if_block_spec_implements_magespec_block_behavior()
+    {
+        $specifications = $this->loadFromfile('spec/Acme/Cms/Block/Page.php');
+
+        $specifications[0]
+            ->getClass()
+            ->isSubclassOf('MageTest\PHPSpec2\MagentoExtension\Specification\BlockBehavior')
+            ->shouldBe(true);
+    }
 
     private $currentWorkingDirectory;
 
