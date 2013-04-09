@@ -1,5 +1,24 @@
 <?php
-
+/**
+ * MageSpec
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MIT License, that is bundled with this
+ * package in the file LICENSE.
+ * It is also available through the world-wide-web at this URL:
+ *
+ * http://opensource.org/licenses/MIT
+ *
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world-wide-web, please send an email
+ * to <magetest@sessiondigital.com> so we can send you a copy immediately.
+ *
+ * @category   MageTest
+ * @package    PHPSpec2_MagentoExtension
+ *
+ * @copyright  Copyright (c) 2012-2013 MageTest team and contributors.
+ */
 namespace MageTest\PHPSpec2\MagentoExtension;
 
 use MageTest\PHPSpec2\MagentoExtension\Bootstrap\App;
@@ -11,6 +30,14 @@ use Mage_Core_Model_App_Area,
 use Mage_Core_Controller_Request_Http,
     Mage_Core_Controller_Response_Http;
 
+/**
+ * Bootstrap
+ *
+ * @category   MageTest
+ * @package    PHPSpec2_MagentoExtension
+ *
+ * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
+ */
 class Bootstrap
 {
     private $mageReflection;
@@ -68,7 +95,7 @@ class Bootstrap
             $this->getProtectedPropertyValue('_app')->init($code, $type, $options);
 
             $this->getProtectedPropertyValue('_app')->loadAreaPart(
-                Mage_Core_Model_App_Area::AREA_GLOBAL, 
+                Mage_Core_Model_App_Area::AREA_GLOBAL,
                 Mage_Core_Model_App_Area::PART_EVENTS
             );
         }
