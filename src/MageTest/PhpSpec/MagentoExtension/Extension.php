@@ -15,25 +15,35 @@
  * to <magetest@sessiondigital.com> so we can send you a copy immediately.
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
  *
  * @copyright  Copyright (c) 2012-2013 MageTest team and contributors.
  */
-namespace spec\local\MyVendor\MyModule\controllers;
+namespace MageTest\PhpSpec\MagentoExtension;
 
-use PhpSpec\Magento\ControllerSpecification;
+use PhpSpec\Extension\ExtensionInterface,
+    PhpSpec\Console\ExtendableApplicationInterface as ApplicationInterface,
+    PhpSpec\Configuration\Configuration;
+
+use MageTest\PhpSpec\MagentoExtension\Loader\SpecificationsClassLoader;
+use PhpSpec\ServiceContainer;
 
 /**
- * IndexController
+ * Extension
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class IndexController extends ControllerSpecification
+class Extension implements ExtensionInterface
 {
+    private $application;
 
+    public function initialize(ServiceContainer $container)
+    {
+        $container->set('specifications_loader', $container->share(function($c) {
+            return new SpecificationsClassLoader;
+        }));
+    }
 }

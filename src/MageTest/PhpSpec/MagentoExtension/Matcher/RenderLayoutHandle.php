@@ -15,25 +15,22 @@
  * to <magetest@sessiondigital.com> so we can send you a copy immediately.
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
+ * @subpackage Matcher
  *
  * @copyright  Copyright (c) 2012-2013 MageTest team and contributors.
  */
-namespace spec\local\MyVendor\MyModule\controllers;
-
-use PhpSpec\Magento\ControllerSpecification;
+namespace MageTest\PhpSpec\MagentoExtension\Matcher;
 
 /**
- * IndexController
+ * RenderLayoutHandle
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
+ * @subpackage Matcher
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class IndexController extends ControllerSpecification
+class RenderLayoutHandle
 {
-
 }

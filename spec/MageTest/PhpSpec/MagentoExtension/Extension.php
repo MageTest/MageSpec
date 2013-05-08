@@ -15,25 +15,33 @@
  * to <magetest@sessiondigital.com> so we can send you a copy immediately.
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
  *
  * @copyright  Copyright (c) 2012-2013 MageTest team and contributors.
  */
-namespace spec\local\MyVendor\MyModule\controllers;
+namespace spec\MageTest\PhpSpec\MagentoExtension;
 
-use PhpSpec\Magento\ControllerSpecification;
+use PhpSpec\ObjectBehavior;
 
 /**
- * IndexController
+ * Extension
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class IndexController extends ControllerSpecification
+class Extension extends ObjectBehavior
 {
+    /**
+     * @param  PhpSpec\ServiceContainer $container
+     * @param  MageTest\PhpSpec\MagentoExtension\Loader\SpecificationsClassLoader $specClassLoader
+     */
+    function it_should_replace_spec_loader($container, $specClassLoader)
+    {
+        $container->share(ANY_ARGUMENTS)->shouldBeCalled()->willReturn($specClassLoader);
+        $container->set('specifications_loader', $specClassLoader)->shouldBeCalled();
 
+        $this->initialize($container);
+    }
 }

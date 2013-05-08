@@ -15,25 +15,28 @@
  * to <magetest@sessiondigital.com> so we can send you a copy immediately.
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
+ * @subpackage Matcher
  *
  * @copyright  Copyright (c) 2012-2013 MageTest team and contributors.
  */
-namespace spec\local\MyVendor\MyModule\controllers;
+namespace spec\MageTest\PhpSpec\MagentoExtension\Matcher;
 
-use PhpSpec\Magento\ControllerSpecification;
+use PhpSpec\ObjectBehavior;
 
 /**
- * IndexController
+ * ContainSpec
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
+ * @subpackage Loader
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class IndexController extends ControllerSpecification
+class ContainSpec extends ObjectBehavior
 {
-
+    function it_should_exist()
+    {
+        $this->object->shouldNotBe(null);
+    }
 }

@@ -15,25 +15,25 @@
  * to <magetest@sessiondigital.com> so we can send you a copy immediately.
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
+ * @subpackage Loader
  *
  * @copyright  Copyright (c) 2012-2013 MageTest team and contributors.
  */
-namespace spec\local\MyVendor\MyModule\controllers;
+namespace MageTest\PhpSpec\MagentoExtension\Loader;
 
-use PhpSpec\Magento\ControllerSpecification;
+use PhpSpec\Exception\Exception;
 
 /**
- * IndexController
+ * LoaderException
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
+ * @subpackage Loader
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class IndexController extends ControllerSpecification
+class LoaderException extends Exception
 {
 
 }
