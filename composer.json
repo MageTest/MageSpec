@@ -3,6 +3,7 @@
     "description": "Magento PHPSpec extension",
     "require": {
         "phpspec/phpspec": "dev-master",
+        "phpspec/prophecy": "dev-master",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },
@@ -12,8 +13,9 @@
     "minimun-stability": "dev",
     "autoload": {
         "psr-0": {
-            "MageTest\\PHPSpec\\MagentoExtension": "src",
+            "MageTest\\PhpSpec\\MagentoExtension": "src",
             "": [
+                "src",
                 "vendor/magento/lib",
                 "vendor/magento/app"
             ],

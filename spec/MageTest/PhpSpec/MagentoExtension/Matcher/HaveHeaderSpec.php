@@ -35,8 +35,8 @@ use PhpSpec\ObjectBehavior;
  */
 class HaveHeaderSpec extends ObjectBehavior
 {
-    function it_should_exist()
+    function it_is_initializable()
     {
-        $this->object->shouldNotBe(null);
+        $this->shouldHaveType('MageTest\PhpSpec\MagentoExtension\Matcher\HaveHeader');
     }
 }

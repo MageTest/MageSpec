@@ -23,10 +23,13 @@ namespace MageTest\PhpSpec\MagentoExtension;
 
 use PhpSpec\Extension\ExtensionInterface,
     PhpSpec\Console\ExtendableApplicationInterface as ApplicationInterface,
-    PhpSpec\Configuration\Configuration;
+    PhpSpec\Configuration\Configuration,
+    PhpSpec\ServiceContainer,
+    PhpSpec\Locator\PSR0\PSR0Locator;
 
-use MageTest\PhpSpec\MagentoExtension\Loader\SpecificationsClassLoader;
-use PhpSpec\ServiceContainer;
+use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeModelCommand,
+    MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator;
+//    MageTest\PhpSpec\MagentoExtension\Loader\SpecificationsClassLoader;
 
 /**
  * Extension
@@ -38,12 +41,8 @@ use PhpSpec\ServiceContainer;
  */
 class Extension implements ExtensionInterface
 {
-    private $application;
-
-    public function initialize(ServiceContainer $container)
+    public function load(ServiceContainer $container)
     {
-        $container->set('specifications_loader', $container->share(function($c) {
-            return new SpecificationsClassLoader;
-        }));
+
     }
 }

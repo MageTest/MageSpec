@@ -35,18 +35,30 @@ use PhpSpec\ObjectBehavior;
  */
 class BeInAreaSpec extends ObjectBehavior
 {
+    /**
+     * @param \PhpSpec\Formatter\Presenter\PresenterInterface $presenter
+     */
     function let($presenter)
     {
-        $presenter->beAMockOf('PhpSpec\Formatter\Presenter\PresenterInterface');
         $this->beConstructedWith($presenter);
+    }
+
+    function it_is_a_matcher()
+    {
+        $this->shouldBeAnInstanceOf('PhpSpec\Matcher\BasicMatcher');
+    }
+
+    function it_is_initializable()
+    {
+        $this->shouldHaveType('MageTest\PhpSpec\MagentoExtension\Matcher\BeInArea');
     }
 
     /**
      * @param Mage_Core_Controller_Front_Action $controller
      */
-    function it_should_support_be_in_area_for_controllers($controller)
-    {
-        $this->supports('beInArea', $controller, array('admin'))
-             ->shouldBe(true);
-    }
+//    function it_should_support_be_in_area_for_controllers($controller)
+//    {
+//        $this->supports('beInArea', $controller, array('admin'))
+//             ->shouldBe(true);
+//    }
 }

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "953a73781210533ff4e447c3fe70677a",
+    "hash": "fa4cb4b1a69fd1327913fa1250004209",
     "packages": [
         {
             "name": "phpspec/php-diff",
@@ -105,20 +105,20 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "v1.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "v1.0.1"
+                "reference": "af7e0f898433c67e994563c16a6c4e98862a4e5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/v1.0.1",
-                "reference": "v1.0.1",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/af7e0f898433c67e994563c16a6c4e98862a4e5f",
+                "reference": "af7e0f898433c67e994563c16a6c4e98862a4e5f",
                 "shasum": ""
             },
             "require-dev": {
-                "phpspec/phpspec2": "dev-develop"
+                "phpspec/phpspec": "2.0.*"
             },
             "type": "library",
             "extra": {
@@ -156,7 +156,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2013-04-30 08:47:47"
+            "time": "2013-05-10 15:58:20"
         },
         {
             "name": "symfony/config",
@@ -464,7 +464,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "phpspec/phpspec": 20
+        "phpspec/phpspec": 20,
+        "phpspec/prophecy": 20
     },
     "platform": [
 

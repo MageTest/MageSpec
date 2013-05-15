@@ -22,26 +22,21 @@
 namespace spec\MageTest\PhpSpec\MagentoExtension;
 
 use PhpSpec\ObjectBehavior;
+use PhpSpec\ServiceContainer;
+use Prophecy\Argument;
 
 /**
- * Extension
+ * ExtensionSpec
  *
  * @category   MageTest
  * @package    PhpSpec_MagentoExtension
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class Extension extends ObjectBehavior
+class ExtensionSpec extends ObjectBehavior
 {
-    /**
-     * @param  PhpSpec\ServiceContainer $container
-     * @param  MageTest\PhpSpec\MagentoExtension\Loader\SpecificationsClassLoader $specClassLoader
-     */
-    function it_should_replace_spec_loader($container, $specClassLoader)
+    function it_is_initializable()
     {
-        $container->share(ANY_ARGUMENTS)->shouldBeCalled()->willReturn($specClassLoader);
-        $container->set('specifications_loader', $specClassLoader)->shouldBeCalled();
-
-        $this->initialize($container);
+        $this->shouldHaveType('MageTest\PhpSpec\MagentoExtension\Extension');
     }
 }
