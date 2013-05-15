@@ -43,6 +43,12 @@ class Extension implements ExtensionInterface
 {
     public function load(ServiceContainer $container)
     {
+        $container->setShared('console.commands.describe_model', function () {
+            return new DescribeModelCommand();
+        });
 
+        $container->setShared('locator.locators.magento_model', function () {
+            return new ModelLocator();
+        });
     }
 }

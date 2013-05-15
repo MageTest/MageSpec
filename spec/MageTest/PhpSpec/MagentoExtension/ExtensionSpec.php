@@ -35,8 +35,38 @@ use Prophecy\Argument;
  */
 class ExtensionSpec extends ObjectBehavior
 {
+    function let(ServiceContainer $container)
+    {
+        $container->setShared(Argument::cetera())->willReturn();
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType('MageTest\PhpSpec\MagentoExtension\Extension');
+    }
+
+    function it_registers_a_console_describe_model_command_when_loaded($container)
+    {
+        $container->setShared('console.commands.describe_model', $this->service('\MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeModelCommand'))->shouldBeCalled();
+        $this->load($container);
+    }
+
+    function it_registers_a_custom_model_locator_when_loaded($container)
+    {
+        $container->setShared('locator.locators.magento_model', $this->service('\MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator'))->shouldBeCalled();
+        $this->load($container);
+    }
+
+    protected function service($class)
+    {
+        return Argument::that(function ($callback) use ($class) {
+            if (is_callable($callback)) {
+                $result = $callback();
+
+                return $result instanceof $class;
+            }
+
+            return false;
+        });
     }
 }
