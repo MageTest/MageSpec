@@ -15,25 +15,25 @@
  * to <magetest@sessiondigital.com> so we can send you a copy immediately.
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
+ * @subpackage Specification
  *
  * @copyright  Copyright (c) 2012-2013 MageTest team and contributors.
  */
-namespace spec\local\MyVendor\MyModule\controllers;
+namespace MageTest\PhpSpec\MagentoExtension\Specification;
 
-use PhpSpec\Magento\ControllerSpecification;
+use PhpSpec\ObjectBehavior;
 
 /**
- * IndexController
+ * ControllerBehavior
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
+ * @subpackage Specification
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class IndexController extends ControllerSpecification
+abstract class ControllerBehavior extends ObjectBehavior
 {
 
 }

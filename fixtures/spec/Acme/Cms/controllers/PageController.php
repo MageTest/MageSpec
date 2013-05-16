@@ -2,9 +2,9 @@
 
 namespace spec;
 
-use MageTest\PHPSpec2\MagentoExtension\Specification\ControllerBehavior;
+use MageTest\PhpSpec\MagentoExtension\Specification\ControllerBehavior;
 
 class Acme_Cms_PageController extends ControllerBehavior
 {
-    
+
 }
