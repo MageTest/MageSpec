@@ -34,7 +34,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_HttpTest
 {
 	const XML_NODE_DIRECT_FRONT_NAMES = 'global/request/direct_front_name';
 
-	const MAGE_TEST_USER_AGENT = 'PHPSpec2/Magento Mock Browser';
+	const MAGE_TEST_USER_AGENT = 'PhpSpec/Magento Mock Browser';
 
     /**
      * ORIGINAL_PATH_INFO

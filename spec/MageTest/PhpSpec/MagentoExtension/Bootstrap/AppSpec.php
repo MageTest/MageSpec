@@ -15,25 +15,29 @@
  * to <magetest@sessiondigital.com> so we can send you a copy immediately.
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
+ * @subpackage Bootstrap
  *
  * @copyright  Copyright (c) 2012-2013 MageTest team and contributors.
  */
-namespace spec\local\MyVendor\MyModule\controllers;
+namespace spec\MageTest\PhpSpec\MagentoExtension\Bootstrap;
 
-use PhpSpec\Magento\ControllerSpecification;
+use PhpSpec\ObjectBehavior;
 
 /**
- * IndexController
+ * AppSpec
  *
  * @category   MageTest
- * @package    example
- * @subpackege spec
+ * @package    PhpSpec_MagentoExtension
+ * @subpackage Bootstrap
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class IndexController extends ControllerSpecification
+class AppSpec extends ObjectBehavior
 {
-
+    function let()
+    {
+        $app->beAMockOf('MageTest\PhpSpec\MagentoExtension\Bootstrap\App');
+        $this->beConstructedWith($app);
+    }
 }

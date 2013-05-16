@@ -1,9 +1,9 @@
 {
     "name": "magetest/magento-phpspec-extension",
-    "description": "Magento PHPSpec2 extension",
+    "description": "Magento PHPSpec extension",
     "require": {
-        "phpspec/php-diff": "*@dev",
-        "phpspec/phpspec2": "dev-develop",
+        "phpspec/phpspec": "dev-master",
+        "phpspec/prophecy": "dev-master",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },
@@ -13,8 +13,9 @@
     "minimun-stability": "dev",
     "autoload": {
         "psr-0": {
-            "MageTest\\PHPSpec2\\MagentoExtension": "src",
+            "MageTest\\PhpSpec\\MagentoExtension": "src",
             "": [
+                "src",
                 "vendor/magento/lib",
                 "vendor/magento/app"
             ],
@@ -41,6 +42,14 @@
         {
             "name": "Mark Slocock",
             "email": "mark@gpmd.co.uk"
+        },
+        {
+            "name": "Marco De Bortoli",
+            "email": "marco.debortoli@sessiondigital.com"
+        },
+        {
+            "name": "Other contributors",
+            "homepage": "https://github.com/MageTest/MageSpec/contributors"
         }
     ]
 }
