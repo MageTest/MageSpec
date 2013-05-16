@@ -1,8 +1,24 @@
-# Description
+## MageSpec
 
-# Requirements
+## Target
 
-# Usage
+## How?
+
+## Installation
+
+### Prerequisites
+
+## Basic usage
+
+## Installation
+
+## Issue Submission
+
+Make sure you've read the [issue submission guidelines](https://github.com/MageTest/BehatMage/blob/develop/contributing.md#issue-submission) before you open a [new issue](https://github.com/MageTest/BehatMage/blob/develop/issues/new).
+
+## Contribute
+
+See the [contributing docs](https://github.com/MageTest/BehatMage/blob/develop/contributing.md)
 
 # License and Authors
 
