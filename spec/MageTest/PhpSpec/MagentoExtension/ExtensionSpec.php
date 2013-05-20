@@ -23,6 +23,8 @@ namespace spec\MageTest\PhpSpec\MagentoExtension;
 
 use PhpSpec\ObjectBehavior;
 use PhpSpec\ServiceContainer;
+use PhpSpec\Console\IO;
+use PhpSpec\CodeGenerator\TemplateRenderer;
 use Prophecy\Argument;
 
 /**
@@ -38,6 +40,7 @@ class ExtensionSpec extends ObjectBehavior
     function let(ServiceContainer $container)
     {
         $container->setShared(Argument::cetera())->willReturn();
+        $container->addConfigurator(Argument::any())->willReturn();
     }
 
     function it_is_initializable()
@@ -51,10 +54,11 @@ class ExtensionSpec extends ObjectBehavior
         $this->load($container);
     }
 
-    function it_registers_a_custom_model_locator_when_loaded($container)
+    function it_adds_locator_configuration_when_loaded($container)
     {
-        $container->setShared('locator.locators.magento_model', $this->service('\MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator'))->shouldBeCalled();
+        $container->addConfigurator('locator.locators.mage_locator', true);
         $this->load($container);
+
     }
 
     protected function service($class)
