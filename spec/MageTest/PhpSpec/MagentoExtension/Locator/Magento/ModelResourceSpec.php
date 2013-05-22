@@ -39,8 +39,9 @@ class ModelResourceSpec extends ObjectBehavior
         $this->getSrcFilename()->shouldReturn('/app/code/local/VendorName/ModuleName/ModelName.php');
     }
 
-    function it_should_return_empty_src_namespace()
+    function it_should_return_empty_src_namespace($locator)
     {
+        $locator->getSrcNamespace()->willReturn('');
         $this->getSrcNamespace()->shouldReturn('');
     }
 
@@ -56,8 +57,9 @@ class ModelResourceSpec extends ObjectBehavior
         $this->getSpecFilename()->shouldReturn('/spec/VendorName/ModuleName/ModelNameSpec.php');
     }
 
-    function it_should_return_spec_as_spec_namespace()
+    function it_should_return_spec_as_spec_namespace($locator)
     {
+        $locator->getSpecNamespace()->willReturn('spec');
         $this->getSpecNamespace()->shouldReturn('spec');
     }
 

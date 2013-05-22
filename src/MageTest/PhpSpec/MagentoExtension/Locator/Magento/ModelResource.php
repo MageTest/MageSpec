@@ -33,7 +33,7 @@ use PhpSpec\Locator\ResourceInterface;
  */
 class ModelResource implements ResourceInterface
 {
-    private $part;
+    private $parts;
     private $locator;
 
     public function __construct(array $parts, ModelLocator $locator)
@@ -74,7 +74,7 @@ class ModelResource implements ResourceInterface
 
     public function getSpecNamespace()
     {
-        return 'spec';
+        return rtrim($this->locator->getSpecNamespace(), '/\\');
     }
 
     public function getSpecClassname()

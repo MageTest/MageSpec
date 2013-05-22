@@ -35,6 +35,9 @@ use PhpSpec\Util\Filesystem;
  */
 class ModelLocator implements ResourceLocatorInterface
 {
+    const LOCAL_CODE_POOL = 'local';
+    const COMMUNITY_CODE_POOL = 'community';
+
     const MODEL_FOLDER = 'Model';
 
     private $srcPath;
@@ -50,12 +53,12 @@ class ModelLocator implements ResourceLocatorInterface
     {
         $this->filesystem = $filesystem ? : new Filesystem;
 
-        $this->srcPath       = rtrim(realpath($srcPath), '/\\') . DIRECTORY_SEPARATOR;
-        $this->specPath      = rtrim(realpath($specPath), '/\\') . DIRECTORY_SEPARATOR;
+        $this->srcPath       = rtrim(realpath($srcPath), '/\\') . DIRECTORY_SEPARATOR . self::LOCAL_CODE_POOL . DIRECTORY_SEPARATOR;
+        $this->specPath      = rtrim(realpath($specPath), '/\\') . DIRECTORY_SEPARATOR . self::LOCAL_CODE_POOL . DIRECTORY_SEPARATOR;
         $this->srcNamespace  = ltrim(trim($srcNamespace, ' \\') . '\\', '\\');
-        $this->specNamespace = trim($specNamespacePrefix, ' \\');// . '\\' . $this->srcNamespace;
-        $this->fullSrcPath   = $this->srcPath . str_replace('\\', DIRECTORY_SEPARATOR, $this->srcNamespace);
-        $this->fullSpecPath  = $this->specPath . str_replace('\\', DIRECTORY_SEPARATOR, $this->specNamespace);
+        $this->specNamespace = trim($specNamespacePrefix, ' \\') . '\\';
+        $this->fullSrcPath   = $this->srcPath;
+        $this->fullSpecPath  = $this->specPath;
 
         if (DIRECTORY_SEPARATOR === $this->srcPath) {
             throw new InvalidArgumentException(sprintf(
@@ -84,14 +87,12 @@ class ModelLocator implements ResourceLocatorInterface
 
     public function getSrcNamespace()
     {
-//        return $this->srcNamespace;
-        return '';
+        return $this->srcNamespace;
     }
 
     public function getSpecNamespace()
     {
-//        return $this->specNamespace;
-        return 'spec\\';
+        return $this->specNamespace;
     }
 
     public function getAllResources()

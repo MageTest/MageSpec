@@ -33,19 +33,6 @@ class ModelLocatorSpec extends ObjectBehavior
         $this->getPriority()->shouldReturn(42);
     }
 
-//    function it_generates_fullSrcPath_from_model_description()
-//    {
-//        $this->beConstructedWith('model:VendorName_ModuleName/ModelName');
-//
-//        $this->getFullSrcPath()->shouldReturn(
-//            dirname(__DIR__) . DIRECTORY_SEPARATOR .
-//            'CustVendor' . DIRECTORY_SEPARATOR .
-//            'CustModule' . DIRECTORY_SEPARATOR .
-//            'Model' . DIRECTORY_SEPARATOR .
-//            'CustModel' . DIRECTORY_SEPARATOR
-//        );
-//    }
-
     function it_supports_model_query_with_model_name()
     {
         $this->supportsQuery('model:vendor_module/model')->shouldReturn(true);
