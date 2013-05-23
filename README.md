@@ -10,7 +10,7 @@
 
 MageSpec requires PHP 5.3.x or greater.
 
-### Method 1 (composer)
+### Install using composer
 
 First, add MageSpec to the list of dependencies inside your `composer.json` and be sure to register few paths for autoloading:
 
