@@ -21,3 +21,4 @@ script:
 # configure notifications (email, IRC, campfire etc)
 notifications:
   email: "magetest@inviqa.com"
+  irc: "chat.freenode.net#magespec"
