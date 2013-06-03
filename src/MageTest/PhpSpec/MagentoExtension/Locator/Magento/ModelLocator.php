@@ -36,9 +36,10 @@ use PhpSpec\Util\Filesystem;
 class ModelLocator implements ResourceLocatorInterface
 {
     const LOCAL_CODE_POOL = 'local';
-    const COMMUNITY_CODE_POOL = 'community';
 
     const MODEL_FOLDER = 'Model';
+
+    const VALIDATOR = '/^(model):([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)(_[\w]+)?$/';
 
     private $srcPath;
     private $specPath;
@@ -102,7 +103,7 @@ class ModelLocator implements ResourceLocatorInterface
 
     public function supportsQuery($query)
     {
-        $validator   = '/^(model):([A-Za-z0-9]+)_([A-Za-z0-9]+)\/([A-Za-z0-9]+)(_[\w]+)?$/';
+        $validator   = self::VALIDATOR;
         $isSupported = (bool) preg_match($validator, $query);
 
         return $isSupported;
@@ -147,18 +148,21 @@ class ModelLocator implements ResourceLocatorInterface
 
     public function createResource($classname)
     {
-        $validator = '/^(model):([A-Za-z0-9]+)_([A-Za-z0-9]+)\/([A-Za-z0-9]+)(_[\w]+)?$/';
+
+        $validator = $validator   = self::VALIDATOR;
         preg_match($validator, $classname, $matches);
 
-        if (!empty($matches)) {
+            if (!empty($matches)) {
             array_shift($matches);
             array_shift($matches);
 
-            $vendor = array_shift($matches);
-            $module = array_shift($matches);
-            $model  = implode($matches);
+            $vendor = ucfirst(array_shift($matches));
+            $module = ucfirst(array_shift($matches));
+
+            $model = implode('_', array_map('ucfirst', explode('_', implode($matches))));
 
             $classname = implode('_', array($vendor, $module, self::MODEL_FOLDER, $model));
+            var_dump($classname);
         }
 
         return new ModelResource(explode('_', $classname), $this);
