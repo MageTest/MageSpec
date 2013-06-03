@@ -21,6 +21,7 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension;
 
+use MageTest\PhpSpec\MagentoExtension\Runner\Maintainer\VarienSubjectMaintainer;
 use PhpSpec\Extension\ExtensionInterface,
     PhpSpec\Console\ExtendableApplicationInterface as ApplicationInterface,
     PhpSpec\Configuration\Configuration,
@@ -28,9 +29,14 @@ use PhpSpec\Extension\ExtensionInterface,
     PhpSpec\Locator\PSR0\PSR0Locator;
 
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeModelCommand,
+    MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeResourceCommand,
+    MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeBlockCommand,
+    MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeHelperCommand,
     MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator,
-    MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator;
-//    MageTest\PhpSpec\MagentoExtension\Loader\SpecificationsClassLoader;
+    MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator,
+    MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ResourceGenerator,
+    MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\BlockGenerator,
+    MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\HelperGenerator;
 
 /**
  * Extension
@@ -44,7 +50,7 @@ class Extension implements ExtensionInterface
 {
     public function load(ServiceContainer $container)
     {
-        $container->setShared('console.commands.describe_model', function () {
+        $container->setShared('console.commands.describe_model', function ($c) {
             return new DescribeModelCommand();
         });
 
@@ -52,6 +58,13 @@ class Extension implements ExtensionInterface
             return new ModelGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates')
+            );
+        });
+
+        $container->setShared('runner.maintainers.varien_subject', function($c) {
+            return new VarienSubjectMaintainer(
+                $c->get('formatter.presenter'),
+                $c->get('unwrapper')
             );
         });
 
