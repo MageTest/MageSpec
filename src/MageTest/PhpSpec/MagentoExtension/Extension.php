@@ -21,22 +21,20 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension;
 
-use MageTest\PhpSpec\MagentoExtension\Runner\Maintainer\VarienSubjectMaintainer;
-use PhpSpec\Extension\ExtensionInterface,
-    PhpSpec\Console\ExtendableApplicationInterface as ApplicationInterface,
-    PhpSpec\Configuration\Configuration,
-    PhpSpec\ServiceContainer,
-    PhpSpec\Locator\PSR0\PSR0Locator;
+use PhpSpec\Extension\ExtensionInterface;
+use PhpSpec\Console\ExtendableApplicationInterface as ApplicationInterface;
+use PhpSpec\Configuration\Configuration;
+use PhpSpec\ServiceContainer;
+use PhpSpec\Locator\PSR0\PSR0Locator;
 
-use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeModelCommand,
-    MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeResourceCommand,
-    MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeBlockCommand,
-    MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeHelperCommand,
-    MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator,
-    MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator,
-    MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ResourceGenerator,
-    MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\BlockGenerator,
-    MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\HelperGenerator;
+use MageTest\PhpSpec\MagentoExtension\Runner\Maintainer\VarienSubjectMaintainer;
+
+use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeModelCommand;
+use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeEntityResourceCommand;
+use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator;
+use MageTest\PhpSpec\MagentoExtension\Locator\Magento\EntityResourceLocator;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\EntityResourceGenerator;
 
 /**
  * Extension
@@ -60,6 +58,17 @@ class Extension implements ExtensionInterface
                 $c->get('code_generator.templates')
             );
         });
+
+//        $container->setShared('console.commands.describe_entity_resource', function ($c) {
+//            return new DescribeEntityResourceCommand();
+//        });
+//
+//        $container->setShared('code_generator.generators.mage_entity_resource', function($c) {
+//            return new EntityResourceGenerator(
+//                $c->get('console.io'),
+//                $c->get('code_generator.templates')
+//            );
+//        });
 
         $container->setShared('runner.maintainers.varien_subject', function($c) {
             return new VarienSubjectMaintainer(
@@ -88,6 +97,19 @@ class Extension implements ExtensionInterface
                     return new ModelLocator($srcNS, $specPrefix, $srcPath, $specPath);
                 }
             );
+
+//            $c->setShared('locator.locators.entity_resource_locator',
+//                function($c) use($srcNS, $specPrefix, $srcPath, $specPath) {
+//                    return new EntityResourceLocator($srcNS, $specPrefix, $srcPath, $specPath);
+//                }
+//            );
         });
+
+        $this->bootstrap();
+    }
+
+    protected function bootstrap()
+    {
+        \Mage::app();
     }
 }

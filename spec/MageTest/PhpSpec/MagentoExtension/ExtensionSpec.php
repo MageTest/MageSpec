@@ -58,25 +58,42 @@ class ExtensionSpec extends ObjectBehavior
         $this->load($container);
     }
 
-    function it_registers_a_mage_model_code_generator_when_loaded($container, IO $console, TemplateRenderer $templateRenderer)
-    {
-        $container->get('console.io')->willReturn($console);
-        $container->get('code_generator.templates')->willReturn($templateRenderer);
+//    function it_registers_a_mage_model_code_generator_when_loaded($container, IO $console, TemplateRenderer $templateRenderer)
+//    {
+//        $container->get('console.io')->willReturn($console);
+//        $container->get('code_generator.templates')->willReturn($templateRenderer);
+//
+//        $container->setShared('code_generator.generators.mage_model', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator', $container))->shouldBeCalled();
+//
+//        $this->load($container);
+//    }
 
-        $container->setShared('code_generator.generators.mage_model', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator', $container))->shouldBeCalled();
+//    function it_registers_a_console_describe_entity_resource_command_when_loaded($container)
+//    {
+//        $container->setShared('console.commands.describe_entity_resource', $this->service('\MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeEntityResourceCommand', $container))->shouldBeCalled();
+//
+//        $this->load($container);
+//    }
+//
+//    function it_registers_a_mage_entity_resource_code_generator_when_loaded($container, IO $console, TemplateRenderer $templateRenderer)
+//    {
+//        $container->get('console.io')->willReturn($console);
+//        $container->get('code_generator.templates')->willReturn($templateRenderer);
+//
+//        $container->setShared('code_generator.generators.mage_entity_resource', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\EntityResourceGenerator', $container))->shouldBeCalled();
+//
+//        $this->load($container);
+//    }
 
-        $this->load($container);
-    }
-
-    function it_registers_a_varien_subject_maintainer_when_loaded($container, PresenterInterface $presenter, Unwrapper $unwrapper)
-    {
-        $container->get('formatter.presenter')->willReturn($presenter);
-        $container->get('unwrapper')->willReturn($unwrapper);
-
-        $container->setShared('runner.maintainers.varien_subject', $this->service('\MageTest\PhpSpec\MagentoExtension\Runner\Maintainer\VarienSubjectMaintainer', $container))->shouldBeCalled();
-
-        $this->load($container);
-    }
+//    function it_registers_a_varien_subject_maintainer_when_loaded($container, PresenterInterface $presenter, Unwrapper $unwrapper)
+//    {
+//        $container->get('formatter.presenter')->willReturn($presenter);
+//        $container->get('unwrapper')->willReturn($unwrapper);
+//
+//        $container->setShared('runner.maintainers.varien_subject', $this->service('\MageTest\PhpSpec\MagentoExtension\Runner\Maintainer\VarienSubjectMaintainer', $container))->shouldBeCalled();
+//
+//        $this->load($container);
+//    }
 
     function it_adds_locator_configuration_when_loaded($container)
     {
