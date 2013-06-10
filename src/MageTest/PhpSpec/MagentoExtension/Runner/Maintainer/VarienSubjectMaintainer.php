@@ -21,7 +21,6 @@
 namespace MageTest\PhpSpec\MagentoExtension\Runner\Maintainer;
 
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelResource;
-use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienObjectProxy;
 use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienObjectSubject;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Loader\Node\ExampleNode;
@@ -61,9 +60,8 @@ class VarienSubjectMaintainer implements MaintainerInterface
     {
         $className = $example->getSpecification()->getResource()->getSrcClassname();
 
-        $varienProxy  = new VarienObjectProxy($className, $this->presenter);
-
-        $subject = new VarienObjectSubject($varienProxy, $matchers, $this->unwrapper, $this->presenter);
+        $subject = new VarienObjectSubject(null, $matchers, $this->unwrapper, $this->presenter);
+        $subject->beAnInstanceOf($className);
 
         $context->setSpecificationSubject($subject);
     }
