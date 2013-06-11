@@ -141,18 +141,16 @@ class ModelLocator implements ResourceLocatorInterface
     public function supportsClass($classname)
     {
         $parts = explode('_', $classname);
-        $isSupported = !empty($parts);
 
-        return $isSupported;
+        return ($this->supportsQuery($classname) || $classname === implode('_', array($parts[0], $parts[1], self::MODEL_FOLDER, $parts[count($parts)-1])));
     }
 
     public function createResource($classname)
     {
-
         $validator = $validator   = self::VALIDATOR;
         preg_match($validator, $classname, $matches);
 
-            if (!empty($matches)) {
+        if (!empty($matches)) {
             array_shift($matches);
             array_shift($matches);
 
@@ -162,7 +160,6 @@ class ModelLocator implements ResourceLocatorInterface
             $model = implode('_', array_map('ucfirst', explode('_', implode($matches))));
 
             $classname = implode('_', array($vendor, $module, self::MODEL_FOLDER, $model));
-            var_dump($classname);
         }
 
         return new ModelResource(explode('_', $classname), $this);
@@ -170,7 +167,7 @@ class ModelLocator implements ResourceLocatorInterface
 
     public function getPriority()
     {
-        return 42;
+        return 40;
     }
 
     protected function findSpecResources($path)

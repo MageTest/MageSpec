@@ -21,22 +21,17 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension;
 
-use MageTest\PhpSpec\MagentoExtension\Runner\Maintainer\VarienSubjectMaintainer;
 use PhpSpec\Extension\ExtensionInterface,
     PhpSpec\Console\ExtendableApplicationInterface as ApplicationInterface,
     PhpSpec\Configuration\Configuration,
     PhpSpec\ServiceContainer,
     PhpSpec\Locator\PSR0\PSR0Locator;
 
-use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeModelCommand,
-    MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeResourceCommand,
-    MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeBlockCommand,
-    MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeHelperCommand,
-    MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator,
-    MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator,
-    MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ResourceGenerator,
-    MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\BlockGenerator,
-    MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\HelperGenerator;
+use MageTest\PhpSpec\MagentoExtension\Runner\Maintainer\VarienSubjectMaintainer;
+
+use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeModelCommand;
+use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator;
 
 /**
  * Extension

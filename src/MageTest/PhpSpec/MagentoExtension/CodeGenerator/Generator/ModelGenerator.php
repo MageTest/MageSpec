@@ -94,7 +94,7 @@ class ModelGenerator implements GeneratorInterface
 
     public function getPriority()
     {
-        return 42;
+        return 40;
     }
 }
 __halt_compiler();<?php%namespace_block%

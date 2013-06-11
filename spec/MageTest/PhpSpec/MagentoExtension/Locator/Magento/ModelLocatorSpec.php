@@ -30,7 +30,7 @@ class ModelLocatorSpec extends ObjectBehavior
 
     function its_priority_is_forty_two()
     {
-        $this->getPriority()->shouldReturn(42);
+        $this->getPriority()->shouldReturn(40);
     }
 
     function it_supports_model_query_with_model_name()
