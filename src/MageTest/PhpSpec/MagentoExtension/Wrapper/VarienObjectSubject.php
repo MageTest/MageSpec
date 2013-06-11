@@ -22,6 +22,9 @@
 namespace MageTest\PhpSpec\MagentoExtension\Wrapper;
 
 use PhpSpec\Wrapper\Subject;
+use PhpSpec\Runner\MatcherManager;
+use PhpSpec\Wrapper\Unwrapper;
+use PhpSpec\Formatter\Presenter\PresenterInterface;
 
 /**
  * VarienObjectSubject
@@ -33,13 +36,29 @@ use PhpSpec\Wrapper\Subject;
  */
 class VarienObjectSubject extends Subject
 {
-    public function getWrappedObject()
+    private $presenter;
+
+    public function __construct($subject, MatcherManager $matchers, Unwrapper $unwrapper,
+                                PresenterInterface $presenter)
     {
-        $object = parent::getWrappedObject();
-        if ($object instanceof VarienObjectProxy) {
-            $object = $object->getVarienObject();
+        $this->presenter = $presenter;
+
+        parent::__construct($subject, $matchers, $unwrapper, $presenter);
+    }
+
+    public function callOnWrappedObject($method, array $args = array())
+    {
+        if (null === $object = $this->getWrappedObject()) {
+            return parent::callOnWrappedObject($method, $args);
         }
 
-        return $object;
+        if (!method_exists($object, $method)) {
+            throw new MethodNotFoundException(sprintf(
+                'Method %s not found.',
+                $this->presenter->presentString(get_class($object).'::'.$method.'()')
+            ), $object, $method, $args);
+        }
+
+        return parent::callOnWrappedObject($method, $args);
     }
 }

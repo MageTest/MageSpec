@@ -1,8 +1,6 @@
 ## MageSpec
 
-## Target
-
-## How?
+[![Build Status](https://travis-ci.org/MageTest/MageSpec.png?branch=develop)](https://travis-ci.org/MageTest/MageSpec)
 
 ## Installation
 
