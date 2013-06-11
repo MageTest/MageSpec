@@ -1,26 +1,31 @@
 <?php
 /**
- * [application]
+ * MageSpec
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Apache License, Version 2.0 that is
- * bundled with this package in the file LICENSE.
+ * This source file is subject to the MIT License, that is bundled with this
+ * package in the file LICENSE.
  * It is also available through the world-wide-web at this URL:
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://opensource.org/licenses/MIT
  *
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to <${EMAIL}> so we can send you a copy immediately.
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world-wide-web, please send an email
+ * to <magetest@sessiondigital.com> so we can send you a copy immediately.
  *
- * @category   [category]
- * @package    [package]
- * @copyright  Copyright (c) 2012 debo <${EMAIL}> (${URL})
+ * @category   MageTest
+ * @package    PhpSpec_MagentoExtension
+ *
+ * @copyright  Copyright (c) 2012-2013 MageTest team and contributors.
  */
 namespace MageTest\PhpSpec\MagentoExtension\Runner\Maintainer;
 
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelResource;
+use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ResourceModelResource;
+use MageTest\PhpSpec\MagentoExtension\Locator\Magento\BlockResource;
+use MageTest\PhpSpec\MagentoExtension\Locator\Magento\HelperResource;
+use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ControllerResource;
 use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienObjectProxy;
 use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienObjectSubject;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
@@ -33,13 +38,13 @@ use PhpSpec\Wrapper\Subject;
 use PhpSpec\Wrapper\Unwrapper;
 
 /**
- * [name]
+ * VarienSubjectMaintainer
  *
- * @category   [category]
- * @package    [package]
- * @author     debo <${EMAIL}> (${URL})
+ * @category   MageTest
+ * @package    PhpSpec_MagentoExtension
+ *
+ * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-
 class VarienSubjectMaintainer implements MaintainerInterface
 {
     private $presenter;
@@ -53,7 +58,13 @@ class VarienSubjectMaintainer implements MaintainerInterface
 
     public function supports(ExampleNode $example)
     {
-        return $example->getSpecification()->getResource() instanceof ModelResource;
+        $resource = $example->getSpecification()->getResource();
+
+        return $resource instanceof ModelResource ||
+               $resource instanceof ResourceModelResource ||
+               $resource instanceof BlockResource ||
+               $resource instanceof HelperResource ||
+               $resource instanceof ControllerResource;
     }
 
     public function prepare(ExampleNode $example, SpecificationInterface $context,

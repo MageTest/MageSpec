@@ -26,20 +26,20 @@ use PhpSpec\Locator\ResourceLocatorInterface;
 use PhpSpec\Util\Filesystem;
 
 /**
- * ModelLocator
+ * ControllerLocator
  *
  * @category   MageTest
  * @package    PhpSpec_MagentoExtension
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class ModelLocator implements ResourceLocatorInterface
+class ControllerLocator implements ResourceLocatorInterface
 {
     const LOCAL_CODE_POOL = 'local';
 
-    const MODEL_FOLDER = 'Model';
+    const CONTROLLER_FOLDER = 'controllers';
 
-    const VALIDATOR = '/^(model):([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)(_[\w]+)?$/';
+    const VALIDATOR = '/^(controller):([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)$/';
 
     private $srcPath;
     private $specPath;
@@ -142,36 +142,31 @@ class ModelLocator implements ResourceLocatorInterface
     {
         $parts = explode('_', $classname);
 
-        return (
-            $this->supportsQuery($classname) ||
-            $classname === implode('_', array($parts[0], $parts[1], self::MODEL_FOLDER, $parts[count($parts)-1]))
-        );
+        return ($this->supportsQuery($classname) || preg_match('/Controller$/', $classname));
     }
 
     public function createResource($classname)
     {
         $validator = $validator   = self::VALIDATOR;
         preg_match($validator, $classname, $matches);
-
-            if (!empty($matches)) {
+        if (!empty($matches)) {
             array_shift($matches);
             array_shift($matches);
 
             $vendor = ucfirst(array_shift($matches));
             $module = ucfirst(array_shift($matches));
 
-            $model = implode('_', array_map('ucfirst', explode('_', implode($matches))));
+            $controller = implode('_', array_map('ucfirst', explode('_', implode($matches)))).'Controller';
 
-            $classname = implode('_', array($vendor, $module, self::MODEL_FOLDER, $model));
-            var_dump($classname);
+            $classname = implode('_', array($vendor, $module, $controller));
         }
 
-        return new ModelResource(explode('_', $classname), $this);
+        return new ControllerResource(explode('_', $classname), $this);
     }
 
     public function getPriority()
     {
-        return 40;
+        return 10;
     }
 
     protected function findSpecResources($path)
@@ -197,7 +192,8 @@ class ModelLocator implements ResourceLocatorInterface
         // cut "Spec.php" from the end
         $relative = substr($path, strlen($this->fullSpecPath), -4);
         $relative = preg_replace('/Spec$/', '', $relative);
+        $relative = str_replace(DIRECTORY_SEPARATOR . self::CONTROLLER_FOLDER . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $relative);
 
-        return new ModelResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
+        return new ControllerResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
     }
 }
