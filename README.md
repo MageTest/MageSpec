@@ -91,13 +91,13 @@ What is the simplest thing I want to add? It should tell me if a product as a re
 So let’s do this. Well, not the boring bits. Let MageSpec take care of the boring stuff for us. We just need to tell MageSpec we will be working on the Review module's product class. So running the following command:
 
 ```bash
-$ bin/phpspec describe:model 'MageSpec_Reviews/Product'
+$ bin/phpspec describe:model 'magespec_reviews/product'
 ```
 
 Should give us the following output
 
 ```bash
-Specification for MageSpec_Reviews_Model_Product created in /Volumes/Projects/MageTest/MageSpec/spec/public/app/code/local/MageSpec/Reviews/Model/ProductSpec.php
+Specification for MageSpec_Reviews_Model_Product created in [...]/spec/public/app/code/local/MageSpec/Reviews/Model/ProductSpec.php
 ```
 
 Ok. What have we just done? MageSpec has created the spec for us following the standard Magento convention. You can navigate to the spec folder and see the spec there:
@@ -178,7 +178,7 @@ MageSpec_Reviews_Model_Product
 11ms
 
 Do you want me to create `MageSpec_Reviews_Model_Product` for you? [Y/n]
-Model MageSpec_Reviews_Model_Product created in /Volumes/Projects/inviqa/mage-vm/public/app/code/local/MageSpec/Reviews/Model/Product.php.
+Model MageSpec_Reviews_Model_Product created in [...]/public/app/code/local/MageSpec/Reviews/Model/Product.php.
 ```
 
 MageSpec has now placed the empty class in the directory.
@@ -296,6 +296,28 @@ If you are interested in know more about spec in PHP you better have a look to t
 
 - The [Rspec Book](http://www.amazon.com/RSpec-Book-Behaviour-Development-Cucumber/dp/1934356379) Development with RSpec, Cucumber, and Friends by David Chelimsky, Dave Astels, Zach Dennis, Aslak Hellesøy, Bryan Helmkamp, Dan North
 - [Test Driven Development: By Example](http://www.amazon.com/Test-Driven-Development-Kent-Beck/dp/0321146530) by Kent Beck
+
+## Additional supported commands
+
+As per today, MageSpec currently allows you to describe different Magento classes. Following you can find a brief list.
+
+### Describing a resource model
+
+```bash
+$ bin/phpspec describe:resource_model 'vendorname_modulename/resourcename'
+```
+
+### Describing a block
+
+```bash
+$ bin/phpspec describe:block 'vendorname_modulename/blockname'
+```
+
+### Describing a helper
+
+```bash
+$ bin/phpspec describe:block 'vendorname_modulename/helpername'
+```
 
 ## Issue Submission
 
