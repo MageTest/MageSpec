@@ -316,7 +316,7 @@ $ bin/phpspec describe:block 'vendorname_modulename/blockname'
 ### Describing a helper
 
 ```bash
-$ bin/phpspec describe:block 'vendorname_modulename/helpername'
+$ bin/phpspec describe:helper 'vendorname_modulename/helpername'
 ```
 
 ## Issue Submission
