@@ -26,20 +26,20 @@ use PhpSpec\Locator\ResourceLocatorInterface;
 use PhpSpec\Util\Filesystem;
 
 /**
- * ModelLocator
+ * EntityResourceLocator
  *
  * @category   MageTest
  * @package    PhpSpec_MagentoExtension
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class ModelLocator implements ResourceLocatorInterface
+class ResourceModelLocator implements ResourceLocatorInterface
 {
     const LOCAL_CODE_POOL = 'local';
 
-    const MODEL_FOLDER = 'Model';
+    const RESOURCE_MODEL_FOLDER = 'Model_Resource';
 
-    const VALIDATOR = '/^(model):([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)(_[\w]+)?$/';
+    const VALIDATOR = '/^(resource_model):([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)(_[\w]+)?$/';
 
     private $srcPath;
     private $specPath;
@@ -144,7 +144,7 @@ class ModelLocator implements ResourceLocatorInterface
 
         return (
             $this->supportsQuery($classname) ||
-            $classname === implode('_', array($parts[0], $parts[1], self::MODEL_FOLDER, $parts[count($parts)-1]))
+            $classname === implode('_', array($parts[0], $parts[1], self::RESOURCE_MODEL_FOLDER, $parts[count($parts)-1]))
         );
     }
 
@@ -152,26 +152,24 @@ class ModelLocator implements ResourceLocatorInterface
     {
         $validator = $validator   = self::VALIDATOR;
         preg_match($validator, $classname, $matches);
-
-            if (!empty($matches)) {
+        if (!empty($matches)) {
             array_shift($matches);
             array_shift($matches);
 
             $vendor = ucfirst(array_shift($matches));
             $module = ucfirst(array_shift($matches));
 
-            $model = implode('_', array_map('ucfirst', explode('_', implode($matches))));
+            $resourceModel = implode('_', array_map('ucfirst', explode('_', implode($matches))));
 
-            $classname = implode('_', array($vendor, $module, self::MODEL_FOLDER, $model));
-            var_dump($classname);
+            $classname = implode('_', array($vendor, $module, self::RESOURCE_MODEL_FOLDER, $resourceModel));
         }
 
-        return new ModelResource(explode('_', $classname), $this);
+        return new ResourceModelResource(explode('_', $classname), $this);
     }
 
     public function getPriority()
     {
-        return 40;
+        return 41;
     }
 
     protected function findSpecResources($path)
@@ -198,6 +196,6 @@ class ModelLocator implements ResourceLocatorInterface
         $relative = substr($path, strlen($this->fullSpecPath), -4);
         $relative = preg_replace('/Spec$/', '', $relative);
 
-        return new ModelResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
+        return new ResourceModelResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
     }
 }

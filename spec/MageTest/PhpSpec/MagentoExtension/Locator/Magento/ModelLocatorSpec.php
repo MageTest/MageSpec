@@ -3,9 +3,7 @@
 namespace spec\MageTest\PhpSpec\MagentoExtension\Locator\Magento;
 
 use PhpSpec\ObjectBehavior;
-//use PhpSpec\Util\Filesystem;
-use SplFileInfo;
-
+use Prophecy\Argument;
 
 class ModelLocatorSpec extends ObjectBehavior
 {
@@ -28,9 +26,9 @@ class ModelLocatorSpec extends ObjectBehavior
         $this->shouldHaveType('MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator');
     }
 
-    function its_priority_is_forty_two()
+    function its_priority_is_forty()
     {
-        $this->getPriority()->shouldReturn(42);
+        $this->getPriority()->shouldReturn(40);
     }
 
     function it_supports_model_query_with_model_name()
