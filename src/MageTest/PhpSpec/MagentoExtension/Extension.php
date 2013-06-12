@@ -23,18 +23,29 @@ namespace MageTest\PhpSpec\MagentoExtension;
 
 use PhpSpec\Extension\ExtensionInterface;
 use PhpSpec\Console\ExtendableApplicationInterface as ApplicationInterface;
-use PhpSpec\Configuration\Configuration;
 use PhpSpec\ServiceContainer;
-use PhpSpec\Locator\PSR0\PSR0Locator;
 
 use MageTest\PhpSpec\MagentoExtension\Runner\Maintainer\VarienSubjectMaintainer;
 
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeModelCommand;
-use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeEntityResourceCommand;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator;
-use MageTest\PhpSpec\MagentoExtension\Locator\Magento\EntityResourceLocator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator;
-use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\EntityResourceGenerator;
+
+use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeResourceModelCommand;
+use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ResourceModelLocator;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ResourceModelGenerator;
+
+use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeBlockCommand;
+use MageTest\PhpSpec\MagentoExtension\Locator\Magento\BlockLocator;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\BlockGenerator;
+
+use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeHelperCommand;
+use MageTest\PhpSpec\MagentoExtension\Locator\Magento\HelperLocator;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\HelperGenerator;
+
+use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeControllerCommand;
+use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ControllerLocator;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerGenerator;
 
 /**
  * Extension
@@ -59,16 +70,49 @@ class Extension implements ExtensionInterface
             );
         });
 
-//        $container->setShared('console.commands.describe_entity_resource', function ($c) {
-//            return new DescribeEntityResourceCommand();
-//        });
-//
-//        $container->setShared('code_generator.generators.mage_entity_resource', function($c) {
-//            return new EntityResourceGenerator(
-//                $c->get('console.io'),
-//                $c->get('code_generator.templates')
-//            );
-//        });
+        $container->setShared('console.commands.describe_resource_model', function ($c) {
+            return new DescribeResourceModelCommand();
+        });
+
+        $container->setShared('code_generator.generators.mage_resource_model', function($c) {
+            return new ResourceModelGenerator(
+                $c->get('console.io'),
+                $c->get('code_generator.templates')
+            );
+        });
+
+        $container->setShared('console.commands.describe_block', function ($c) {
+            return new DescribeBlockCommand();
+        });
+
+        $container->setShared('code_generator.generators.mage_block', function($c) {
+            return new BlockGenerator(
+                $c->get('console.io'),
+                $c->get('code_generator.templates')
+            );
+        });
+
+        $container->setShared('console.commands.describe_helper', function ($c) {
+            return new DescribeHelperCommand();
+        });
+
+        $container->setShared('code_generator.generators.mage_helper', function($c) {
+            return new HelperGenerator(
+                $c->get('console.io'),
+                $c->get('code_generator.templates')
+            );
+        });
+
+        $container->setShared('console.commands.describe_controller', function ($c) {
+            return new DescribeControllerCommand();
+        });
+
+        $container->setShared('code_generator.generators.mage_controller', function($c) {
+            return new ControllerGenerator(
+                $c->get('console.io'),
+                $c->get('code_generator.templates')
+            );
+        });
 
         $container->setShared('runner.maintainers.varien_subject', function($c) {
             return new VarienSubjectMaintainer(
@@ -98,18 +142,29 @@ class Extension implements ExtensionInterface
                 }
             );
 
-//            $c->setShared('locator.locators.entity_resource_locator',
-//                function($c) use($srcNS, $specPrefix, $srcPath, $specPath) {
-//                    return new EntityResourceLocator($srcNS, $specPrefix, $srcPath, $specPath);
-//                }
-//            );
+            $c->setShared('locator.locators.resource_model_locator',
+                function($c) use($srcNS, $specPrefix, $srcPath, $specPath) {
+                    return new ResourceModelLocator($srcNS, $specPrefix, $srcPath, $specPath);
+                }
+            );
+
+            $c->setShared('locator.locators.block_locator',
+                function($c) use($srcNS, $specPrefix, $srcPath, $specPath) {
+                    return new BlockLocator($srcNS, $specPrefix, $srcPath, $specPath);
+                }
+            );
+
+            $c->setShared('locator.locators.helper_locator',
+                function($c) use($srcNS, $specPrefix, $srcPath, $specPath) {
+                    return new HelperLocator($srcNS, $specPrefix, $srcPath, $specPath);
+                }
+            );
+
+            $c->setShared('locator.locators.controller_locator',
+                function($c) use($srcNS, $specPrefix, $srcPath, $specPath) {
+                    return new ControllerLocator($srcNS, $specPrefix, $srcPath, $specPath);
+                }
+            );
         });
-
-        $this->bootstrap();
-    }
-
-    protected function bootstrap()
-    {
-        \Mage::app();
     }
 }

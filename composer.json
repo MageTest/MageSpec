@@ -1,25 +1,33 @@
 {
     "name": "magetest/magento-phpspec-extension",
     "description": "Magento PHPSpec extension",
+    "keywords": ["BDD", "SpecBDD", "TDD", "spec", "specification", "tests", "testing"],
+    "type": "library",
+    "license": "MIT",
     "require": {
         "phpspec/phpspec": "dev-master",
         "phpspec/prophecy": "dev-master",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },
+    "require-dev": {
+        "magetest/magento": "dev-master"
+    },
     "config": {
         "bin-dir": "bin"
     },
-    "minimun-stability": "dev",
+    "minimum-stability": "dev",
     "autoload": {
         "psr-0": {
             "MageTest\\PhpSpec\\MagentoExtension": "src",
             "": [
-                "src",
-                "vendor/magento/lib",
-                "vendor/magento/app"
+                "public/app/code/community",
+                "public/app/code/local",
+                "vendor/magetest/magento/src/app",
+                "vendor/magetest/magento/src/app/code/core",
+                "vendor/magetest/magento/src/lib"
             ],
-            "Mage": "vendor/magento/app/code/core"
+            "Mage": "vendor/magetest/magento/app/code/core"
         }
     },
     "authors": [

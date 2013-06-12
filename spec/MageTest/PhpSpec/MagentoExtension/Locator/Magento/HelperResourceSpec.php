@@ -4,13 +4,13 @@ namespace spec\MageTest\PhpSpec\MagentoExtension\Locator\Magento;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator;
+use MageTest\PhpSpec\MagentoExtension\Locator\Magento\HelperLocator;
 
-class ModelResourceSpec extends ObjectBehavior
+class HelperResourceSpec extends ObjectBehavior
 {
-    function let(ModelLocator $locator)
+    function let(HelperLocator $locator)
     {
-        $this->beConstructedWith(array('VendorName', 'ModuleName', 'Model','ModelName'), $locator);
+        $this->beConstructedWith(array('VendorName', 'ModuleName', 'Helper', 'HelperName'), $locator);
     }
 
     function it_is_a_resource()
@@ -20,23 +20,23 @@ class ModelResourceSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelResource');
+        $this->shouldHaveType('MageTest\PhpSpec\MagentoExtension\Locator\Magento\HelperResource');
     }
 
     function it_uses_all_the_segments_merged_with_underscores_as_name()
     {
-        $this->getName()->shouldReturn('VendorName_ModuleName_Model_ModelName');
+        $this->getName()->shouldReturn('VendorName_ModuleName_Helper_HelperName');
     }
 
     function it_appends_Spec_suffix_to_name_as_specName()
     {
-        $this->getSpecName()->shouldReturn('VendorName_ModuleName_Model_ModelNameSpec');
+        $this->getSpecName()->shouldReturn('VendorName_ModuleName_Helper_HelperNameSpec');
     }
 
     function it_generates_src_filename_from_provided_parts_using_locator($locator)
     {
         $locator->getFullSrcPath()->willReturn('/app/code/local/');
-        $this->getSrcFilename()->shouldReturn('/app/code/local/VendorName/ModuleName/Model/ModelName.php');
+        $this->getSrcFilename()->shouldReturn('/app/code/local/VendorName/ModuleName/Helper/HelperName.php');
     }
 
     function it_should_return_empty_src_namespace($locator)
@@ -47,14 +47,14 @@ class ModelResourceSpec extends ObjectBehavior
 
     function it_generates_proper_src_classname()
     {
-        $this->getSrcClassname()->shouldReturn('VendorName_ModuleName_Model_ModelName');
+        $this->getSrcClassname()->shouldReturn('VendorName_ModuleName_Helper_HelperName');
     }
 
     function it_generates_spec_filename_from_provided_parts_using_locator($locator)
     {
         $locator->getFullSpecPath()->willReturn('/spec/');
 
-        $this->getSpecFilename()->shouldReturn('/spec/VendorName/ModuleName/Model/ModelNameSpec.php');
+        $this->getSpecFilename()->shouldReturn('/spec/VendorName/ModuleName/Helper/HelperNameSpec.php');
     }
 
     function it_should_return_spec_as_spec_namespace($locator)
@@ -67,6 +67,6 @@ class ModelResourceSpec extends ObjectBehavior
     {
         $locator->getSpecNamespace()->willReturn('spec\\');
 
-        $this->getSpecClassname()->shouldReturn('spec\VendorName_ModuleName_Model_ModelNameSpec');
+        $this->getSpecClassname()->shouldReturn('spec\VendorName_ModuleName_Helper_HelperNameSpec');
     }
 }
