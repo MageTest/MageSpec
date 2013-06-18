@@ -37,7 +37,7 @@ class ModelLocator implements ResourceLocatorInterface
 {
     const LOCAL_CODE_POOL = 'local';
 
-    const MODEL_FOLDER = 'Model';
+    const CLASS_TYPE = 'Model';
 
     const VALIDATOR = '/^(model):([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)(_[\w]+)?$/';
 
@@ -144,7 +144,7 @@ class ModelLocator implements ResourceLocatorInterface
 
         return (
             $this->supportsQuery($classname) ||
-            $classname === implode('_', array($parts[0], $parts[1], self::MODEL_FOLDER, $parts[count($parts)-1]))
+            $classname === implode('_', array($parts[0], $parts[1], self::CLASS_TYPE, $parts[count($parts)-1]))
         );
     }
 
@@ -162,7 +162,7 @@ class ModelLocator implements ResourceLocatorInterface
 
             $model = implode('_', array_map('ucfirst', explode('_', implode($matches))));
 
-            $classname = implode('_', array($vendor, $module, self::MODEL_FOLDER, $model));
+            $classname = implode('_', array($vendor, $module, self::CLASS_TYPE, $model));
             var_dump($classname);
         }
 
@@ -181,12 +181,19 @@ class ModelLocator implements ResourceLocatorInterface
         }
 
         if ('.php' === substr($path, -4)) {
+            if ( ! $this->isSupported($path)) {
+                return array();
+            }
+
             return array($this->createResourceFromSpecFile(realpath($path)));
         }
 
         $resources = array();
         foreach ($this->filesystem->findPhpFilesIn($path) as $file) {
-            $resources[] = $this->createResourceFromSpecFile($file->getRealPath());
+            $specFile = $file->getRealPath();
+            if ($this->isSupported($specFile)) {
+                $resources[] = $this->createResourceFromSpecFile($specFile);
+            }
         }
 
         return $resources;
@@ -199,5 +206,14 @@ class ModelLocator implements ResourceLocatorInterface
         $relative = preg_replace('/Spec$/', '', $relative);
 
         return new ModelResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
+    }
+
+    private function isSupported($file)
+    {
+        if (strpos($file, 'Model') > 0) {
+            return true;
+        }
+
+        return false;
     }
 }

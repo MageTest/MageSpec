@@ -37,7 +37,7 @@ class HelperLocator implements ResourceLocatorInterface
 {
     const LOCAL_CODE_POOL = 'local';
 
-    const HELPER_FOLDER = 'Helper';
+    const CLASS_TYPE = 'Helper';
 
     const VALIDATOR = '/^(helper):([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)(_[\w]+)?$/';
 
@@ -144,7 +144,7 @@ class HelperLocator implements ResourceLocatorInterface
 
         return (
             $this->supportsQuery($classname) ||
-            $classname === implode('_', array($parts[0], $parts[1], self::HELPER_FOLDER, $parts[count($parts)-1]))
+            $classname === implode('_', array($parts[0], $parts[1], self::CLASS_TYPE, $parts[count($parts)-1]))
         );
     }
 
@@ -162,7 +162,7 @@ class HelperLocator implements ResourceLocatorInterface
 
             $helper = implode('_', array_map('ucfirst', explode('_', implode($matches))));
 
-            $classname = implode('_', array($vendor, $module, self::HELPER_FOLDER, $helper));
+            $classname = implode('_', array($vendor, $module, self::CLASS_TYPE, $helper));
         }
 
         return new HelperResource(explode('_', $classname), $this);
@@ -180,12 +180,19 @@ class HelperLocator implements ResourceLocatorInterface
         }
 
         if ('.php' === substr($path, -4)) {
+            if ( ! $this->isSupported($path)) {
+                return array();
+            }
+
             return array($this->createResourceFromSpecFile(realpath($path)));
         }
 
         $resources = array();
         foreach ($this->filesystem->findPhpFilesIn($path) as $file) {
-            $resources[] = $this->createResourceFromSpecFile($file->getRealPath());
+            $specFile = $file->getRealPath();
+            if ($this->isSupported($specFile)) {
+                $resources[] = $this->createResourceFromSpecFile($specFile);
+            }
         }
 
         return $resources;
@@ -198,5 +205,14 @@ class HelperLocator implements ResourceLocatorInterface
         $relative = preg_replace('/Spec$/', '', $relative);
 
         return new HelperResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
+    }
+
+    private function isSupported($file)
+    {
+        if (strpos($file, 'Helper') > 0) {
+            return true;
+        }
+
+        return false;
     }
 }

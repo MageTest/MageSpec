@@ -37,7 +37,7 @@ class ControllerLocator implements ResourceLocatorInterface
 {
     const LOCAL_CODE_POOL = 'local';
 
-    const CONTROLLER_FOLDER = 'controllers';
+    const CLASS_TYPE = 'controllers';
 
     const VALIDATOR = '/^(controller):([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)$/';
 
@@ -176,12 +176,19 @@ class ControllerLocator implements ResourceLocatorInterface
         }
 
         if ('.php' === substr($path, -4)) {
+            if ( ! $this->isSupported($path)) {
+                return array();
+            }
+
             return array($this->createResourceFromSpecFile(realpath($path)));
         }
 
         $resources = array();
         foreach ($this->filesystem->findPhpFilesIn($path) as $file) {
-            $resources[] = $this->createResourceFromSpecFile($file->getRealPath());
+            $specFile = $file->getRealPath();
+            if ($this->isSupported($specFile)) {
+                $resources[] = $this->createResourceFromSpecFile($specFile);
+            }
         }
 
         return $resources;
@@ -192,8 +199,17 @@ class ControllerLocator implements ResourceLocatorInterface
         // cut "Spec.php" from the end
         $relative = substr($path, strlen($this->fullSpecPath), -4);
         $relative = preg_replace('/Spec$/', '', $relative);
-        $relative = str_replace(DIRECTORY_SEPARATOR . self::CONTROLLER_FOLDER . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $relative);
+        $relative = str_replace(DIRECTORY_SEPARATOR . self::CLASS_TYPE . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $relative);
 
         return new ControllerResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
+    }
+
+    private function isSupported($file)
+    {
+        if (strpos($file, 'controllers') > 0) {
+            return true;
+        }
+
+        return false;
     }
 }

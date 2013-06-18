@@ -37,7 +37,7 @@ class BlockLocator implements ResourceLocatorInterface
 {
     const LOCAL_CODE_POOL = 'local';
 
-    const BLOCK_FOLDER = 'Block';
+    const CLASS_TYPE = 'Block';
 
     const VALIDATOR = '/^(block):([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)(_[\w]+)?$/';
 
@@ -144,7 +144,7 @@ class BlockLocator implements ResourceLocatorInterface
 
         return (
             $this->supportsQuery($classname) ||
-            $classname === implode('_', array($parts[0], $parts[1], self::BLOCK_FOLDER, $parts[count($parts)-1]))
+            $classname === implode('_', array($parts[0], $parts[1], self::CLASS_TYPE, $parts[count($parts)-1]))
         );
     }
 
@@ -162,7 +162,7 @@ class BlockLocator implements ResourceLocatorInterface
 
             $block = implode('_', array_map('ucfirst', explode('_', implode($matches))));
 
-            $classname = implode('_', array($vendor, $module, self::BLOCK_FOLDER, $block));
+            $classname = implode('_', array($vendor, $module, self::CLASS_TYPE, $block));
         }
 
         return new BlockResource(explode('_', $classname), $this);
@@ -180,12 +180,19 @@ class BlockLocator implements ResourceLocatorInterface
         }
 
         if ('.php' === substr($path, -4)) {
+            if ( ! $this->isSupported($path)) {
+                return array();
+            }
+
             return array($this->createResourceFromSpecFile(realpath($path)));
         }
 
         $resources = array();
         foreach ($this->filesystem->findPhpFilesIn($path) as $file) {
-            $resources[] = $this->createResourceFromSpecFile($file->getRealPath());
+            $specFile = $file->getRealPath();
+            if ($this->isSupported($specFile)) {
+                $resources[] = $this->createResourceFromSpecFile($specFile);
+            }
         }
 
         return $resources;
@@ -198,5 +205,14 @@ class BlockLocator implements ResourceLocatorInterface
         $relative = preg_replace('/Spec$/', '', $relative);
 
         return new BlockResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
+    }
+
+    private function isSupported($file)
+    {
+        if (strpos($file, 'Block') > 0) {
+            return true;
+        }
+
+        return false;
     }
 }
