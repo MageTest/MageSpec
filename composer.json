@@ -4,9 +4,14 @@
     "keywords": ["BDD", "SpecBDD", "TDD", "spec", "specification", "tests", "testing"],
     "type": "library",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url:": "https://github.com/MageTest/prophecy"
+        }
+    ],
     "require": {
         "phpspec/phpspec": "dev-master",
-        "magetest/prophecy": "dev-master",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },
