@@ -166,5 +166,12 @@ class Extension implements ExtensionInterface
                 }
             );
         });
+
+        $this->bootstrap();
+    }
+
+    private function bootstrap()
+    {
+        \Mage::app();
     }
 }
