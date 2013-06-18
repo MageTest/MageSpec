@@ -11,7 +11,7 @@ php:
   - 5.4
 
 before_script:
-  - composer install --dev --prefer-source
+  - composer install --dev --no-interaction --prefer-source
 # omitting "script:" will default to phpunit
 # use the $DB env variable to determine the phpunit.xml to use
 script:
