@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "phpspec/phpspec": "dev-master",
-        "phpspec/prophecy": "dev-master",
+        "magetest/prophecy": "dev-master",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },
