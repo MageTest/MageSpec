@@ -37,7 +37,7 @@ class ResourceModelLocator implements ResourceLocatorInterface
 {
     const LOCAL_CODE_POOL = 'local';
 
-    const RESOURCE_MODEL_FOLDER = 'Model_Resource';
+    const CLASS_TYPE = 'Model_Resource';
 
     const VALIDATOR = '/^(resource_model):([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)(_[\w]+)?$/';
 
@@ -144,7 +144,7 @@ class ResourceModelLocator implements ResourceLocatorInterface
 
         return (
             $this->supportsQuery($classname) ||
-            $classname === implode('_', array($parts[0], $parts[1], self::RESOURCE_MODEL_FOLDER, $parts[count($parts)-1]))
+            $classname === implode('_', array($parts[0], $parts[1], self::CLASS_TYPE, $parts[count($parts)-1]))
         );
     }
 
@@ -161,7 +161,7 @@ class ResourceModelLocator implements ResourceLocatorInterface
 
             $resourceModel = implode('_', array_map('ucfirst', explode('_', implode($matches))));
 
-            $classname = implode('_', array($vendor, $module, self::RESOURCE_MODEL_FOLDER, $resourceModel));
+            $classname = implode('_', array($vendor, $module, self::CLASS_TYPE, $resourceModel));
         }
 
         return new ResourceModelResource(explode('_', $classname), $this);
@@ -179,12 +179,19 @@ class ResourceModelLocator implements ResourceLocatorInterface
         }
 
         if ('.php' === substr($path, -4)) {
+            if ( ! $this->isSupported($path)) {
+                return array();
+            }
+
             return array($this->createResourceFromSpecFile(realpath($path)));
         }
 
         $resources = array();
         foreach ($this->filesystem->findPhpFilesIn($path) as $file) {
-            $resources[] = $this->createResourceFromSpecFile($file->getRealPath());
+            $specFile = $file->getRealPath();
+            if ($this->isSupported($specFile)) {
+                $resources[] = $this->createResourceFromSpecFile($specFile);
+            }
         }
 
         return $resources;
@@ -197,5 +204,14 @@ class ResourceModelLocator implements ResourceLocatorInterface
         $relative = preg_replace('/Spec$/', '', $relative);
 
         return new ResourceModelResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
+    }
+
+    private function isSupported($file)
+    {
+        if (strpos($file, 'Model/Resource') > 0) {
+            return true;
+        }
+
+        return false;
     }
 }
