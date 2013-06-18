@@ -6,17 +6,17 @@
     "license": "MIT",
     "repositories": [
         {
-            "type": "git",
-            "url": "git@github.com:MageTest/phpspec.git"
+            "type": "vcs",
+            "url": "git@github.com:MageTest/prophecy.git"
         },
         {
-            "type": "git",
-            "url": "git@github.com:MageTest/prophecy.git"
+            "type": "vcs",
+            "url": "git@github.com:MageTest/phpspec.git"
         }
     ],
     "require": {
-        "magetest/phpspec": "dev-master",
-        "magetest/prophecy": "dev-master",
+        "phpspec/phpspec": "dev-master",
+        "phpspec/prophecy": "dev-master",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },
