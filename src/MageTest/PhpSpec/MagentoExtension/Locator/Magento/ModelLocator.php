@@ -39,7 +39,7 @@ class ModelLocator implements ResourceLocatorInterface
 
     const CLASS_TYPE = 'Model';
 
-    const VALIDATOR = '/^(model):([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)(_[\w]+)?$/';
+    const VALIDATOR = '/^(model):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
 
     private $srcPath;
     private $specPath;

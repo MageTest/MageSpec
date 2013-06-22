@@ -39,7 +39,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DescribeControllerCommand extends Command
 {
-    const VALIDATOR = '/^([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)$/';
+    const VALIDATOR = '/^([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)$/';
 
     public function __construct()
     {

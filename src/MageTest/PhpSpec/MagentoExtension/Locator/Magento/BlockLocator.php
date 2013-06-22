@@ -39,7 +39,7 @@ class BlockLocator implements ResourceLocatorInterface
 
     const CLASS_TYPE = 'Block';
 
-    const VALIDATOR = '/^(block):([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)(_[\w]+)?$/';
+    const VALIDATOR = '/^(block):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
 
     private $srcPath;
     private $specPath;

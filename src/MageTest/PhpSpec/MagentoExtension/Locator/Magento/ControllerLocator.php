@@ -39,7 +39,7 @@ class ControllerLocator implements ResourceLocatorInterface
 
     const CLASS_TYPE = 'controllers';
 
-    const VALIDATOR = '/^(controller):([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)$/';
+    const VALIDATOR = '/^(controller):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)$/';
 
     private $srcPath;
     private $specPath;
