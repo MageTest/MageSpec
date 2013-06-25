@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "phpspec/phpspec": "dev-master",
-        "magetest/prophecy": "dev-master",
+        "phpspec/prophecy": "dev-master",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },
@@ -21,8 +21,6 @@
         "psr-0": {
             "MageTest\\PhpSpec\\MagentoExtension": "src",
             "": [
-                "public/app/code/community",
-                "public/app/code/local",
                 "vendor/magetest/magento/src/app",
                 "vendor/magetest/magento/src/app/code/core",
                 "vendor/magetest/magento/src/lib"
