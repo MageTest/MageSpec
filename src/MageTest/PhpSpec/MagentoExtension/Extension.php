@@ -25,6 +25,8 @@ use PhpSpec\Extension\ExtensionInterface;
 use PhpSpec\Console\ExtendableApplicationInterface as ApplicationInterface;
 use PhpSpec\ServiceContainer;
 
+use MageTest\PhpSpec\MagentoExtension\Autoloader\MageLoader;
+
 use MageTest\PhpSpec\MagentoExtension\Runner\Maintainer\VarienSubjectMaintainer;
 
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeModelCommand;
@@ -59,6 +61,8 @@ class Extension implements ExtensionInterface
 {
     public function load(ServiceContainer $container)
     {
+        $this->bootstrap();
+
         $container->setShared('console.commands.describe_model', function ($c) {
             return new DescribeModelCommand();
         });
@@ -166,5 +170,23 @@ class Extension implements ExtensionInterface
                 }
             );
         });
+    }
+
+    public function bootstrap()
+    {
+        \Mage::app();
+
+        $autoloader_callbacks = spl_autoload_functions();
+
+        $original_autoload=null;
+        foreach($autoloader_callbacks as &$callback)
+        {
+            if(is_array($callback) && ($callback[0] instanceof \Varien_Autoload))
+            {
+                spl_autoload_unregister($callback);
+            }
+        }
+
+        MageLoader::register();
     }
 }
