@@ -21,13 +21,11 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Console\Command;
 
-use PhpSpec\Exception\Example\ErrorException;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * DescribeControllerCommand
@@ -41,13 +39,12 @@ class DescribeControllerCommand extends Command
 {
     const VALIDATOR = '/^([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)$/';
 
-    public function __construct()
+    protected function configure()
     {
-        parent::__construct('describe:controller');
-
-        $this->setDefinition(array(
-            new InputArgument('controller_alias', InputArgument::REQUIRED, 'Magento controller alias to be described'),
-        ));
+        $this
+            ->setName('describe:controller')
+            ->setDescription('Describe a Magento Controller specification')
+            ->addArgument('controller_alias', InputArgument::REQUIRED, 'Magento Controller alias to be described');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
