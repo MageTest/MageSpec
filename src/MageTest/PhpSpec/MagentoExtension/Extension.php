@@ -61,8 +61,6 @@ class Extension implements ExtensionInterface
 {
     public function load(ServiceContainer $container)
     {
-        $this->bootstrap();
-
         $container->setShared('console.commands.describe_model', function ($c) {
             return new DescribeModelCommand();
         });
@@ -172,11 +170,6 @@ class Extension implements ExtensionInterface
         });
 
         $this->bootstrap();
-    }
-
-    private function bootstrap()
-    {
-        \Mage::app();
     }
 
     public function bootstrap()
