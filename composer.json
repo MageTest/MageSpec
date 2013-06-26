@@ -6,7 +6,6 @@
     "license": "MIT",
     "require": {
         "phpspec/phpspec": "dev-master",
-        "phpspec/prophecy": "dev-master",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },
@@ -22,10 +21,12 @@
             "MageTest\\PhpSpec\\MagentoExtension": "src",
             "": [
                 "vendor/magetest/magento/src/app",
-                "vendor/magetest/magento/src/app/code/core",
-                "vendor/magetest/magento/src/lib"
+                "vendor/magetest/magento/src/lib",
+                "vendor/magetest/magento/src/app/code/local",
+                "vendor/magetest/magento/src/app/code/community",
+                "vendor/magetest/magento/src/app/code/core"
             ],
-            "Mage": "vendor/magetest/magento/app/code/core"
+            "Mage": "vendor/magetest/magento/src/app/code/core"
         }
     },
     "authors": [
