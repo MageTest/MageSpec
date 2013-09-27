@@ -44,7 +44,7 @@ class DescribeHelperCommand extends Command
         $this
             ->setName('describe:helper')
             ->setDescription('Describe a Magento Helper specification')
-            ->addArgument('model_helper', InputArgument::REQUIRED, 'Magento Helper alias to be described');
+            ->addArgument('helper_alias', InputArgument::REQUIRED, 'Magento Helper alias to be described');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
