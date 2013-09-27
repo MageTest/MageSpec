@@ -142,6 +142,10 @@ class ControllerLocator implements ResourceLocatorInterface
     {
         $parts = explode('_', $classname);
 
+        if (count($parts) < 2) {
+            return false;
+        }
+
         return ($this->supportsQuery($classname) || preg_match('/Controller$/', $classname));
     }
 

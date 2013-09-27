@@ -142,6 +142,10 @@ class ResourceModelLocator implements ResourceLocatorInterface
     {
         $parts = explode('_', $classname);
 
+        if (count($parts) < 2) {
+            return false;
+        }
+
         return (
             $this->supportsQuery($classname) ||
             $classname === implode('_', array($parts[0], $parts[1], self::CLASS_TYPE, $parts[count($parts)-1]))
