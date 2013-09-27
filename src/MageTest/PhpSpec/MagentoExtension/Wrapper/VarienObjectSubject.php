@@ -25,6 +25,7 @@ use PhpSpec\Wrapper\Subject;
 use PhpSpec\Runner\MatcherManager;
 use PhpSpec\Wrapper\Unwrapper;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
+use PhpSpec\Exception\Fracture\MethodNotFoundException;
 
 /**
  * VarienObjectSubject
