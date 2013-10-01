@@ -86,6 +86,8 @@ class MageLoader
         }
         if ($this->_isIncludePathDefined) {
             $classFile =  COMPILER_INCLUDE_PATH . DIRECTORY_SEPARATOR . $class;
+        } elseif (substr($class, -10) === 'Controller') {
+            return $this->includeController($class);
         } else {
             $classFile = str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $class)));
         }
@@ -172,5 +174,21 @@ class MageLoader
             file_put_contents($file, implode("\n", $data));
         }
         return $this;
+    }
+
+    /**
+     * Includes a controller given a controller class name
+     *
+     * @param string $class controller class name
+     * @return @link http://www.php.net/manual/en/function.include.php
+     */
+    private function includeController($class)
+    {
+        $local = BP . DS . 'app' . DS . 'code' . DS . 'local' . DS;
+        $controller = explode('_', $class);
+        array_splice($controller, 2, 0 , 'controllers');
+        $pathToController = implode(DS, $controller);
+        $classFile = $local . $pathToController . '.php';
+        return include_once $classFile;
     }
 }
