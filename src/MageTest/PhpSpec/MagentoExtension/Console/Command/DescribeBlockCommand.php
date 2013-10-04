@@ -21,13 +21,11 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Console\Command;
 
-use PhpSpec\Exception\Example\ErrorException;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * DescribeBlockCommand
@@ -41,13 +39,12 @@ class DescribeBlockCommand extends Command
 {
     const VALIDATOR = '/^([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
 
-    public function __construct()
+    protected function configure()
     {
-        parent::__construct('describe:block');
-
-        $this->setDefinition(array(
-            new InputArgument('block_alias', InputArgument::REQUIRED, 'Magento block alias to be described'),
-        ));
+        $this
+            ->setName('describe:block')
+            ->setDescription('Describe a Magento Block specification')
+            ->addArgument('block_alias', InputArgument::REQUIRED, 'Magento Block alias to be described');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -4,19 +4,8 @@
     "keywords": ["BDD", "SpecBDD", "TDD", "spec", "specification", "tests", "testing"],
     "type": "library",
     "license": "MIT",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:MageTest/prophecy.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:MageTest/phpspec.git"
-        }
-    ],
     "require": {
-        "phpspec/phpspec": "dev-master",
-        "phpspec/prophecy": "dev-master",
+        "phpspec/phpspec": "2.0.0-BETA4",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },
@@ -31,13 +20,13 @@
         "psr-0": {
             "MageTest\\PhpSpec\\MagentoExtension": "src",
             "": [
-                "public/app/code/community",
-                "public/app/code/local",
                 "vendor/magetest/magento/src/app",
-                "vendor/magetest/magento/src/app/code/core",
-                "vendor/magetest/magento/src/lib"
+                "vendor/magetest/magento/src/lib",
+                "vendor/magetest/magento/src/app/code/local",
+                "vendor/magetest/magento/src/app/code/community",
+                "vendor/magetest/magento/src/app/code/core"
             ],
-            "Mage": "vendor/magetest/magento/app/code/core"
+            "Mage": "vendor/magetest/magento/src/app/code/core"
         }
     },
     "authors": [

@@ -21,13 +21,11 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Console\Command;
 
-use PhpSpec\Exception\Example\ErrorException;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * DescribeEntityResourceCommand
@@ -41,13 +39,12 @@ class DescribeResourceModelCommand extends Command
 {
     const VALIDATOR = '/^([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
 
-    public function __construct()
+    protected function configure()
     {
-        parent::__construct('describe:resource_model');
-
-        $this->setDefinition(array(
-            new InputArgument('resource_model_alias', InputArgument::REQUIRED, 'Magento resource model alias to be described'),
-        ));
+        $this
+            ->setName('describe:resource_model')
+            ->setDescription('Describe a Magento Resource Model specification')
+            ->addArgument('resource_model_alias', InputArgument::REQUIRED, 'Magento Resource Model alias to be described');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

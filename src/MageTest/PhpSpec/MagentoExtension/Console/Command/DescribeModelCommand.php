@@ -21,13 +21,11 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Console\Command;
 
-use PhpSpec\Exception\Example\ErrorException;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * DescribeModelCommand
@@ -41,13 +39,13 @@ class DescribeModelCommand extends Command
 {
     const VALIDATOR = '/^([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
 
-    public function __construct()
+    protected function configure()
     {
-        parent::__construct('describe:model');
-
-        $this->setDefinition(array(
-            new InputArgument('model_alias', InputArgument::REQUIRED, 'Magento Model alias to be described'),
-        ));
+        $this
+            ->setName('describe:model')
+            ->setDescription('Describe a Magento Model specification')
+            ->addArgument('model_alias', InputArgument::REQUIRED, 'Magento Model alias to be described')
+            ->addOption('community', null, InputOption::VALUE_NONE, 'If set the specification will be created in the community code pool');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

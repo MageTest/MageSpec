@@ -104,7 +104,7 @@ class ModelLocator implements ResourceLocatorInterface
     public function supportsQuery($query)
     {
         $validator   = self::VALIDATOR;
-        $isSupported = (bool) preg_match($validator, $query);
+        $isSupported = (bool) preg_match($validator, $query) || $this->isSupported($query);;
 
         return $isSupported;
     }
@@ -163,7 +163,6 @@ class ModelLocator implements ResourceLocatorInterface
             $model = implode('_', array_map('ucfirst', explode('_', implode($matches))));
 
             $classname = implode('_', array($vendor, $module, self::CLASS_TYPE, $model));
-            var_dump($classname);
         }
 
         return new ModelResource(explode('_', $classname), $this);

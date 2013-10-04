@@ -104,7 +104,7 @@ class ControllerLocator implements ResourceLocatorInterface
     public function supportsQuery($query)
     {
         $validator   = self::VALIDATOR;
-        $isSupported = (bool) preg_match($validator, $query);
+        $isSupported = (bool) preg_match($validator, $query) || $this->isSupported($query);;
 
         return $isSupported;
     }
