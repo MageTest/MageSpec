@@ -59,7 +59,7 @@ class DescribeModelCommand extends Command
 The model alias provided doesn't follow the Magento naming conventions.
 Please make sure it looks like the following:
 
-  vendorname_modulename/modelname
+  Vendorname_Modulename/Blockname
 
 Please pay attention to words case
 ERR;
