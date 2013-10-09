@@ -23,7 +23,7 @@ class ControllerSpecificationGenerator implements GeneratorInterface
 
     public function supports(ResourceInterface $resource, $generation, array $data)
     {
-        return 'controllerspecification' === $generation;
+        return 'controller_specification' === $generation;
     }
 
     public function generate(ResourceInterface $resource, array $data = array())
@@ -50,7 +50,7 @@ class ControllerSpecificationGenerator implements GeneratorInterface
             '%subject%'   => $resource->getSrcClassname()
         );
 
-        if (!$content = $this->templates->render('specification', $values)) {
+        if (!$content = $this->templates->render('controller_specification', $values)) {
             $content = $this->templates->renderString(
                 file_get_contents(__FILE__, null, null, __COMPILER_HALT_OFFSET__), $values
             );
