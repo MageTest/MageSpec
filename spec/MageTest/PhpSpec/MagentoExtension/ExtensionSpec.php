@@ -136,6 +136,16 @@ class ExtensionSpec extends ObjectBehavior
         $this->load($container);
     }
 
+    function it_registers_a_mage_controller_specification_generator_when_loaded($container, IO $console, TemplateRenderer $templateRenderer)
+    {
+        $container->get('console.io')->willReturn($console);
+        $container->get('code_generator.templates')->willReturn($templateRenderer);
+
+        $container->setShared('code_generator.generators.controller_specification', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerSpecificationGenerator', $container))->shouldBeCalled();
+
+        $this->load($container);
+    }
+
     function it_registers_a_varien_subject_maintainer_when_loaded($container, PresenterInterface $presenter, Unwrapper $unwrapper)
     {
         $container->get('formatter.presenter')->willReturn($presenter);

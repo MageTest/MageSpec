@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "fa4cb4b1a69fd1327913fa1250004209",
+    "hash": "f95f88aa8c6016134f5e8d2aa17c89fe",
     "packages": [
         {
             "name": "phpspec/php-diff",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/php-diff.git",
-                "reference": "v1.0.1"
+                "reference": "8d82ac415225fac373a4073ba14b1fe286aa2312"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/php-diff/zipball/v1.0.1",
-                "reference": "v1.0.1",
+                "url": "https://api.github.com/repos/phpspec/php-diff/zipball/8d82ac415225fac373a4073ba14b1fe286aa2312",
+                "reference": "8d82ac415225fac373a4073ba14b1fe286aa2312",
                 "shasum": ""
             },
             "type": "library",
@@ -40,26 +40,26 @@
         },
         {
             "name": "phpspec/phpspec",
-            "version": "dev-master",
+            "version": "2.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "ddf50754daf289b6ce00f371b4551257de67f2a5"
+                "reference": "3bcf4e4ec83dc345d0fff7f22b0641a25403dcc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/ddf50754daf289b6ce00f371b4551257de67f2a5",
-                "reference": "ddf50754daf289b6ce00f371b4551257de67f2a5",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/3bcf4e4ec83dc345d0fff7f22b0641a25403dcc9",
+                "reference": "3bcf4e4ec83dc345d0fff7f22b0641a25403dcc9",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "phpspec/php-diff": ">=1.0,<1.1",
-                "phpspec/prophecy": ">=1.0.1,<1.1",
-                "symfony/console": ">=2.1,<3.0",
-                "symfony/event-dispatcher": ">=2.1,<3.0",
-                "symfony/finder": ">=2.1,<3.0",
-                "symfony/yaml": ">=2.1,<3.0"
+                "phpspec/php-diff": "~1.0.0",
+                "phpspec/prophecy": "~1.0.2",
+                "symfony/console": "~2.1",
+                "symfony/event-dispatcher": "~2.1",
+                "symfony/finder": "~2.1",
+                "symfony/yaml": "~2.1"
             },
             "bin": [
                 "bin/phpspec"
@@ -101,7 +101,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2013-05-07 10:56:30"
+            "time": "2013-05-19 10:19:57"
         },
         {
             "name": "phpspec/prophecy",
@@ -109,12 +109,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "af7e0f898433c67e994563c16a6c4e98862a4e5f"
+                "reference": "82d11835df7eccf904ea0c84fbb7304080346bc1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/af7e0f898433c67e994563c16a6c4e98862a4e5f",
-                "reference": "af7e0f898433c67e994563c16a6c4e98862a4e5f",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/82d11835df7eccf904ea0c84fbb7304080346bc1",
+                "reference": "82d11835df7eccf904ea0c84fbb7304080346bc1",
                 "shasum": ""
             },
             "require-dev": {
@@ -156,30 +156,31 @@
                 "spy",
                 "stub"
             ],
-            "time": "2013-05-10 15:58:20"
+            "time": "2013-09-30 08:21:23"
         },
         {
             "name": "symfony/config",
-            "version": "v2.2.1",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/Config",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Config.git",
-                "reference": "v2.2.1"
+                "reference": "9a3c831697349cf6e9b5302b7beb0b97e6cdac41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Config/zipball/v2.2.1",
-                "reference": "v2.2.1",
+                "url": "https://api.github.com/repos/symfony/Config/zipball/9a3c831697349cf6e9b5302b7beb0b97e6cdac41",
+                "reference": "9a3c831697349cf6e9b5302b7beb0b97e6cdac41",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.3",
+                "symfony/filesystem": "~2.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -203,30 +204,36 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-01 10:42:10"
+            "time": "2013-09-19 09:47:34"
         },
         {
             "name": "symfony/console",
-            "version": "v2.2.1",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "v2.2.1"
+                "reference": "421ac6e2e5e665907fbf359a8f175b55b93b6a22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.2.1",
-                "reference": "v2.2.1",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/421ac6e2e5e665907fbf359a8f175b55b93b6a22",
+                "reference": "421ac6e2e5e665907fbf359a8f175b55b93b6a22",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
+            "require-dev": {
+                "symfony/event-dispatcher": "~2.1"
+            },
+            "suggest": {
+                "symfony/event-dispatcher": ""
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -250,38 +257,40 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-19 20:48:08"
+            "time": "2013-10-09 07:29:29"
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v2.2.1",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/DependencyInjection",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection.git",
-                "reference": "v2.2.1"
+                "reference": "48a1803399404ff780de635da7e9eb746c655c65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/v2.2.1",
-                "reference": "v2.2.1",
+                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/48a1803399404ff780de635da7e9eb746c655c65",
+                "reference": "48a1803399404ff780de635da7e9eb746c655c65",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "symfony/config": ">=2.2,<2.3-dev",
-                "symfony/yaml": ">=2.0,<3.0"
+                "symfony/config": "~2.2",
+                "symfony/expression-language": "~2.4",
+                "symfony/yaml": "~2.0"
             },
             "suggest": {
-                "symfony/config": "2.2.*",
-                "symfony/yaml": "2.2.*"
+                "symfony/config": "",
+                "symfony/proxy-manager-bridge": "Generate service proxies to lazy load them",
+                "symfony/yaml": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -305,37 +314,37 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-23 07:49:54"
+            "time": "2013-09-29 19:43:28"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.2.1",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "v2.2.1"
+                "reference": "9b4fe5757870682eb2251e283228a66d938265a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/v2.2.1",
-                "reference": "v2.2.1",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/9b4fe5757870682eb2251e283228a66d938265a8",
+                "reference": "9b4fe5757870682eb2251e283228a66d938265a8",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "symfony/dependency-injection": ">=2.0,<3.0"
+                "symfony/dependency-injection": "~2.0"
             },
             "suggest": {
-                "symfony/dependency-injection": "2.2.*",
-                "symfony/http-kernel": "2.2.*"
+                "symfony/dependency-injection": "",
+                "symfony/http-kernel": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -359,21 +368,21 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2013-02-11 11:26:43"
+            "time": "2013-09-19 09:47:34"
         },
         {
-            "name": "symfony/finder",
-            "version": "v2.2.1",
-            "target-dir": "Symfony/Component/Finder",
+            "name": "symfony/filesystem",
+            "version": "dev-master",
+            "target-dir": "Symfony/Component/Filesystem",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Finder.git",
-                "reference": "v2.2.1"
+                "url": "https://github.com/symfony/Filesystem.git",
+                "reference": "e558fd5d593ebe083dca199f52aed5374ab7b57a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/v2.2.1",
-                "reference": "v2.2.1",
+                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/e558fd5d593ebe083dca199f52aed5374ab7b57a",
+                "reference": "e558fd5d593ebe083dca199f52aed5374ab7b57a",
                 "shasum": ""
             },
             "require": {
@@ -382,7 +391,54 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-09-27 14:57:51"
+        },
+        {
+            "name": "symfony/finder",
+            "version": "dev-master",
+            "target-dir": "Symfony/Component/Finder",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Finder.git",
+                "reference": "e2ce3164ab58b4d54612e630571f158035ee8603"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/e2ce3164ab58b4d54612e630571f158035ee8603",
+                "reference": "e2ce3164ab58b4d54612e630571f158035ee8603",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -406,21 +462,21 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2013-04-01 07:51:50"
+            "time": "2013-09-19 09:47:34"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.2.1",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "v2.2.1"
+                "reference": "ef4878bcca171ebe7466be0505b85a710818d788"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/v2.2.1",
-                "reference": "v2.2.1",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/ef4878bcca171ebe7466be0505b85a710818d788",
+                "reference": "ef4878bcca171ebe7466be0505b85a710818d788",
                 "shasum": ""
             },
             "require": {
@@ -429,7 +485,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -453,19 +509,58 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-23 07:49:54"
+            "time": "2013-09-22 18:04:51"
         }
     ],
     "packages-dev": [
-
+        {
+            "name": "magetest/magento",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MageTest/magento.git",
+                "reference": "7abe9a262b50713e956b7913ddc01fcf706584da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MageTest/magento/zipball/7abe9a262b50713e956b7913ddc01fcf706584da",
+                "reference": "7abe9a262b50713e956b7913ddc01fcf706584da",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "": [
+                        "src/app",
+                        "src/app/code/local",
+                        "src/app/code/community",
+                        "src/app/code/core",
+                        "src/lib"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "Latest stable 1.x Magento community version",
+            "homepage": "http://www.magentocommerce.com",
+            "keywords": [
+                "1.x",
+                "community",
+                "magento",
+                "stable"
+            ],
+            "time": "2013-05-24 15:50:32"
+        }
     ],
     "aliases": [
 
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
-        "phpspec/phpspec": 20,
-        "phpspec/prophecy": 20
+        "magetest/magento": 20
     },
     "platform": [
 

@@ -189,6 +189,9 @@ class MageLoader
         array_splice($controller, 2, 0 , 'controllers');
         $pathToController = implode(DS, $controller);
         $classFile = $local . $pathToController . '.php';
+        if (!file_exists($classFile)) {
+            return false;
+        }
         return include_once $classFile;
     }
 }
