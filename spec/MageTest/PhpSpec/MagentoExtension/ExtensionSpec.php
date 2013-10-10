@@ -126,12 +126,22 @@ class ExtensionSpec extends ObjectBehavior
         $this->load($container);
     }
 
-    function it_registers_a_mage_controller_code_generator_when_loaded($container, IO $console, TemplateRenderer $templateRenderer)
+    function it_registers_a_controller_code_generator_when_loaded($container, IO $console, TemplateRenderer $templateRenderer)
     {
         $container->get('console.io')->willReturn($console);
         $container->get('code_generator.templates')->willReturn($templateRenderer);
 
         $container->setShared('code_generator.generators.mage_controller', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerGenerator', $container))->shouldBeCalled();
+
+        $this->load($container);
+    }
+
+    function it_registers_a_module_init_xml_generator_when_loaded($container, IO $console, TemplateRenderer $templateRenderer)
+    {
+        $container->get('console.io')->willReturn($console);
+        $container->get('code_generator.templates')->willReturn($templateRenderer);
+
+        $container->setShared('code_generator.generators.module_init_xml', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModuleInitXmlGenerator', $container))->shouldBeCalled();
 
         $this->load($container);
     }

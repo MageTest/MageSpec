@@ -49,6 +49,9 @@ use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeControllerCommand;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ControllerLocator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerGenerator;
 
+use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModuleInitXmlLocator;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModuleInitXmlGenerator;
+
 /**
  * Extension
  *
@@ -116,6 +119,13 @@ class Extension implements ExtensionInterface
             );
         });
 
+        $container->setShared('code_generator.generators.module_init_xml', function($c) {
+            return new ModuleInitXmlGenerator(
+                $c->get('console.io'),
+                $c->get('code_generator.templates')
+            );
+        });
+
         $container->setShared('runner.maintainers.varien_subject', function($c) {
             return new VarienSubjectMaintainer(
                 $c->get('formatter.presenter'),
@@ -165,6 +175,12 @@ class Extension implements ExtensionInterface
             $c->setShared('locator.locators.controller_locator',
                 function($c) use($srcNS, $specPrefix, $srcPath, $specPath) {
                     return new ControllerLocator($srcNS, $specPrefix, $srcPath, $specPath);
+                }
+            );
+
+            $c->setShared('locator.locators.module_init_xml_locator',
+                function($c) use($srcNS, $specPrefix, $srcPath, $specPath) {
+                    return new ModuleInitXmlLocator($srcNS, $specPrefix, $srcPath, $specPath);
                 }
             );
         });

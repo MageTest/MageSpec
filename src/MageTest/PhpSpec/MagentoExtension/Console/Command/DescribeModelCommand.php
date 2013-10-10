@@ -66,10 +66,15 @@ ERR;
 
         $container = $this->getApplication()->getContainer();
         $container->configure();
-
+        // Specs and Code
         $classname = 'model:' . $model;
         $resource  = $container->get('locator.resource_manager')->createResource($classname);
 
         $container->get('code_generator')->generate($resource, 'specification');
+
+        // Config
+        $resourceName = 'init:' . $model;
+        $moduleInitXmlResource = $container->get('locator.resource_manager')->createResource($resourceName);
+        $container->get('code_generator')->generate($moduleInitXmlResource, 'module_init_xml');
     }
 }
