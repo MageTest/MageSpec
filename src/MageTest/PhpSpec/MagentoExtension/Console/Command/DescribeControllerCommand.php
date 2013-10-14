@@ -69,6 +69,6 @@ ERR;
         $classname = 'controller:' . $model;
         $resource  = $container->get('locator.resource_manager')->createResource($classname);
 
-        $container->get('code_generator')->generate($resource, 'specification');
+        $container->get('code_generator')->generate($resource, 'controller_specification');
     }
 }
