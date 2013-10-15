@@ -87,7 +87,7 @@ class ResourceModelGenerator implements GeneratorInterface
 
         $this->filesystem->putFileContents($filepath, $content);
         $this->io->writeln(sprintf(
-            "<info>Magento resource model<value>%s</value> created in <value>%s</value>.</info>\n",
+            "<info>Magento resource model<value>%s</value> created in <value>'%s'</value>.</info>\n",
             $resource->getSrcClassname(), $filepath
         ));
     }

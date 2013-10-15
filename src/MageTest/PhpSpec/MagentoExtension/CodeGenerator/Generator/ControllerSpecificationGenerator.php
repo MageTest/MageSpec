@@ -58,7 +58,7 @@ class ControllerSpecificationGenerator implements GeneratorInterface
 
         $this->filesystem->putFileContents($filepath, $content);
         $this->io->writeln(sprintf(
-            "<info>ControllerSpecification for <value>%s</value> created in <value>%s</value>.</info>\n",
+            "<info>ControllerSpecification for <value>%s</value> created in <value>'%s'</value>.</info>\n",
             $resource->getSrcClassname(), $filepath
         ));
     }
