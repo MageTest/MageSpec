@@ -58,7 +58,9 @@ Please make sure it looks like the following:
 
   vendorname_modulename/blockname
 
-Please pay attention to words case
+The lowercase convention is used because it reflects the best practice
+convention within the Magento community. This reflects the identifier that
+you would pass to Mage::getBlockSinglton() or in layout.xml
 ERR;
             throw new \InvalidArgumentException($message);
         }

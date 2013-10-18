@@ -88,7 +88,7 @@ class BlockGenerator implements GeneratorInterface
 
         $this->filesystem->putFileContents($filepath, $content);
         $this->io->writeln(sprintf(
-            "<info>Magento block <value>%s</value> created in <value>%s</value>.</info>\n",
+            "<info>Magento block <value>%s</value> created in <value>'%s'</value>.</info>\n",
             $resource->getSrcClassname(), $filepath
         ));
     }

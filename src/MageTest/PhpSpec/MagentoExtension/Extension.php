@@ -48,6 +48,7 @@ use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\HelperGenerator;
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeControllerCommand;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ControllerLocator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerGenerator;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerSpecificationGenerator;
 
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModuleInitXmlLocator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModuleInitXmlGenerator;
@@ -114,6 +115,13 @@ class Extension implements ExtensionInterface
 
         $container->setShared('code_generator.generators.mage_controller', function($c) {
             return new ControllerGenerator(
+                $c->get('console.io'),
+                $c->get('code_generator.templates')
+            );
+        });
+
+        $container->setShared('code_generator.generators.controller_specification', function($c) {
+            return new ControllerSpecificationGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates')
             );
