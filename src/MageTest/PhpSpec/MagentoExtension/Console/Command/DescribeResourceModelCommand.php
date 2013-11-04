@@ -37,7 +37,7 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class DescribeResourceModelCommand extends Command
 {
-    const VALIDATOR = '/^([a-z0-9]+)_([a-z0-9]+)\/([a-z0-9]+)(_[\w]+)?$/';
+    const VALIDATOR = '/^([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
 
     protected function configure()
     {
@@ -56,7 +56,7 @@ class DescribeResourceModelCommand extends Command
 The resource model alias provided doesn't follow the Magento naming conventions.
 Please make sure it looks like the following:
 
-  vendorname_modulename/resourcemodelname
+  Vendorname_Modulename/Blockname
 
 The lowercase convention is used because it reflects the best practice
 convention within the Magento community. This reflects the identifier that
