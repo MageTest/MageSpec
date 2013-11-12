@@ -56,7 +56,7 @@ class DescribeResourceModelCommand extends Command
 The resource model alias provided doesn't follow the Magento naming conventions.
 Please make sure it looks like the following:
 
-  Vendorname_Modulename/Blockname
+  vendorname_modulename/resourcemodelname
 
 The lowercase convention is used because it reflects the best practice
 convention within the Magento community. This reflects the identifier that
