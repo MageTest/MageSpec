@@ -148,7 +148,8 @@ class Extension implements ExtensionInterface
 
     private function setLocators(ServiceContainer $container)
     {
-        $container->addConfigurator(function ($c) {
+        $extension = $this;
+        $container->addConfigurator(function ($c) use ($extension) {
             $suite = $c->getParam('mage_locator', array('main' => ''));
 
             $srcNS = isset($suite['namespace']) ? $suite['namespace'] : '';
@@ -193,7 +194,7 @@ class Extension implements ExtensionInterface
                 }
             );
 
-            $this->configureAutoloader($srcPath);
+            $extension->configureAutoloader($srcPath);
         });
     }
 
