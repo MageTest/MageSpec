@@ -39,12 +39,14 @@ class MageLoader
     protected $_collectClasses      = false;
     protected $_collectPath         = null;
     protected $_arrLoadedClasses    = array();
+    protected $_srcPath = '';
 
     /**
      * Class constructor
      */
-    public function __construct()
+    public function __construct($srcPath)
     {
+        $this->_srcPath = $srcPath;
         $this->_isIncludePathDefined = defined('COMPILER_INCLUDE_PATH');
         if (defined('COMPILER_COLLECT_PATH')) {
             $this->_collectClasses  = true;
@@ -58,10 +60,10 @@ class MageLoader
      *
      * @return Varien_Autoload
      */
-    static public function instance()
+    static public function instance($srcPath)
     {
         if (!self::$_instance) {
-            self::$_instance = new MageLoader();
+            self::$_instance = new MageLoader($srcPath);
         }
         return self::$_instance;
     }
@@ -69,9 +71,9 @@ class MageLoader
     /**
      * Register SPL autoload function
      */
-    static public function register()
+    static public function register($srcPath)
     {
-        spl_autoload_register(array(self::instance(), 'autoload'));
+        spl_autoload_register(array(self::instance($srcPath), 'autoload'));
     }
 
     /**
@@ -184,10 +186,10 @@ class MageLoader
      */
     private function includeController($class)
     {
-        $local = BP . DS . 'app' . DS . 'code' . DS . 'local' . DS;
+        $local = $this->_srcPath . DIRECTORY_SEPARATOR . 'local' . DIRECTORY_SEPARATOR;
         $controller = explode('_', $class);
         array_splice($controller, 2, 0 , 'controllers');
-        $pathToController = implode(DS, $controller);
+        $pathToController = implode(DIRECTORY_SEPARATOR, $controller);
         $classFile = $local . $pathToController . '.php';
         if (!file_exists($classFile)) {
             return false;
