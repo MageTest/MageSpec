@@ -62,52 +62,63 @@ class Extension implements ExtensionInterface
 {
     public function load(ServiceContainer $container)
     {
+        $this->setCommands($container);
+        $this->setGenerators($container);
+        $this->setMaintainers($container);
+        $this->setLocators($container);
+    }
+
+    private function setCommands(ServiceContainer $container)
+    {
         $container->setShared('console.commands.describe_model', function ($c) {
             return new DescribeModelCommand();
-        });
-
-        $container->setShared('code_generator.generators.mage_model', function($c) {
-            return new ModelGenerator(
-                $c->get('console.io'),
-                $c->get('code_generator.templates')
-            );
         });
 
         $container->setShared('console.commands.describe_resource_model', function ($c) {
             return new DescribeResourceModelCommand();
         });
 
-        $container->setShared('code_generator.generators.mage_resource_model', function($c) {
-            return new ResourceModelGenerator(
-                $c->get('console.io'),
-                $c->get('code_generator.templates')
-            );
-        });
-
         $container->setShared('console.commands.describe_block', function ($c) {
             return new DescribeBlockCommand();
-        });
-
-        $container->setShared('code_generator.generators.mage_block', function($c) {
-            return new BlockGenerator(
-                $c->get('console.io'),
-                $c->get('code_generator.templates')
-            );
         });
 
         $container->setShared('console.commands.describe_helper', function ($c) {
             return new DescribeHelperCommand();
         });
 
-        $container->setShared('code_generator.generators.mage_helper', function($c) {
-            return new HelperGenerator(
+        $container->setShared('console.commands.describe_controller', function ($c) {
+            return new DescribeControllerCommand();
+        });
+    }
+
+    private function setGenerators(ServiceContainer $container)
+    {
+        $container->setShared('code_generator.generators.mage_model', function ($c) {
+            return new ModelGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates')
             );
         });
 
-        $container->setShared('console.commands.describe_controller', function ($c) {
-            return new DescribeControllerCommand();
+        $container->setShared('code_generator.generators.mage_resource_model', function ($c) {
+            return new ResourceModelGenerator(
+                $c->get('console.io'),
+                $c->get('code_generator.templates')
+            );
+        });
+
+        $container->setShared('code_generator.generators.mage_block', function ($c) {
+            return new BlockGenerator(
+                $c->get('console.io'),
+                $c->get('code_generator.templates')
+            );
+        });
+
+        $container->setShared('code_generator.generators.mage_helper', function ($c) {
+            return new HelperGenerator(
+                $c->get('console.io'),
+                $c->get('code_generator.templates')
+            );
         });
 
         $container->setShared('code_generator.generators.mage_controller', function($c) {
@@ -123,21 +134,28 @@ class Extension implements ExtensionInterface
                 $c->get('code_generator.templates')
             );
         });
+    }
 
-        $container->setShared('runner.maintainers.varien_subject', function($c) {
+    private function setMaintainers(ServiceContainer $container)
+    {
+        $container->setShared('runner.maintainers.varien_subject', function ($c) {
             return new VarienSubjectMaintainer(
                 $c->get('formatter.presenter'),
                 $c->get('unwrapper')
             );
         });
+    }
 
-        $container->addConfigurator(function($c) {
+    private function setLocators(ServiceContainer $container)
+    {
+        $extension = $this;
+        $container->addConfigurator(function ($c) use ($extension) {
             $suite = $c->getParam('mage_locator', array('main' => ''));
 
-            $srcNS      = isset($suite['namespace']) ? $suite['namespace'] : '';
+            $srcNS = isset($suite['namespace']) ? $suite['namespace'] : '';
             $specPrefix = isset($suite['spec_prefix']) ? $suite['spec_prefix'] : '';
-            $srcPath    = isset($suite['src_path']) ? rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR : 'src';
-            $specPath   = isset($suite['spec_path']) ? rtrim($suite['spec_path'], '/') . DIRECTORY_SEPARATOR : '.';
+            $srcPath = isset($suite['src_path']) ? rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR : 'src';
+            $specPath = isset($suite['spec_path']) ? rtrim($suite['spec_path'], '/') . DIRECTORY_SEPARATOR : '.';
 
             if (!is_dir($srcPath)) {
                 mkdir($srcPath, 0777, true);
@@ -147,54 +165,41 @@ class Extension implements ExtensionInterface
             }
 
             $c->setShared('locator.locators.model_locator',
-                function($c) use($srcNS, $specPrefix, $srcPath, $specPath) {
+                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath) {
                     return new ModelLocator($srcNS, $specPrefix, $srcPath, $specPath);
                 }
             );
 
             $c->setShared('locator.locators.resource_model_locator',
-                function($c) use($srcNS, $specPrefix, $srcPath, $specPath) {
+                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath) {
                     return new ResourceModelLocator($srcNS, $specPrefix, $srcPath, $specPath);
                 }
             );
 
             $c->setShared('locator.locators.block_locator',
-                function($c) use($srcNS, $specPrefix, $srcPath, $specPath) {
+                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath) {
                     return new BlockLocator($srcNS, $specPrefix, $srcPath, $specPath);
                 }
             );
 
             $c->setShared('locator.locators.helper_locator',
-                function($c) use($srcNS, $specPrefix, $srcPath, $specPath) {
+                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath) {
                     return new HelperLocator($srcNS, $specPrefix, $srcPath, $specPath);
                 }
             );
 
             $c->setShared('locator.locators.controller_locator',
-                function($c) use($srcNS, $specPrefix, $srcPath, $specPath) {
+                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath) {
                     return new ControllerLocator($srcNS, $specPrefix, $srcPath, $specPath);
                 }
             );
-        });
 
-        $this->bootstrap();
+            $extension->configureAutoloader($srcPath);
+        });
     }
 
-    public function bootstrap()
+    public function configureAutoloader($srcPath)
     {
-        \Mage::app();
-
-        $autoloader_callbacks = spl_autoload_functions();
-
-        $original_autoload=null;
-        foreach($autoloader_callbacks as &$callback)
-        {
-            if(is_array($callback) && ($callback[0] instanceof \Varien_Autoload))
-            {
-                spl_autoload_unregister($callback);
-            }
-        }
-
-        MageLoader::register();
+        MageLoader::register($srcPath);
     }
 }
