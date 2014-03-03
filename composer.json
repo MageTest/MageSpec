@@ -5,7 +5,8 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "phpspec/phpspec": "2.0.0-BETA4",
+        "phpspec/phpspec": "dev-master#3bcf4e4ec83dc345d0fff7f22b0641a25403dcc9",
+        "phpspec/prophecy": "dev-master#82d11835df7eccf904ea0c84fbb7304080346bc1",
         "symfony/dependency-injection": "*",
         "symfony/config": "*"
     },
