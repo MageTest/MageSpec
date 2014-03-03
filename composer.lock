@@ -93,7 +93,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "3bcf4e4ec83dc345d0fff7f22b0641a25403dcc9"
+                "reference": "f3044160b0da29a67d99052615294434660f02d7"
             },
             "dist": {
                 "type": "zip",
@@ -157,7 +157,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2013-05-19 10:19:57"
+            "time": "2014-02-21 11:03:16"
         },
         {
             "name": "phpspec/prophecy",
@@ -165,7 +165,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "82d11835df7eccf904ea0c84fbb7304080346bc1"
+                "reference": "6bd3659919ae6472454aea07482200077293e75f"
             },
             "dist": {
                 "type": "zip",
@@ -215,7 +215,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2013-09-30 08:21:23"
+            "time": "2014-02-18 21:47:37"
         },
         {
             "name": "symfony/config",
