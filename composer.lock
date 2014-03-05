@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "842e1a2e6ffdc470d3cf00ea93ce5d50",
+    "hash": "8149c930de1ff883aa98ec56d3fa54bd",
     "packages": [
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "cfb3ebea556b24df8f8f3745d61478293cb5a166"
+                "reference": "b1922e00de3010f46fb12b9e02ffa63f4c836946"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/cfb3ebea556b24df8f8f3745d61478293cb5a166",
-                "reference": "cfb3ebea556b24df8f8f3745d61478293cb5a166",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/b1922e00de3010f46fb12b9e02ffa63f4c836946",
+                "reference": "b1922e00de3010f46fb12b9e02ffa63f4c836946",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
-            "time": "2013-12-05 08:16:55"
+            "time": "2014-03-01 10:01:55"
         },
         {
             "name": "phpspec/php-diff",
@@ -89,7 +89,7 @@
         },
         {
             "name": "phpspec/phpspec",
-            "version": "2.0.0-RC4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
@@ -97,8 +97,8 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/f3044160b0da29a67d99052615294434660f02d7",
-                "reference": "f3044160b0da29a67d99052615294434660f02d7",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/c41c96dcadf2bcaacaa342a84e794254c5bb763a",
+                "reference": "3bcf4e4ec83dc345d0fff7f22b0641a25403dcc9",
                 "shasum": ""
             },
             "require": {
@@ -170,7 +170,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpspec/prophecy/zipball/6bd3659919ae6472454aea07482200077293e75f",
-                "reference": "6bd3659919ae6472454aea07482200077293e75f",
+                "reference": "82d11835df7eccf904ea0c84fbb7304080346bc1",
                 "shasum": ""
             },
             "require": {
@@ -224,12 +224,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Config.git",
-                "reference": "bde2f7192a52dfd07cf5484ad65d719da28effba"
+                "reference": "7678c61416966017feb83f2e0b648aa74d359343"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Config/zipball/bde2f7192a52dfd07cf5484ad65d719da28effba",
-                "reference": "bde2f7192a52dfd07cf5484ad65d719da28effba",
+                "url": "https://api.github.com/repos/symfony/Config/zipball/7678c61416966017feb83f2e0b648aa74d359343",
+                "reference": "7678c61416966017feb83f2e0b648aa74d359343",
                 "shasum": ""
             },
             "require": {
@@ -265,7 +265,7 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "http://symfony.com",
-            "time": "2014-01-07 13:29:57"
+            "time": "2014-03-03 12:53:01"
         },
         {
             "name": "symfony/console",
@@ -274,12 +274,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "ceb261293b65e9df55b98a9665ef29d56de0c48f"
+                "reference": "563254c27e37efb65aae587286602ae6f5f18acd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/ceb261293b65e9df55b98a9665ef29d56de0c48f",
-                "reference": "ceb261293b65e9df55b98a9665ef29d56de0c48f",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/563254c27e37efb65aae587286602ae6f5f18acd",
+                "reference": "563254c27e37efb65aae587286602ae6f5f18acd",
                 "shasum": ""
             },
             "require": {
@@ -320,7 +320,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-02-11 13:52:21"
+            "time": "2014-03-03 13:53:19"
         },
         {
             "name": "symfony/dependency-injection",
@@ -329,12 +329,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection.git",
-                "reference": "8b078899a445bc39b867626f57be6281568f987f"
+                "reference": "746b2131a6e8767267babc109138901ccf36b137"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/8b078899a445bc39b867626f57be6281568f987f",
-                "reference": "8b078899a445bc39b867626f57be6281568f987f",
+                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/746b2131a6e8767267babc109138901ccf36b137",
+                "reference": "746b2131a6e8767267babc109138901ccf36b137",
                 "shasum": ""
             },
             "require": {
@@ -379,7 +379,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "http://symfony.com",
-            "time": "2014-02-11 13:52:21"
+            "time": "2014-03-03 12:53:01"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -495,12 +495,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "9a267caac6298b91efc7f0bc8522fd80f48fee98"
+                "reference": "d45faef922df8438cce99b5ee226bf06c32d145e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/9a267caac6298b91efc7f0bc8522fd80f48fee98",
-                "reference": "9a267caac6298b91efc7f0bc8522fd80f48fee98",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/d45faef922df8438cce99b5ee226bf06c32d145e",
+                "reference": "d45faef922df8438cce99b5ee226bf06c32d145e",
                 "shasum": ""
             },
             "require": {
@@ -535,7 +535,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2014-01-07 13:29:57"
+            "time": "2014-03-03 12:53:01"
         },
         {
             "name": "symfony/yaml",
@@ -544,12 +544,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "9921872611710df49cf035c259e5a461ea2d0f8c"
+                "reference": "e49a47d60348665261f6e279ba383241deb73cab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/9921872611710df49cf035c259e5a461ea2d0f8c",
-                "reference": "9921872611710df49cf035c259e5a461ea2d0f8c",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/e49a47d60348665261f6e279ba383241deb73cab",
+                "reference": "e49a47d60348665261f6e279ba383241deb73cab",
                 "shasum": ""
             },
             "require": {
@@ -584,7 +584,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-01-07 13:29:57"
+            "time": "2014-02-24 16:21:51"
         }
     ],
     "packages-dev": [
@@ -635,6 +635,8 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "phpspec/phpspec": 20,
+        "phpspec/prophecy": 20,
         "magetest/magento": 20
     },
     "platform": [
