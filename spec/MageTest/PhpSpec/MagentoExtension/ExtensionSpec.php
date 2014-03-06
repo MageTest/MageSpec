@@ -28,6 +28,7 @@ use PhpSpec\CodeGenerator\TemplateRenderer;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Wrapper\Unwrapper;
 use Prophecy\Argument;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * ExtensionSpec
@@ -146,10 +147,10 @@ class ExtensionSpec extends ObjectBehavior
         $this->load($container);
     }
 
-    function it_registers_a_varien_subject_maintainer_when_loaded($container, PresenterInterface $presenter, Unwrapper $unwrapper)
+    function it_registers_a_varien_subject_maintainer_when_loaded($container, PresenterInterface $presenter, Unwrapper $unwrapper, EventDispatcherInterface $dispatcher)
     {
         $container->get('formatter.presenter')->willReturn($presenter);
-        $container->get('unwrapper')->willReturn($unwrapper);
+        $container->get('event_dispatcher')->willReturn($dispatcher);
 
         $container->setShared('runner.maintainers.varien_subject', $this->service('\MageTest\PhpSpec\MagentoExtension\Runner\Maintainer\VarienSubjectMaintainer', $container))->shouldBeCalled();
 

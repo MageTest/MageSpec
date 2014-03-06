@@ -21,6 +21,7 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension;
 
+use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienWrapperFactory;
 use PhpSpec\Extension\ExtensionInterface;
 use PhpSpec\Console\ExtendableApplicationInterface as ApplicationInterface;
 use PhpSpec\ServiceContainer;
@@ -141,7 +142,8 @@ class Extension implements ExtensionInterface
         $container->setShared('runner.maintainers.varien_subject', function ($c) {
             return new VarienSubjectMaintainer(
                 $c->get('formatter.presenter'),
-                $c->get('unwrapper')
+                $c->get('event_dispatcher'),
+                new VarienWrapperFactory()
             );
         });
     }

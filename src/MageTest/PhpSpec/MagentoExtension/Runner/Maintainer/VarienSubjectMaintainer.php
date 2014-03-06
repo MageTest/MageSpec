@@ -22,6 +22,8 @@ namespace MageTest\PhpSpec\MagentoExtension\Runner\Maintainer;
 
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelResource;
 use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienObjectSubject;
+use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienWrapper;
+use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienWrapperFactory;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Loader\Node\ExampleNode;
 use PhpSpec\Runner\CollaboratorManager;
@@ -30,6 +32,7 @@ use PhpSpec\Runner\MatcherManager;
 use PhpSpec\SpecificationInterface;
 use PhpSpec\Wrapper\Subject;
 use PhpSpec\Wrapper\Unwrapper;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * [name]
@@ -42,12 +45,27 @@ use PhpSpec\Wrapper\Unwrapper;
 class VarienSubjectMaintainer implements MaintainerInterface
 {
     private $presenter;
-    private $unwrapper;
 
-    public function __construct(PresenterInterface $presenter, Unwrapper $unwrapper)
+    /**
+     * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    /**
+     * @var \MageTest\PhpSpec\MagentoExtension\Wrapper\VarienWrapperFactory
+     */
+    private $wrapperFactory;
+
+    /**
+     * @param PresenterInterface $presenter
+     * @param EventDispatcherInterface $dispatcher
+     * @param \MageTest\PhpSpec\MagentoExtension\Wrapper\VarienWrapperFactory $wrapperFactory
+     */
+    public function __construct(PresenterInterface $presenter, EventDispatcherInterface $dispatcher, VarienWrapperFactory $wrapperFactory)
     {
         $this->presenter = $presenter;
-        $this->unwrapper = $unwrapper;
+        $this->dispatcher = $dispatcher;
+        $this->wrapperFactory = $wrapperFactory;
     }
 
     public function supports(ExampleNode $example)
@@ -58,10 +76,11 @@ class VarienSubjectMaintainer implements MaintainerInterface
     public function prepare(ExampleNode $example, SpecificationInterface $context,
                             MatcherManager $matchers, CollaboratorManager $collaborators)
     {
-        $className = $example->getSpecification()->getResource()->getSrcClassname();
-
-        $subject = new VarienObjectSubject(null, $matchers, $this->unwrapper, $this->presenter);
-        $subject->beAnInstanceOf($className);
+        $subjectFactory = $this->wrapperFactory->create($matchers, $this->presenter, $this->dispatcher, $example);
+        $subject = $subjectFactory->wrap(null);
+        $subject->beAnInstanceOf(
+            $example->getSpecification()->getResource()->getSrcClassname()
+        );
 
         $context->setSpecificationSubject($subject);
     }
