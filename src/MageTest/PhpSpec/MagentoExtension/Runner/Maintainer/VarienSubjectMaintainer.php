@@ -76,8 +76,8 @@ class VarienSubjectMaintainer implements MaintainerInterface
     public function prepare(ExampleNode $example, SpecificationInterface $context,
                             MatcherManager $matchers, CollaboratorManager $collaborators)
     {
-        $subjectFactory = $this->wrapperFactory->create($matchers, $this->presenter, $this->dispatcher, $example);
-        $subject = $subjectFactory->wrap(null);
+        $wrapper = $this->wrapperFactory->create($matchers, $this->presenter, $this->dispatcher, $example);
+        $subject = $wrapper->wrap(null);
         $subject->beAnInstanceOf(
             $example->getSpecification()->getResource()->getSrcClassname()
         );

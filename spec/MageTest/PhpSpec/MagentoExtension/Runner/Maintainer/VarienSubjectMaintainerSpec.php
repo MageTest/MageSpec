@@ -28,11 +28,14 @@ class VarienSubjectMaintainerSpec extends ObjectBehavior
     ) {
         $factory->create(Argument::cetera())->willReturn($wrapper);
         $wrapper->wrap(null)->willReturn($subject);
-        $subject->beAnInstanceOf('SomeClass')->shouldbeCalled();
 
-        $resource->getSrcClassname()->willReturn('SomeClass');
+        $subject->beAnInstanceOf('\stdObject');
+        $subject = $subject->getWrappedObject();
+
+        $resource->getSrcClassname()->willReturn('\stdObject');
         $specification->getResource()->willReturn($resource);
         $example->getSpecification()->willReturn($specification);
+
         $context->setSpecificationSubject($subject)->shouldBeCalled();
 
         $this->prepare($example, $context, $matchers, $collaborators);
