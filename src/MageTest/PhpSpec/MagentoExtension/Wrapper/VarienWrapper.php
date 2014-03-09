@@ -57,7 +57,7 @@ class VarienWrapper extends Wrapper
      * Replaces the default Wrapper::wrap implementation to allow for a
      * customised Caller object.
      *
-     * @param object $value
+     * @param mixed $value
      * @return Subject
      */
     public function wrap($value = null)
