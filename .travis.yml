@@ -9,6 +9,8 @@ php:
   - 5.3
   # aliased to a recent 5.4.x version
   - 5.4
+  # aliased to a recent 5.4.x version
+  - 5.5
 
 before_script:
   - composer selfupdate
