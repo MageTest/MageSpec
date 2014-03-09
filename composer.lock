@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "8149c930de1ff883aa98ec56d3fa54bd",
+    "hash": "842e1a2e6ffdc470d3cf00ea93ce5d50",
     "packages": [
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -89,7 +89,7 @@
         },
         {
             "name": "phpspec/phpspec",
-            "version": "dev-master",
+            "version": "2.0.0-RC4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
@@ -97,8 +97,8 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/c41c96dcadf2bcaacaa342a84e794254c5bb763a",
-                "reference": "3bcf4e4ec83dc345d0fff7f22b0641a25403dcc9",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/f3044160b0da29a67d99052615294434660f02d7",
+                "reference": "f3044160b0da29a67d99052615294434660f02d7",
                 "shasum": ""
             },
             "require": {
@@ -170,7 +170,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpspec/prophecy/zipball/6bd3659919ae6472454aea07482200077293e75f",
-                "reference": "82d11835df7eccf904ea0c84fbb7304080346bc1",
+                "reference": "6bd3659919ae6472454aea07482200077293e75f",
                 "shasum": ""
             },
             "require": {
@@ -544,12 +544,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "e49a47d60348665261f6e279ba383241deb73cab"
+                "reference": "6194137af5f12fbcfc0cb21e269f47542b8beb47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/e49a47d60348665261f6e279ba383241deb73cab",
-                "reference": "e49a47d60348665261f6e279ba383241deb73cab",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/6194137af5f12fbcfc0cb21e269f47542b8beb47",
+                "reference": "6194137af5f12fbcfc0cb21e269f47542b8beb47",
                 "shasum": ""
             },
             "require": {
@@ -584,7 +584,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-02-24 16:21:51"
+            "time": "2014-03-03 12:53:01"
         }
     ],
     "packages-dev": [
@@ -635,8 +635,6 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "phpspec/phpspec": 20,
-        "phpspec/prophecy": 20,
         "magetest/magento": 20
     },
     "platform": [
