@@ -44,7 +44,7 @@ class VarienCaller extends Caller
      * @param ExampleNode      $example
      * @param Dispatcher       $dispatcher
      * @param ExceptionFactory $exceptions
-     * @param VarienWrapper          $wrapper
+     * @param VarienWrapper    $wrapper
      */
     public function __construct(WrappedObject $wrappedObject, ExampleNode $example, Dispatcher $dispatcher,
                                 ExceptionFactory $exceptions, VarienWrapper $wrapper)
@@ -166,10 +166,10 @@ class VarienCaller extends Caller
 
     /**
      * @param string $property
-     *
+     * @param bool $withValue
      * @return bool
      */
-    private function isObjectPropertyAccessible($property)
+    private function isObjectPropertyAccessible($property, $withValue = false)
     {
         if (!is_object($this->getWrappedObject())) {
             return false;
