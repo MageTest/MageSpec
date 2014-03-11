@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "842e1a2e6ffdc470d3cf00ea93ce5d50",
+    "hash": "90ad1848011b0bedc8bb94a109c872c7",
     "packages": [
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -89,16 +89,16 @@
         },
         {
             "name": "phpspec/phpspec",
-            "version": "2.0.0-RC4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "f3044160b0da29a67d99052615294434660f02d7"
+                "reference": "9f72dd2ea9f860572b7ce7f229e043e667f34564"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/f3044160b0da29a67d99052615294434660f02d7",
-                "reference": "f3044160b0da29a67d99052615294434660f02d7",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/42ddd6e40da1d7db28b3c2be9b859fcd907579df",
+                "reference": "9f72dd2ea9f860572b7ce7f229e043e667f34564",
                 "shasum": ""
             },
             "require": {
@@ -112,7 +112,8 @@
             },
             "require-dev": {
                 "behat/behat": "~2.5",
-                "bossa/phpspec2-expect": "dev-master"
+                "bossa/phpspec2-expect": "dev-master",
+                "symfony/filesystem": "~2.1"
             },
             "suggest": {
                 "phpspec/nyan-formatters": "~1.0 – Adds Nyan formatters"
@@ -157,7 +158,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2014-02-21 11:03:16"
+            "time": "2014-03-04 20:57:45"
         },
         {
             "name": "phpspec/prophecy",
@@ -635,6 +636,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "phpspec/phpspec": 20,
         "magetest/magento": 20
     },
     "platform": [
