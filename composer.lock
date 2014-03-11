@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "90ad1848011b0bedc8bb94a109c872c7",
+    "hash": "d51f45d9a738449e1ddac85de7584756",
     "packages": [
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -93,12 +93,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "9f72dd2ea9f860572b7ce7f229e043e667f34564"
+                "reference": "42ddd6e40da1d7db28b3c2be9b859fcd907579df"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpspec/phpspec/zipball/42ddd6e40da1d7db28b3c2be9b859fcd907579df",
-                "reference": "9f72dd2ea9f860572b7ce7f229e043e667f34564",
+                "reference": "42ddd6e40da1d7db28b3c2be9b859fcd907579df",
                 "shasum": ""
             },
             "require": {
@@ -158,7 +158,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2014-03-04 20:57:45"
+            "time": "2014-03-11 17:11:28"
         },
         {
             "name": "phpspec/prophecy",
