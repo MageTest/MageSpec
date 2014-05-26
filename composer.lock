@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "37e7112442d73ffc5395891f2a3b38fc",
+    "hash": "cdcf6fe02b169defb4c477cf21c43351",
     "packages": [
         {
             "name": "phpspec/php-diff",
