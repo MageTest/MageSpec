@@ -3,6 +3,7 @@
 namespace MageTest\PhpSpec\MagentoExtension\Listener;
 
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
+use PhpSpec\Console\IO;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\SuiteEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -14,10 +15,12 @@ class ModuleUpdateListener implements EventSubscriberInterface
 {
     private $classNames = array();
     private $moduleGenerator;
+    private $io;
 
-    public function __construct(ModuleGenerator $moduleGenerator)
+    public function __construct(ModuleGenerator $moduleGenerator, IO $io)
     {
         $this->moduleGenerator = $moduleGenerator;
+        $this->io = $io;
     }
 
     public static function getSubscribedEvents()
@@ -50,6 +53,10 @@ class ModuleUpdateListener implements EventSubscriberInterface
 
     public function createModuleXmlAfterSuite(SuiteEvent $event)
     {
+        if (!$this->io->isCodeGenerationEnabled()) {
+            return;
+        }
+
         foreach (array_unique(array_keys($this->classNames)) as $moduleName) {
             if (!$this->moduleGenerator->moduleFileExists($moduleName)) {
                 $this->moduleGenerator->generate(($moduleName));
