@@ -33,30 +33,16 @@ class ModuleUpdateListenerSpec extends ObjectBehavior
         $exception->getClassname()->shouldHaveBeenCalled();
     }
 
-    function it_generates_a_module_xml_if_needed(
+    function it_generates_a_module_xml(
         ExampleEvent $exampleEvent, ClassNotFoundException $exception, SuiteEvent $suiteEvent, $moduleGenerator
     ){
         $exampleEvent->getException()->willReturn($exception);
         $exception->getClassname()->willReturn('Vendor_Module_Model_Foo');
         $this->getClassNameAfterExample($exampleEvent);
 
-        $moduleGenerator->moduleFileExists('Vendor_Module')->willReturn(false);
-        $moduleGenerator->generate('Vendor_Module')->shouldBeCalled();
-
         $this->createModuleXmlAfterSuite($suiteEvent);
-    }
 
-    function it_does_not_generate_a_module_xml_if_one_exists(
-        ExampleEvent $exampleEvent, ClassNotFoundException $exception, SuiteEvent $suiteEvent, $moduleGenerator
-    ){
-        $exampleEvent->getException()->willReturn($exception);
-        $exception->getClassname()->willReturn('Vendor_Module_Model_Foo');
-        $this->getClassNameAfterExample($exampleEvent);
-
-        $moduleGenerator->moduleFileExists('Vendor_Module')->willReturn(true);
-        $moduleGenerator->generate('Vendor_Module')->shouldNotBeCalled();
-
-        $this->createModuleXmlAfterSuite($suiteEvent);
+        $moduleGenerator->generate('Vendor_Module')->shouldHavebeenCalled();
     }
 
     function it_does_not_generate_a_module_xml_if_code_generation_is_disabled(

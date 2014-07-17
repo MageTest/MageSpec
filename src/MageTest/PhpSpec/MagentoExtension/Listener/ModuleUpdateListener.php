@@ -58,9 +58,7 @@ class ModuleUpdateListener implements EventSubscriberInterface
         }
 
         foreach (array_unique(array_keys($this->classNames)) as $moduleName) {
-            if (!$this->moduleGenerator->moduleFileExists($moduleName)) {
-                $this->moduleGenerator->generate(($moduleName));
-            }
+            $this->moduleGenerator->generate(($moduleName));
         }
     }
 

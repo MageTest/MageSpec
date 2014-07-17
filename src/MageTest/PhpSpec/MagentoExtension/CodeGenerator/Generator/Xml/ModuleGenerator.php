@@ -22,13 +22,12 @@ class ModuleGenerator
         $this->path = $path;
     }
 
-    public function moduleFileExists($moduleName)
-    {
-        return $this->fileSystem->pathExists($this->getFilePath($moduleName));
-    }
-
     public function generate($moduleName)
     {
+        if ($this->moduleFileExists($moduleName)) {
+            return;
+        }
+
         $values = array(
             '%module_name%' => $moduleName
         );
@@ -41,6 +40,11 @@ class ModuleGenerator
     private function getFilePath($moduleName)
     {
         return $this->path . $moduleName . '.xml';
+    }
+
+    private function moduleFileExists($moduleName)
+    {
+        return $this->fileSystem->pathExists($this->getFilePath($moduleName));
     }
 }
 __halt_compiler();<?xml version="1.0" encoding="UTF-8"?>
