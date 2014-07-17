@@ -21,6 +21,8 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension;
 
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
+use MageTest\PhpSpec\MagentoExtension\Listener\ModuleUpdateListener;
 use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienWrapperFactory;
 use PhpSpec\Extension\ExtensionInterface;
 use PhpSpec\Console\ExtendableApplicationInterface as ApplicationInterface;
@@ -50,6 +52,7 @@ use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeControllerCommand;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ControllerLocator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerSpecificationGenerator;
+use PhpSpec\Util\Filesystem;
 
 /**
  * Extension
@@ -64,9 +67,11 @@ class Extension implements ExtensionInterface
     public function load(ServiceContainer $container)
     {
         $this->setCommands($container);
+        $this->setFilesystem($container);
         $this->setGenerators($container);
         $this->setMaintainers($container);
         $this->setLocators($container);
+        $this->setEvents($container);
     }
 
     private function setCommands(ServiceContainer $container)
@@ -92,47 +97,74 @@ class Extension implements ExtensionInterface
         });
     }
 
+    private function setFilesystem(ServiceContainer $container)
+    {
+        $container->setShared('filesystem', function($c) {
+            return new Filesystem();
+        });
+    }
+
     private function setGenerators(ServiceContainer $container)
     {
         $container->setShared('code_generator.generators.mage_model', function ($c) {
             return new ModelGenerator(
                 $c->get('console.io'),
-                $c->get('code_generator.templates')
+                $c->get('code_generator.templates'),
+                $c->get('filesystem')
             );
         });
 
         $container->setShared('code_generator.generators.mage_resource_model', function ($c) {
             return new ResourceModelGenerator(
                 $c->get('console.io'),
-                $c->get('code_generator.templates')
+                $c->get('code_generator.templates'),
+                $c->get('filesystem')
             );
         });
 
         $container->setShared('code_generator.generators.mage_block', function ($c) {
             return new BlockGenerator(
                 $c->get('console.io'),
-                $c->get('code_generator.templates')
+                $c->get('code_generator.templates'),
+                $c->get('filesystem')
             );
         });
 
         $container->setShared('code_generator.generators.mage_helper', function ($c) {
             return new HelperGenerator(
                 $c->get('console.io'),
-                $c->get('code_generator.templates')
+                $c->get('code_generator.templates'),
+                $c->get('filesystem')
             );
         });
 
         $container->setShared('code_generator.generators.mage_controller', function($c) {
             return new ControllerGenerator(
                 $c->get('console.io'),
-                $c->get('code_generator.templates')
+                $c->get('code_generator.templates'),
+                $c->get('filesystem')
             );
         });
 
         $container->setShared('code_generator.generators.controller_specification', function($c) {
             return new ControllerSpecificationGenerator(
                 $c->get('console.io'),
-                $c->get('code_generator.templates')
+                $c->get('code_generator.templates'),
+                $c->get('filesystem')
+            );
+        });
+
+        $container->setShared('xml_generator.generators.module', function($c) {
+            $suite = $c->getParam('mage_locator', array('main' => ''));
+            if (isset($suite['src_path'])) {
+                $etcPath = rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR . '..'
+                    . DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
+            } else {
+                $etcPath = 'app/etc/';
+            }
+            return new ModuleGenerator(
+                $etcPath,
+                $c->get('filesystem')
             );
         });
     }
@@ -199,6 +231,16 @@ class Extension implements ExtensionInterface
             );
 
             $extension->configureAutoloader($srcPath, $codePool);
+        });
+    }
+
+    private function setEvents(ServiceContainer $container)
+    {
+        $container->setShared('event_dispatcher.listeners.module_update', function ($c) {
+            return new ModuleUpdateListener(
+                $c->get('xml_generator.generators.module'),
+                $c->get('console.io')
+            );
         });
     }
 

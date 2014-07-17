@@ -15,7 +15,7 @@ class ModuleGeneratorSpec extends ObjectBehavior
     function let(Filesystem $fileSystem)
     {
         $this->fileSystem = $fileSystem;
-        $this->beConstructedWith($this->fileSystem, $this->path);
+        $this->beConstructedWith($this->path, $this->fileSystem);
     }
 
     function it_checks_if_the_module_file_exists()

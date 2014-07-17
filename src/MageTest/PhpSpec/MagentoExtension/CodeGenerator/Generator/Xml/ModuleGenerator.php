@@ -16,9 +16,9 @@ class ModuleGenerator
      */
     private $path;
 
-    public function __construct(Filesystem $fileSystem, $path)
+    public function __construct($path, Filesystem $fileSystem = null)
     {
-        $this->fileSystem = $fileSystem;
+        $this->fileSystem = $fileSystem ?: new Filesystem;
         $this->path = $path;
     }
 
