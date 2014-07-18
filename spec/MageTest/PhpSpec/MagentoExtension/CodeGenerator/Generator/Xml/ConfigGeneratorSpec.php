@@ -27,8 +27,25 @@ class ConfigGeneratorSpec extends ObjectBehavior
 
     }
 
+    function it_creates_the_etc_directory_if_it_does_not_exist($fileSystem, $formatter)
+    {
+        $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(false);
+        $fileSystem->makeDirectory($this->path . 'Vendor/Module/etc/')->shouldBeCalled();
+        $fileSystem->pathExists($this->path . 'Vendor/Module/etc/config.xml')->willReturn(false);
+        $fileSystem->getFileContents(Argument::any())->shouldNotBeCalled();
+        $formatter->format(Argument::containingString(
+            '<blocks><vendor_module><class>Vendor_Module_Block</class></vendor_module></blocks>'
+        ))->willReturn($this->getBlockXmlStructure());
+        $fileSystem->putFileContents(
+            $this->path . 'Vendor/Module/etc/config.xml',
+            $this->getBlockXmlStructure()
+        )->shouldBeCalled();
+        $this->generateElement('block', 'Vendor_Module');
+    }
+
     function it_generates_a_block_element_when_the_config_file_does_not_exist($fileSystem, $formatter)
     {
+        $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);
         $fileSystem->pathExists($this->path . 'Vendor/Module/etc/config.xml')->willReturn(false);
         $fileSystem->getFileContents(Argument::any())->shouldNotBeCalled();
         $formatter->format(Argument::containingString(
@@ -43,6 +60,7 @@ class ConfigGeneratorSpec extends ObjectBehavior
 
     function it_generates_a_block_element($fileSystem, $formatter)
     {
+        $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);
         $fileSystem->pathExists($this->path . 'Vendor/Module/etc/config.xml')->willReturn(true);
         $fileSystem->getFileContents($this->path . 'Vendor/Module/etc/config.xml')
             ->willReturn($this->getPlainXmlStructure());
@@ -58,6 +76,7 @@ class ConfigGeneratorSpec extends ObjectBehavior
 
     function it_generates_a_model_element($fileSystem, $formatter)
     {
+        $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);
         $fileSystem->pathExists($this->path . 'Vendor/Module/etc/config.xml')->willReturn(true);
         $fileSystem->getFileContents($this->path . 'Vendor/Module/etc/config.xml')
             ->willReturn($this->getPlainXmlStructure());

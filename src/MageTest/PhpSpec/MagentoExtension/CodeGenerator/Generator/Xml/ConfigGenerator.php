@@ -22,6 +22,11 @@ class ConfigGenerator
      */
     private $formatter;
 
+    /**
+     * @var string
+     */
+    private $directory;
+
     public function __construct($path, Filesystem $filesystem, Formatter $formatter)
     {
         $this->path = $path . 'local' . DIRECTORY_SEPARATOR;
@@ -31,6 +36,7 @@ class ConfigGenerator
 
     public function generateElement($type, $moduleName)
     {
+        $this->directory = $this->getDirectoryPath($moduleName);
         if (!$this->moduleFileExists($moduleName)) {
             $values = array(
                 '%module_name%' => $moduleName
@@ -57,13 +63,18 @@ class ConfigGenerator
             ->addChild('class', $moduleName . '_' . ucfirst($type));
 
         $formatted = $this->getIndentedXml($xml);
-        $this->filesystem->putFileContents($this->getFilePath($moduleName), $formatted);
+        $this->writeConfigFile($moduleName, $formatted);
+    }
+
+    private function getDirectoryPath($moduleName)
+    {
+        $modulePath = str_replace('_', DIRECTORY_SEPARATOR, $moduleName);
+        return $this->path . $modulePath . DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR;
     }
 
     private function getFilePath($moduleName)
     {
-        $modulePath = str_replace('_', DIRECTORY_SEPARATOR, $moduleName);
-        return $this->path . $modulePath . DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR . 'config.xml';
+        return $this->directory . 'config.xml';
     }
 
     private function moduleFileExists($moduleName)
@@ -74,6 +85,14 @@ class ConfigGenerator
     private function getIndentedXml(\SimpleXMLElement $xml)
     {
         return $this->formatter->format($xml->asXML());
+    }
+
+    private function writeConfigFile($moduleName, $xml)
+    {
+        if (!$this->filesystem->isDirectory($this->directory)) {
+            $this->filesystem->makeDirectory($this->directory);
+        }
+        $this->filesystem->putFileContents($this->getFilePath($moduleName), $xml);
     }
 }
 __halt_compiler();<?xml version="1.0" encoding="UTF-8"?>
