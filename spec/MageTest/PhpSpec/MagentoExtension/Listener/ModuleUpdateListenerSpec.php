@@ -2,21 +2,23 @@
 
 namespace spec\MageTest\PhpSpec\MagentoExtension\Listener;
 
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ConfigGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
 use PhpSpec\Console\IO;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Exception\Fracture\ClassNotFoundException;
+use PhpSpec\Locator\ResourceInterface;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Util\Filesystem;
 use Prophecy\Argument;
 
 class ModuleUpdateListenerSpec extends ObjectBehavior
 {
-    function let(ModuleGenerator $moduleGenerator, IO $io)
+    function let(ModuleGenerator $moduleGenerator, ConfigGenerator $configGenerator, IO $io)
     {
         $io->isCodeGenerationEnabled()->willReturn(true);
-        $this->beConstructedWith($moduleGenerator, $io);
+        $this->beConstructedWith($moduleGenerator, $configGenerator, $io);
     }
 
     function it_is_an_event_subscriber()
@@ -58,5 +60,17 @@ class ModuleUpdateListenerSpec extends ObjectBehavior
         $moduleGenerator->generate('Vendor_Module')->shouldNotBeCalled();
 
         $this->createModuleXmlAfterSuite($suiteEvent);
+    }
+
+    function it_generates_a_config_xml(
+        ExampleEvent $exampleEvent, ClassNotFoundException $exception, SuiteEvent $suiteEvent, $configGenerator
+    ){
+        $exampleEvent->getException()->willReturn($exception);
+        $exception->getClassname()->willReturn('Vendor_Module_Model_Foo');
+        $this->getClassNameAfterExample($exampleEvent);
+
+        $this->createConfigXmlAfterSuite($suiteEvent);
+
+        $configGenerator->generateElement('model', 'Vendor_Module')->shouldHavebeenCalled();
     }
 }

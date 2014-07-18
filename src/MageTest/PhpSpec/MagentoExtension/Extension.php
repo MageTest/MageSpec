@@ -21,6 +21,7 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension;
 
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ConfigGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
 use MageTest\PhpSpec\MagentoExtension\Listener\ModuleUpdateListener;
 use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienWrapperFactory;
@@ -53,6 +54,7 @@ use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ControllerLocator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerSpecificationGenerator;
 use PhpSpec\Util\Filesystem;
+use PrettyXml\Formatter;
 
 /**
  * Extension
@@ -68,6 +70,7 @@ class Extension implements ExtensionInterface
     {
         $this->setCommands($container);
         $this->setFilesystem($container);
+        $this->setFormatter($container);
         $this->setGenerators($container);
         $this->setMaintainers($container);
         $this->setLocators($container);
@@ -101,6 +104,13 @@ class Extension implements ExtensionInterface
     {
         $container->setShared('filesystem', function($c) {
             return new Filesystem();
+        });
+    }
+
+    private function setFormatter(ServiceContainer $container)
+    {
+        $container->setShared('xml.formatter', function($c) {
+            return new Formatter();
         });
     }
 
@@ -165,6 +175,16 @@ class Extension implements ExtensionInterface
             return new ModuleGenerator(
                 $etcPath,
                 $c->get('filesystem')
+            );
+        });
+
+        $container->setShared('xml_generator.generators.config', function($c) {
+            $suite = $c->getParam('mage_locator', array('main' => ''));
+            $srcPath = isset($suite['src_path']) ? rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR : 'src';
+            return new ConfigGenerator(
+                $srcPath,
+                $c->get('filesystem'),
+                $c->get('xml.formatter')
             );
         });
     }
@@ -239,6 +259,7 @@ class Extension implements ExtensionInterface
         $container->setShared('event_dispatcher.listeners.module_update', function ($c) {
             return new ModuleUpdateListener(
                 $c->get('xml_generator.generators.module'),
+                $c->get('xml_generator.generators.config'),
                 $c->get('console.io')
             );
         });
