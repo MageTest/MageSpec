@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ce7527edd3351734633ce656b53f5f9c",
+    "hash": "b9fe8728cb9d764ece4d7093ffeddbb8",
     "packages": [
         {
             "name": "phpspec/php-diff",
@@ -169,16 +169,16 @@
         },
         {
             "name": "shanethehat/pretty-xml",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shanethehat/pretty-xml.git",
-                "reference": "28158998e092fe5b6ceb21da7634153a6cd49df2"
+                "reference": "8bc045958861b16f1bff07a642e4884582a3d107"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shanethehat/pretty-xml/zipball/28158998e092fe5b6ceb21da7634153a6cd49df2",
-                "reference": "28158998e092fe5b6ceb21da7634153a6cd49df2",
+                "url": "https://api.github.com/repos/shanethehat/pretty-xml/zipball/8bc045958861b16f1bff07a642e4884582a3d107",
+                "reference": "8bc045958861b16f1bff07a642e4884582a3d107",
                 "shasum": ""
             },
             "require-dev": {
@@ -207,7 +207,7 @@
                 "pretty",
                 "xml"
             ],
-            "time": "2014-07-18 19:06:01"
+            "time": "2014-07-18 21:53:11"
         },
         {
             "name": "symfony/config",
