@@ -72,7 +72,7 @@ class ConfigGenerator
         return $this->path . $modulePath . DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR;
     }
 
-    private function getFilePath($moduleName)
+    private function getFilePath()
     {
         return $this->directory . 'config.xml';
     }
