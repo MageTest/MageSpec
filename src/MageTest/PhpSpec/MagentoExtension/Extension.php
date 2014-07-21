@@ -24,6 +24,7 @@ namespace MageTest\PhpSpec\MagentoExtension;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ConfigGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
 use MageTest\PhpSpec\MagentoExtension\Listener\ModuleUpdateListener;
+use MageTest\PhpSpec\MagentoExtension\Util\ClassDetector;
 use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienWrapperFactory;
 use PhpSpec\Extension\ExtensionInterface;
 use PhpSpec\Console\ExtendableApplicationInterface as ApplicationInterface;
@@ -74,6 +75,7 @@ class Extension implements ExtensionInterface
         $this->setGenerators($container);
         $this->setMaintainers($container);
         $this->setLocators($container);
+        $this->setUtils($container);
         $this->setEvents($container);
     }
 
@@ -254,13 +256,22 @@ class Extension implements ExtensionInterface
         });
     }
 
+    private function setUtils(ServiceContainer $container)
+    {
+        $container->setShared('util.class_detector', function ($c) {
+           return new ClassDetector();
+        });
+    }
+
     private function setEvents(ServiceContainer $container)
     {
+
         $container->setShared('event_dispatcher.listeners.module_update', function ($c) {
             return new ModuleUpdateListener(
                 $c->get('xml_generator.generators.module'),
                 $c->get('xml_generator.generators.config'),
-                $c->get('console.io')
+                $c->get('console.io'),
+                $c->get('util.class_detector')
             );
         });
     }

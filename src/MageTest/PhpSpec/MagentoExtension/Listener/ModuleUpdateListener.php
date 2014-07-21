@@ -5,6 +5,7 @@ namespace MageTest\PhpSpec\MagentoExtension\Listener;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ConfigGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\XmlGeneratorException;
+use MageTest\PhpSpec\MagentoExtension\Util\ClassDetector;
 use PhpSpec\Console\IO;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\SuiteEvent;
@@ -19,22 +20,22 @@ class ModuleUpdateListener implements EventSubscriberInterface
     private $moduleGenerator;
     private $configGenerator;
     private $io;
+    private $detector;
 
-    public function __construct(ModuleGenerator $moduleGenerator, ConfigGenerator $configGenerator, IO $io)
+    public function __construct(
+        ModuleGenerator $moduleGenerator, ConfigGenerator $configGenerator, IO $io, ClassDetector $detector)
     {
         $this->moduleGenerator = $moduleGenerator;
         $this->configGenerator = $configGenerator;
         $this->io = $io;
+        $this->detector = $detector;
     }
 
     public static function getSubscribedEvents()
     {
         return array(
             'afterExample' => array('getClassNameAfterExample', 10),
-            'afterSuite'   => array(
-                array('createModuleXmlAfterSuite', -10),
-                array('createConfigXmlAfterSuite', -10),
-            ),
+            'afterSuite'   => array('createXmlAfterSuite', -20),
         );
     }
 
@@ -50,29 +51,25 @@ class ModuleUpdateListener implements EventSubscriberInterface
         }
 
         $className = $exception->getClassname();
+
         if (strlen($className)) {
             $this->classNames[$className] = $this->getModuleName($className);
         }
     }
 
-    public function createModuleXmlAfterSuite(SuiteEvent $event)
-    {
-        if (!$this->io->isCodeGenerationEnabled()) {
-            return;
-        }
-
-        foreach (array_unique($this->classNames) as $moduleName) {
-            $this->moduleGenerator->generate(($moduleName));
-        }
-    }
-
-    public function createConfigXmlAfterSuite(SuiteEvent $event)
+    public function createXmlAfterSuite(SuiteEvent $event)
     {
         if (!$this->io->isCodeGenerationEnabled()) {
             return;
         }
 
         foreach ($this->classNames as $className => $moduleName) {
+            if (!$this->detector->classExists($className)) {
+                continue;
+            }
+
+            $this->moduleGenerator->generate(($moduleName));
+
             $this->configGenerator->generateElement(
                 $this->getClassType($className),
                 $moduleName

@@ -4,6 +4,7 @@ namespace spec\MageTest\PhpSpec\MagentoExtension\Listener;
 
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ConfigGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
+use MageTest\PhpSpec\MagentoExtension\Util\ClassDetector;
 use PhpSpec\Console\IO;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\SuiteEvent;
@@ -15,10 +16,11 @@ use Prophecy\Argument;
 
 class ModuleUpdateListenerSpec extends ObjectBehavior
 {
-    function let(ModuleGenerator $moduleGenerator, ConfigGenerator $configGenerator, IO $io)
+    function let(ModuleGenerator $moduleGenerator, ConfigGenerator $configGenerator, IO $io, ClassDetector $detector)
     {
         $io->isCodeGenerationEnabled()->willReturn(true);
-        $this->beConstructedWith($moduleGenerator, $configGenerator, $io);
+        $detector->classExists(Argument::any())->willReturn(true);
+        $this->beConstructedWith($moduleGenerator, $configGenerator, $io, $detector);
     }
 
     function it_is_an_event_subscriber()
@@ -42,7 +44,7 @@ class ModuleUpdateListenerSpec extends ObjectBehavior
         $exception->getClassname()->willReturn('Vendor_Module_Model_Foo');
         $this->getClassNameAfterExample($exampleEvent);
 
-        $this->createModuleXmlAfterSuite($suiteEvent);
+        $this->createXmlAfterSuite($suiteEvent);
 
         $moduleGenerator->generate('Vendor_Module')->shouldHavebeenCalled();
     }
@@ -59,7 +61,22 @@ class ModuleUpdateListenerSpec extends ObjectBehavior
         $moduleGenerator->moduleFileExists('Vendor_Module')->shouldNotBeCalled();
         $moduleGenerator->generate('Vendor_Module')->shouldNotBeCalled();
 
-        $this->createModuleXmlAfterSuite($suiteEvent);
+        $this->createXmlAfterSuite($suiteEvent);
+    }
+
+    function it_does_not_generate_a_module_xml_if_the_class_does_not_exist(
+        ExampleEvent $exampleEvent, ClassNotFoundException $exception, SuiteEvent $suiteEvent, $moduleGenerator, $detector
+    ) {
+        $exampleEvent->getException()->willReturn($exception);
+        $exception->getClassname()->willReturn('Vendor_Module_Model_Foo');
+        $this->getClassNameAfterExample($exampleEvent);
+
+        $detector->classExists('Vendor_Module_Model_Foo')->willReturn(false);
+
+        $moduleGenerator->moduleFileExists('Vendor_Module')->shouldNotBeCalled();
+        $moduleGenerator->generate('Vendor_Module')->shouldNotBeCalled();
+
+        $this->createXmlAfterSuite($suiteEvent);
     }
 
     function it_generates_a_config_xml(
@@ -69,7 +86,7 @@ class ModuleUpdateListenerSpec extends ObjectBehavior
         $exception->getClassname()->willReturn('Vendor_Module_Model_Foo');
         $this->getClassNameAfterExample($exampleEvent);
 
-        $this->createConfigXmlAfterSuite($suiteEvent);
+        $this->createXmlAfterSuite($suiteEvent);
 
         $configGenerator->generateElement('model', 'Vendor_Module')->shouldHavebeenCalled();
     }
