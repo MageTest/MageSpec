@@ -48,14 +48,16 @@ class ModelLocator implements ResourceLocatorInterface
     private $fullSrcPath;
     private $fullSpecPath;
     private $filesystem;
+    private $codePool;
 
     public function __construct($srcNamespace = '', $specNamespacePrefix = '',
-                                $srcPath = 'src', $specPath = 'spec', Filesystem $filesystem = null)
+                                $srcPath = 'src', $specPath = 'spec', Filesystem $filesystem = null, $codePool = null)
     {
         $this->filesystem = $filesystem ? : new Filesystem;
+        $this->codePool   = $codePool ? : self::LOCAL_CODE_POOL;
 
-        $this->srcPath       = rtrim(realpath($srcPath), '/\\') . DIRECTORY_SEPARATOR . self::LOCAL_CODE_POOL . DIRECTORY_SEPARATOR;
-        $this->specPath      = rtrim(realpath($specPath), '/\\') . DIRECTORY_SEPARATOR . self::LOCAL_CODE_POOL . DIRECTORY_SEPARATOR;
+        $this->srcPath       = rtrim(realpath($srcPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
+        $this->specPath      = rtrim(realpath($specPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
         $this->srcNamespace  = ltrim(trim($srcNamespace, ' \\') . '\\', '\\');
         $this->specNamespace = trim($specNamespacePrefix, ' \\') . '\\';
         $this->fullSrcPath   = $this->srcPath;
