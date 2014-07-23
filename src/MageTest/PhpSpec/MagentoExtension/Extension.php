@@ -265,7 +265,6 @@ class Extension implements ExtensionInterface
 
     private function setEvents(ServiceContainer $container)
     {
-
         $container->setShared('event_dispatcher.listeners.module_update', function ($c) {
             return new ModuleUpdateListener(
                 $c->get('xml_generator.generators.module'),
