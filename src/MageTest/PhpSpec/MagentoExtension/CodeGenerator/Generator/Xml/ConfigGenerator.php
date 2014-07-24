@@ -2,6 +2,7 @@
 
 namespace MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml;
 
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ConfigElementInterface;
 use PhpSpec\Util\Filesystem;
 use PrettyXml\Formatter;
 
@@ -27,43 +28,43 @@ class ConfigGenerator
      */
     private $directory;
 
-    public function __construct($path, Filesystem $filesystem, Formatter $formatter)
+    /**
+     * @var array
+     */
+    private $elementGenerators = array();
+
+    public function __construct($path, Filesystem $filesystem, Formatter $formatter, $codePool = 'local')
     {
-        $this->path = $path . 'local' . DIRECTORY_SEPARATOR;
+        $this->path = $path . $codePool . DIRECTORY_SEPARATOR;
         $this->filesystem = $filesystem;
         $this->formatter = $formatter;
+    }
+
+    public function addElementGenerator(ConfigElementInterface $elementGenerator)
+    {
+        $this->elementGenerators[] = $elementGenerator;
     }
 
     public function generateElement($type, $moduleName)
     {
         $this->directory = $this->getDirectoryPath($moduleName);
-        if (!$this->moduleFileExists($moduleName)) {
-            $values = array(
-                '%module_name%' => $moduleName
-            );
-            $rawXml = strtr(file_get_contents(__FILE__, null, null, __COMPILER_HALT_OFFSET__), $values);
-        } else {
-            $rawXml = $this->filesystem->getFileContents($this->getFilePath($moduleName));
+
+        $xml = new \SimpleXMLElement($this->getCurrentConfigXml($moduleName));
+
+        foreach ($this->elementGenerators as $elementGenerator) {
+            if ($elementGenerator->supports($type)) {
+                if ($elementGenerator->elementExistsInXml($xml, $type, $moduleName)) {
+                    return;
+                }
+                $elementGenerator->addElementToXml($xml, $type, $moduleName);
+                break;
+            }
+            throw new XmlGeneratorException('No element generator found for type: '.$type);
         }
 
-        $xml = new \SimpleXMLElement($rawXml);
-
-        $targetElements = $xml->xpath('/config/global/'.$type.'s');
-        if (count($targetElements)) {
-            return;
-        }
-
-        $globalElements = $xml->xpath('/config/global');
-        if (!count($globalElements)) {
-            throw new XmlGeneratorException('Global element not found in ' . $this->getFilePath($moduleName));
-        }
-
-        $globalElements[0]->addChild($type.'s')
-            ->addChild(strtolower($moduleName))
-            ->addChild('class', $moduleName . '_' . ucfirst($type));
 
         $formatted = $this->getIndentedXml($xml);
-        $this->writeConfigFile($moduleName, $formatted);
+        $this->writeConfigFile($formatted);
     }
 
     private function getDirectoryPath($moduleName)
@@ -72,14 +73,25 @@ class ConfigGenerator
         return $this->path . $modulePath . DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR;
     }
 
+    private function getCurrentConfigXml($moduleName)
+    {
+        if (!$this->moduleFileExists($moduleName)) {
+            $values = array(
+                '%module_name%' => $moduleName
+            );
+            return strtr(file_get_contents(__FILE__, null, null, __COMPILER_HALT_OFFSET__), $values);
+        }
+        return $this->filesystem->getFileContents($this->getFilePath());
+    }
+
     private function getFilePath()
     {
         return $this->directory . 'config.xml';
     }
 
-    private function moduleFileExists($moduleName)
+    private function moduleFileExists()
     {
-        return $this->filesystem->pathExists($this->getFilePath($moduleName));
+        return $this->filesystem->pathExists($this->getFilePath());
     }
 
     private function getIndentedXml(\SimpleXMLElement $xml)
@@ -87,12 +99,12 @@ class ConfigGenerator
         return $this->formatter->format($xml->asXML());
     }
 
-    private function writeConfigFile($moduleName, $xml)
+    private function writeConfigFile($xml)
     {
         if (!$this->filesystem->isDirectory($this->directory)) {
             $this->filesystem->makeDirectory($this->directory);
         }
-        $this->filesystem->putFileContents($this->getFilePath($moduleName), $xml);
+        $this->filesystem->putFileContents($this->getFilePath(), $xml);
     }
 }
 __halt_compiler();<?xml version="1.0" encoding="UTF-8"?>

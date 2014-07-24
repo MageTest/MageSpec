@@ -2,6 +2,10 @@
 
 namespace spec\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml;
 
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\BlockElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\HelperElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ModelElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\SimpleElement;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Util\Filesystem;
 use PrettyXml\Formatter;
@@ -23,6 +27,7 @@ class ConfigGeneratorSpec extends ObjectBehavior
         $fileSystem->getFileContents($this->path . 'Vendor/Module/etc/config.xml')
             ->willReturn($this->getBlockXmlStructure());
         $fileSystem->putFileContents(Argument::any())->shouldNotBeCalled();
+        $this->addElementGenerator(new BlockElement());
         $this->generateElement('block', 'Vendor_Module');
 
     }
@@ -40,6 +45,7 @@ class ConfigGeneratorSpec extends ObjectBehavior
             $this->path . 'Vendor/Module/etc/config.xml',
             $this->getBlockXmlStructure()
         )->shouldBeCalled();
+        $this->addElementGenerator(new BlockElement());
         $this->generateElement('block', 'Vendor_Module');
     }
 
@@ -55,6 +61,7 @@ class ConfigGeneratorSpec extends ObjectBehavior
             $this->path . 'Vendor/Module/etc/config.xml',
             $this->getBlockXmlStructure()
         )->shouldBeCalled();
+        $this->addElementGenerator(new BlockElement());
         $this->generateElement('block', 'Vendor_Module');
     }
 
@@ -71,6 +78,7 @@ class ConfigGeneratorSpec extends ObjectBehavior
             $this->path . 'Vendor/Module/etc/config.xml',
             $this->getBlockXmlStructure()
         )->shouldBeCalled();
+        $this->addElementGenerator(new BlockElement());
         $this->generateElement('block', 'Vendor_Module');
     }
 
@@ -87,9 +95,43 @@ class ConfigGeneratorSpec extends ObjectBehavior
             $this->path . 'Vendor/Module/etc/config.xml',
             $this->getModelXmlStructure()
         )->shouldBeCalled();
+        $this->addElementGenerator(new ModelElement());
         $this->generateElement('model', 'Vendor_Module');
     }
 
+    function it_generates_a_helper_element($fileSystem, $formatter)
+    {
+        $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);
+        $fileSystem->pathExists($this->path . 'Vendor/Module/etc/config.xml')->willReturn(true);
+        $fileSystem->getFileContents($this->path . 'Vendor/Module/etc/config.xml')
+            ->willReturn($this->getPlainXmlStructure());
+        $formatter->format(Argument::containingString(
+            '<helpers><vendor_module><class>Vendor_Module_Helper</class></vendor_module></helpers>'
+        ))->willReturn($this->getHelperXmlStructure());
+        $fileSystem->putFileContents(
+            $this->path . 'Vendor/Module/etc/config.xml',
+            $this->getHelperXmlStructure()
+        )->shouldBeCalled();
+        $this->addElementGenerator(new HelperElement());
+        $this->generateElement('helper', 'Vendor_Module');
+    }
+/**
+    function it_generates_a_resource_model_element($fileSystem, $formatter)
+    {
+        $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);
+        $fileSystem->pathExists($this->path . 'Vendor/Module/etc/config.xml')->willReturn(true);
+        $fileSystem->getFileContents($this->path . 'Vendor/Module/etc/config.xml')
+            ->willReturn($this->getPlainXmlStructure());
+        $formatter->format(Argument::containingString(
+            '<models><vendor_module_resource><class>Vendor_Module_Model_Resource</class></vendor_module_resource></models>'
+        ))->willReturn($this->getResourceModelXmlStructure());
+        $fileSystem->putFileContents(
+            $this->path . 'Vendor/Module/etc/config.xml',
+            $this->getResourceModelXmlStructure()
+        )->shouldBeCalled();
+        $this->generateElement('resource_model', 'Vendor_Module');
+    }
+*/
     private function getPlainXmlStructure()
     {
         return <<<XML
@@ -138,11 +180,53 @@ XML;
         </Vendor_Module>
     </modules>
     <global>
-        <modelss>
+        <models>
             <vendor_module>
                 <class>Vendor_Module_Model</class>
             </vendor_module>
-        </modelss>
+        </models>
+    </global>
+</config>
+XML;
+    }
+
+    private function getResourceModelXmlStructure()
+    {
+        return <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Vendor_Module>
+            <version>0.1.0</version>
+        </Vendor_Module>
+    </modules>
+    <global>
+        <models>
+            <vendor_module_resource>
+                <class>Vendor_Module_Model_Resource</class>
+            </vendor_module_resource>
+        </models>
+    </global>
+</config>
+XML;
+    }
+
+    private function getHelperXmlStructure()
+    {
+        return <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Vendor_Module>
+            <version>0.1.0</version>
+        </Vendor_Module>
+    </modules>
+    <global>
+        <helpers>
+            <vendor_module>
+                <class>Vendor_Module_Helper</class>
+            </vendor_module>
+        </helpers>
     </global>
 </config>
 XML;
