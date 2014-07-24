@@ -90,4 +90,16 @@ class ModuleUpdateListenerSpec extends ObjectBehavior
 
         $configGenerator->generateElement('model', 'Vendor_Module')->shouldHavebeenCalled();
     }
+
+    function it_identifies_a_resource_model_type(
+        ExampleEvent $exampleEvent, ClassNotFoundException $exception, SuiteEvent $suiteEvent, $configGenerator
+    ) {
+        $exampleEvent->getException()->willReturn($exception);
+        $exception->getClassname()->willReturn('Vendor_Module_Model_Resource_Foo');
+        $this->getClassNameAfterExample($exampleEvent);
+
+        $this->createXmlAfterSuite($suiteEvent);
+
+        $configGenerator->generateElement('resource_model', 'Vendor_Module')->shouldHavebeenCalled();
+    }
 }

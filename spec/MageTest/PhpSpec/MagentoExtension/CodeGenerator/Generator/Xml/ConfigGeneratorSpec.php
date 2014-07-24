@@ -5,6 +5,7 @@ namespace spec\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\BlockElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\HelperElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ModelElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ResourceModelElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\SimpleElement;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Util\Filesystem;
@@ -115,7 +116,7 @@ class ConfigGeneratorSpec extends ObjectBehavior
         $this->addElementGenerator(new HelperElement());
         $this->generateElement('helper', 'Vendor_Module');
     }
-/**
+
     function it_generates_a_resource_model_element($fileSystem, $formatter)
     {
         $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);
@@ -129,9 +130,49 @@ class ConfigGeneratorSpec extends ObjectBehavior
             $this->path . 'Vendor/Module/etc/config.xml',
             $this->getResourceModelXmlStructure()
         )->shouldBeCalled();
+
+        $this->addElementGenerator(new ResourceModelElement());
         $this->generateElement('resource_model', 'Vendor_Module');
     }
-*/
+
+    function it_generates_a_resource_model_when_a_model_element_exists($fileSystem, $formatter)
+    {
+        $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);
+        $fileSystem->pathExists($this->path . 'Vendor/Module/etc/config.xml')->willReturn(true);
+        $fileSystem->getFileContents($this->path . 'Vendor/Module/etc/config.xml')
+            ->willReturn($this->getModelXmlStructure());
+        $formatter->format(Argument::that(function ($arg) {
+            return strpos($arg, '<resourceModel>vendor_module_resource</resourceModel>')
+                && strpos($arg, '<vendor_module_resource><class>Vendor_Module_Model_Resource</class></vendor_module_resource>');
+        }))->willReturn($this->getModelResourceModelXmlStructure());
+        $fileSystem->putFileContents(
+            $this->path . 'Vendor/Module/etc/config.xml',
+            $this->getModelResourceModelXmlStructure()
+        )->shouldBeCalled();
+
+        $this->addElementGenerator(new ResourceModelElement());
+        $this->generateElement('resource_model', 'Vendor_Module');
+    }
+
+    function it_generates_a_model_when_a_resource_model_element_exists($fileSystem, $formatter)
+    {
+        $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);
+        $fileSystem->pathExists($this->path . 'Vendor/Module/etc/config.xml')->willReturn(true);
+        $fileSystem->getFileContents($this->path . 'Vendor/Module/etc/config.xml')
+            ->willReturn($this->getResourceModelXmlStructure());
+        $formatter->format(Argument::that(function ($arg) {
+            return strpos($arg, '<resourceModel>vendor_module_resource</resourceModel>')
+            && strpos($arg, '<class>Vendor_Module_Model_Resource</class>');
+        }))->willReturn($this->getModelResourceModelXmlStructure());
+        $fileSystem->putFileContents(
+            $this->path . 'Vendor/Module/etc/config.xml',
+            $this->getModelResourceModelXmlStructure()
+        )->shouldBeCalled();
+
+        $this->addElementGenerator(new ModelElement());
+        $this->generateElement('model', 'Vendor_Module');
+    }
+
     private function getPlainXmlStructure()
     {
         return <<<XML
@@ -184,6 +225,31 @@ XML;
             <vendor_module>
                 <class>Vendor_Module_Model</class>
             </vendor_module>
+        </models>
+    </global>
+</config>
+XML;
+    }
+
+    private function getModelResourceModelXmlStructure()
+    {
+        return <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Vendor_Module>
+            <version>0.1.0</version>
+        </Vendor_Module>
+    </modules>
+    <global>
+        <models>
+            <vendor_module>
+                <class>Vendor_Module_Model</class>
+                <resourceModel>vendor_model_resource</resourceModel>
+            </vendor_module>
+            <vendor_module_resource>
+                <class>Vendor_Module_Model_Resource</class>
+            </vendor_module_resource>
         </models>
     </global>
 </config>

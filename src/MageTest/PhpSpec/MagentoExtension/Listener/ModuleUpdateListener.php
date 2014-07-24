@@ -90,7 +90,10 @@ class ModuleUpdateListener implements EventSubscriberInterface
     {
         $parts = explode('_', $className);
         if (!isset($parts[2])) {
-            throw new XmlGeneratorException('Could not determine a n object type from ' . $className);
+            throw new XmlGeneratorException('Could not determine an object type from ' . $className);
+        }
+        if ($parts[2] === 'Model' && $parts[3] === 'Resource') {
+            return 'resource_model';
         }
         return strtolower($parts[2]);
     }
