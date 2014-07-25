@@ -16,10 +16,16 @@ class ModuleGenerator
      */
     private $path;
 
-    public function __construct($path, Filesystem $fileSystem = null)
+    /**
+     * @var string
+     */
+    private $codePool;
+
+    public function __construct($path, Filesystem $fileSystem, $codePool = 'local')
     {
-        $this->fileSystem = $fileSystem ?: new Filesystem;
+        $this->fileSystem = $fileSystem;
         $this->path = $path;
+        $this->codePool = $codePool;
     }
 
     public function generate($moduleName)
@@ -29,7 +35,8 @@ class ModuleGenerator
         }
 
         $values = array(
-            '%module_name%' => $moduleName
+            '%module_name%' => $moduleName,
+            '%code_pool%' => $this->codePool,
         );
         $this->fileSystem->putFileContents(
             $this->getFilePath($moduleName),
@@ -52,7 +59,7 @@ __halt_compiler();<?xml version="1.0" encoding="UTF-8"?>
     <modules>
         <%module_name%>
             <active>true</active>
-            <codePool>local</codePool>
+            <codePool>%code_pool%</codePool>
         </%module_name%>
     </modules>
 </config>

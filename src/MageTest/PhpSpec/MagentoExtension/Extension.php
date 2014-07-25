@@ -179,19 +179,23 @@ class Extension implements ExtensionInterface
             } else {
                 $etcPath = 'app/etc/';
             }
+            $codePool = isset($suite['code_pool']) ? $suite['code_pool'] : 'local';
             return new ModuleGenerator(
                 $etcPath,
-                $c->get('filesystem')
+                $c->get('filesystem'),
+                $codePool
             );
         });
 
         $container->setShared('xml_generator.generators.config', function($c) {
             $suite = $c->getParam('mage_locator', array('main' => ''));
             $srcPath = isset($suite['src_path']) ? rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR : 'src';
+            $codePool = isset($suite['code_pool']) ? $suite['code_pool'] : 'local';
             $generator = new ConfigGenerator(
                 $srcPath,
                 $c->get('filesystem'),
-                $c->get('xml.formatter')
+                $c->get('xml.formatter'),
+                $codePool
             );
 
             array_map(
