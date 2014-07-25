@@ -95,6 +95,15 @@ class ModuleUpdateListener implements EventSubscriberInterface
         if ($parts[2] === 'Model' && $parts[3] === 'Resource') {
             return 'resource_model';
         }
+        if ($this->partIsController($parts[count($parts)-1])) {
+            return 'controller';
+        }
         return strtolower($parts[2]);
+    }
+
+    private function partIsController($part)
+    {
+        $element = 'Controller';
+        return strlen($part) - strlen($element) === strrpos($part, $element);
     }
 }

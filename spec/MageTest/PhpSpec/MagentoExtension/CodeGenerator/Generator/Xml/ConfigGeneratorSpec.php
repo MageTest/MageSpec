@@ -3,6 +3,7 @@
 namespace spec\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml;
 
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\BlockElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ControllerElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\HelperElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ModelElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ResourceModelElement;
@@ -173,6 +174,24 @@ class ConfigGeneratorSpec extends ObjectBehavior
         $this->generateElement('model', 'Vendor_Module');
     }
 
+    function it_generates_a_controller_element($fileSystem, $formatter)
+    {
+        $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);
+        $fileSystem->pathExists($this->path . 'Vendor/Module/etc/config.xml')->willReturn(true);
+        $fileSystem->getFileContents($this->path . 'Vendor/Module/etc/config.xml')
+            ->willReturn($this->getPlainXmlStructure());
+        $formatter->format(Argument::containingString(
+            '<frontend><routers><module><use>standard</use><args><module>Vendor_Module</module><frontName>module</frontName></args></module></routers></frontend>'
+        ))->willReturn($this->getControllerXmlStructure());
+        $fileSystem->putFileContents(
+            $this->path . 'Vendor/Module/etc/config.xml',
+            $this->getControllerXmlStructure()
+        )->shouldBeCalled();
+
+        $this->addElementGenerator(new ControllerElement());
+        $this->generateElement('controller', 'Vendor_Module');
+    }
+
     private function getPlainXmlStructure()
     {
         return <<<XML
@@ -294,6 +313,33 @@ XML;
             </vendor_module>
         </helpers>
     </global>
+</config>
+XML;
+    }
+
+    private function getControllerXMLStructure()
+    {
+        return <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Vendor_Module>
+            <version>0.1.0</version>
+        </Vendor_Module>
+    </modules>
+    <global>
+    </global>
+    <frontend>
+        <routers>
+            <module>
+                <use>standard</use>
+                <args>
+                    <module>Vendor_Module</module>
+                    <frontName>module</frontName>
+                </args>
+            </module>
+        </routers>
+    </frontend>
 </config>
 XML;
     }
