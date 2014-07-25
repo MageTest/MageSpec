@@ -21,6 +21,15 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension;
 
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ConfigGenerator;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\BlockElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ControllerElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\HelperElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ModelElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ResourceModelElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
+use MageTest\PhpSpec\MagentoExtension\Listener\ModuleUpdateListener;
+use MageTest\PhpSpec\MagentoExtension\Util\ClassDetector;
 use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienWrapperFactory;
 use PhpSpec\Extension\ExtensionInterface;
 use PhpSpec\Console\ExtendableApplicationInterface as ApplicationInterface;
@@ -50,6 +59,8 @@ use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeControllerCommand;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ControllerLocator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerSpecificationGenerator;
+use PhpSpec\Util\Filesystem;
+use PrettyXml\Formatter;
 
 /**
  * Extension
@@ -64,9 +75,13 @@ class Extension implements ExtensionInterface
     public function load(ServiceContainer $container)
     {
         $this->setCommands($container);
+        $this->setFilesystem($container);
+        $this->setFormatter($container);
         $this->setGenerators($container);
         $this->setMaintainers($container);
         $this->setLocators($container);
+        $this->setUtils($container);
+        $this->setEvents($container);
     }
 
     private function setCommands(ServiceContainer $container)
@@ -92,48 +107,123 @@ class Extension implements ExtensionInterface
         });
     }
 
+    private function setFilesystem(ServiceContainer $container)
+    {
+        $container->setShared('filesystem', function($c) {
+            return new Filesystem();
+        });
+    }
+
+    private function setFormatter(ServiceContainer $container)
+    {
+        $container->setShared('xml.formatter', function($c) {
+            return new Formatter();
+        });
+    }
+
     private function setGenerators(ServiceContainer $container)
     {
         $container->setShared('code_generator.generators.mage_model', function ($c) {
             return new ModelGenerator(
                 $c->get('console.io'),
-                $c->get('code_generator.templates')
+                $c->get('code_generator.templates'),
+                $c->get('filesystem')
             );
         });
 
         $container->setShared('code_generator.generators.mage_resource_model', function ($c) {
             return new ResourceModelGenerator(
                 $c->get('console.io'),
-                $c->get('code_generator.templates')
+                $c->get('code_generator.templates'),
+                $c->get('filesystem')
             );
         });
 
         $container->setShared('code_generator.generators.mage_block', function ($c) {
             return new BlockGenerator(
                 $c->get('console.io'),
-                $c->get('code_generator.templates')
+                $c->get('code_generator.templates'),
+                $c->get('filesystem')
             );
         });
 
         $container->setShared('code_generator.generators.mage_helper', function ($c) {
             return new HelperGenerator(
                 $c->get('console.io'),
-                $c->get('code_generator.templates')
+                $c->get('code_generator.templates'),
+                $c->get('filesystem')
             );
         });
 
         $container->setShared('code_generator.generators.mage_controller', function($c) {
             return new ControllerGenerator(
                 $c->get('console.io'),
-                $c->get('code_generator.templates')
+                $c->get('code_generator.templates'),
+                $c->get('filesystem')
             );
         });
 
         $container->setShared('code_generator.generators.controller_specification', function($c) {
             return new ControllerSpecificationGenerator(
                 $c->get('console.io'),
-                $c->get('code_generator.templates')
+                $c->get('code_generator.templates'),
+                $c->get('filesystem')
             );
+        });
+
+        $container->setShared('xml_generator.generators.module', function($c) {
+            $suite = $c->getParam('mage_locator', array('main' => ''));
+            if (isset($suite['src_path'])) {
+                $etcPath = rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR . '..'
+                    . DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
+            } else {
+                $etcPath = 'app/etc/';
+            }
+            $codePool = isset($suite['code_pool']) ? $suite['code_pool'] : 'local';
+            return new ModuleGenerator(
+                $etcPath,
+                $c->get('filesystem'),
+                $codePool
+            );
+        });
+
+        $container->setShared('xml_generator.generators.config', function($c) {
+            $suite = $c->getParam('mage_locator', array('main' => ''));
+            $srcPath = isset($suite['src_path']) ? rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR : 'src';
+            $codePool = isset($suite['code_pool']) ? $suite['code_pool'] : 'local';
+            $generator = new ConfigGenerator(
+                $srcPath,
+                $c->get('filesystem'),
+                $c->get('xml.formatter'),
+                $codePool
+            );
+
+            array_map(
+                array($generator, 'addElementGenerator'),
+                $c->getByPrefix('xml_generator.generators.config.element')
+            );
+
+            return $generator;
+        });
+
+        $container->setShared('xml_generator.generators.config.element.block', function($c) {
+           return new BlockElement();
+        });
+
+        $container->setShared('xml_generator.generators.config.element.helper', function($c) {
+            return new HelperElement();
+        });
+
+        $container->setShared('xml_generator.generators.config.element.controller', function($c) {
+            return new ControllerElement();
+        });
+
+        $container->setShared('xml_generator.generators.config.element.model', function($c) {
+            return new ModelElement();
+        });
+
+        $container->setShared('xml_generator.generators.config.element.resource_model', function($c) {
+            return new ResourceModelElement();
         });
     }
 
@@ -199,6 +289,25 @@ class Extension implements ExtensionInterface
             );
 
             $extension->configureAutoloader($srcPath, $codePool);
+        });
+    }
+
+    private function setUtils(ServiceContainer $container)
+    {
+        $container->setShared('util.class_detector', function ($c) {
+           return new ClassDetector();
+        });
+    }
+
+    private function setEvents(ServiceContainer $container)
+    {
+        $container->setShared('event_dispatcher.listeners.module_update', function ($c) {
+            return new ModuleUpdateListener(
+                $c->get('xml_generator.generators.module'),
+                $c->get('xml_generator.generators.config'),
+                $c->get('console.io'),
+                $c->get('util.class_detector')
+            );
         });
     }
 

@@ -45,7 +45,7 @@ class MageLoader
     /**
      * Class constructor
      */
-    public function __construct($srcPath, $codePool)
+    public function __construct($srcPath, $codePool = 'local')
     {
         $this->_srcPath = $srcPath;
         $this->_codePool = $codePool;
@@ -54,6 +54,7 @@ class MageLoader
             $this->_collectClasses  = true;
             $this->_collectPath     = COMPILER_COLLECT_PATH;
         }
+        set_include_path(get_include_path() . PATH_SEPARATOR . $this->_srcPath . $this->_codePool);
         self::registerScope(self::$_scope);
     }
 
