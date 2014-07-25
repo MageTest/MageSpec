@@ -73,6 +73,7 @@ mage_locator:
   spec_prefix: 'spec'
   src_path: 'public/app/code'
   spec_path: 'spec/public/app/code'
+  code_pool: 'community'
 ```
 
 Currently the mage_locator supports four options:
@@ -81,6 +82,7 @@ Currently the mage_locator supports four options:
 - spec_prefix (default 'spec'): The namespace prefix which will be used to namespace your specs based on your source code namespace
 - src_path (default 'src'): The relative path of your source code
 - spec_path (default '.'): The relative path of your specs
+- code_pool (default 'local'): Specifies the Magento code pool for creating the extension files. Options are 'local' and 'community'
 
 ### Describing a model
 

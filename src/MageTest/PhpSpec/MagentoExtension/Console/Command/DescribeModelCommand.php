@@ -44,8 +44,7 @@ class DescribeModelCommand extends Command
         $this
             ->setName('describe:model')
             ->setDescription('Describe a Magento Model specification')
-            ->addArgument('model_alias', InputArgument::REQUIRED, 'Magento Model alias to be described')
-            ->addOption('community', null, InputOption::VALUE_NONE, 'If set the specification will be created in the community code pool');
+            ->addArgument('model_alias', InputArgument::REQUIRED, 'Magento Model alias to be described');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

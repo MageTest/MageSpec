@@ -158,6 +158,8 @@ class Extension implements ExtensionInterface
             $specPrefix = isset($suite['spec_prefix']) ? $suite['spec_prefix'] : '';
             $srcPath = isset($suite['src_path']) ? rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR : 'src';
             $specPath = isset($suite['spec_path']) ? rtrim($suite['spec_path'], '/') . DIRECTORY_SEPARATOR : '.';
+            $codePool = isset($suite['code_pool']) ? $suite['code_pool'] : 'local';
+            $filesystem = null;
 
             if (!is_dir($srcPath)) {
                 mkdir($srcPath, 0777, true);
@@ -167,41 +169,41 @@ class Extension implements ExtensionInterface
             }
 
             $c->setShared('locator.locators.model_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath) {
-                    return new ModelLocator($srcNS, $specPrefix, $srcPath, $specPath);
+                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
+                    return new ModelLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
                 }
             );
 
             $c->setShared('locator.locators.resource_model_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath) {
-                    return new ResourceModelLocator($srcNS, $specPrefix, $srcPath, $specPath);
+                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
+                    return new ResourceModelLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
                 }
             );
 
             $c->setShared('locator.locators.block_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath) {
-                    return new BlockLocator($srcNS, $specPrefix, $srcPath, $specPath);
+                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
+                    return new BlockLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
                 }
             );
 
             $c->setShared('locator.locators.helper_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath) {
-                    return new HelperLocator($srcNS, $specPrefix, $srcPath, $specPath);
+                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
+                    return new HelperLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
                 }
             );
 
             $c->setShared('locator.locators.controller_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath) {
-                    return new ControllerLocator($srcNS, $specPrefix, $srcPath, $specPath);
+                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
+                    return new ControllerLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
                 }
             );
 
-            $extension->configureAutoloader($srcPath);
+            $extension->configureAutoloader($srcPath, $codePool);
         });
     }
 
-    public function configureAutoloader($srcPath)
+    public function configureAutoloader($srcPath, $codePool)
     {
-        MageLoader::register($srcPath);
+        MageLoader::register($srcPath, $codePool);
     }
 }
