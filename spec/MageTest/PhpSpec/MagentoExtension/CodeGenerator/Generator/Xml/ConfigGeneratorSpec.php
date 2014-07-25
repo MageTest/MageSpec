@@ -84,6 +84,25 @@ class ConfigGeneratorSpec extends ObjectBehavior
         $this->generateElement('block', 'Vendor_Module');
     }
 
+    function it_generates_a_block_element_when_multiple_element_generators_are_added($fileSystem, $formatter)
+    {
+        $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);
+        $fileSystem->pathExists($this->path . 'Vendor/Module/etc/config.xml')->willReturn(true);
+        $fileSystem->getFileContents($this->path . 'Vendor/Module/etc/config.xml')
+            ->willReturn($this->getPlainXmlStructure());
+        $formatter->format(Argument::containingString(
+            '<blocks><vendor_module><class>Vendor_Module_Block</class></vendor_module></blocks>'
+        ))->willReturn($this->getBlockXmlStructure());
+        $fileSystem->putFileContents(
+            $this->path . 'Vendor/Module/etc/config.xml',
+            $this->getBlockXmlStructure()
+        )->shouldBeCalled();
+        $this->addElementGenerator(new ControllerElement());
+        $this->addElementGenerator(new BlockElement());
+        $this->addElementGenerator(new HelperElement());
+        $this->generateElement('block', 'Vendor_Module');
+    }
+
     function it_generates_a_model_element($fileSystem, $formatter)
     {
         $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);

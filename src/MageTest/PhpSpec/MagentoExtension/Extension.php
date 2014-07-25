@@ -22,6 +22,11 @@
 namespace MageTest\PhpSpec\MagentoExtension;
 
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ConfigGenerator;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\BlockElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ControllerElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\HelperElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ModelElement;
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ResourceModelElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
 use MageTest\PhpSpec\MagentoExtension\Listener\ModuleUpdateListener;
 use MageTest\PhpSpec\MagentoExtension\Util\ClassDetector;
@@ -183,11 +188,38 @@ class Extension implements ExtensionInterface
         $container->setShared('xml_generator.generators.config', function($c) {
             $suite = $c->getParam('mage_locator', array('main' => ''));
             $srcPath = isset($suite['src_path']) ? rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR : 'src';
-            return new ConfigGenerator(
+            $generator = new ConfigGenerator(
                 $srcPath,
                 $c->get('filesystem'),
                 $c->get('xml.formatter')
             );
+
+            array_map(
+                array($generator, 'addElementGenerator'),
+                $c->getByPrefix('xml_generator.generators.config.element')
+            );
+
+            return $generator;
+        });
+
+        $container->setShared('xml_generator.generators.config.element.block', function($c) {
+           return new BlockElement();
+        });
+
+        $container->setShared('xml_generator.generators.config.element.helper', function($c) {
+            return new HelperElement();
+        });
+
+        $container->setShared('xml_generator.generators.config.element.controller', function($c) {
+            return new ControllerElement();
+        });
+
+        $container->setShared('xml_generator.generators.config.element.model', function($c) {
+            return new ModelElement();
+        });
+
+        $container->setShared('xml_generator.generators.config.element.resource_model', function($c) {
+            return new ResourceModelElement();
         });
     }
 

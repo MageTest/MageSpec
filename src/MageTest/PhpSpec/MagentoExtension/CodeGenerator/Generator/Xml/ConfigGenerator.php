@@ -57,14 +57,13 @@ class ConfigGenerator
                     return;
                 }
                 $elementGenerator->addElementToXml($xml, $type, $moduleName);
-                break;
+                $formatted = $this->getIndentedXml($xml);
+                $this->writeConfigFile($formatted);
+                return;
             }
-            throw new XmlGeneratorException('No element generator found for type: '.$type);
         }
 
-
-        $formatted = $this->getIndentedXml($xml);
-        $this->writeConfigFile($formatted);
+        throw new XmlGeneratorException('No element generator found for type: '.$type);
     }
 
     private function getDirectoryPath($moduleName)
