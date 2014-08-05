@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b9fe8728cb9d764ece4d7093ffeddbb8",
+    "hash": "79de3197d5b1295e561a7a04ce0a6df8",
     "packages": [
         {
             "name": "phpspec/php-diff",
@@ -169,16 +169,16 @@
         },
         {
             "name": "shanethehat/pretty-xml",
-            "version": "0.2.1",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shanethehat/pretty-xml.git",
-                "reference": "8bc045958861b16f1bff07a642e4884582a3d107"
+                "reference": "3499f834be52437923ff42970d0c6707476308c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shanethehat/pretty-xml/zipball/8bc045958861b16f1bff07a642e4884582a3d107",
-                "reference": "8bc045958861b16f1bff07a642e4884582a3d107",
+                "url": "https://api.github.com/repos/shanethehat/pretty-xml/zipball/3499f834be52437923ff42970d0c6707476308c7",
+                "reference": "3499f834be52437923ff42970d0c6707476308c7",
                 "shasum": ""
             },
             "require-dev": {
@@ -198,8 +198,7 @@
                 {
                     "name": "Shane Auckland",
                     "email": "shane.auckland@gmail.com",
-                    "homepage": "http://shaneauckland.co.uk",
-                    "role": "Developer"
+                    "homepage": "http://shaneauckland.co.uk"
                 }
             ],
             "description": "Library for pretty-printing XML",
@@ -207,7 +206,7 @@
                 "pretty",
                 "xml"
             ],
-            "time": "2014-07-18 21:53:11"
+            "time": "2014-08-05 12:51:39"
         },
         {
             "name": "symfony/config",

@@ -8,7 +8,7 @@
         "phpspec/phpspec": "~2.0",
         "symfony/dependency-injection": "*",
         "symfony/config": "*",
-        "shanethehat/pretty-xml": "0.2.1"
+        "shanethehat/pretty-xml": "~1.0"
     },
     "require-dev": {
         "magetest/magento": "~1.8.1.0"
