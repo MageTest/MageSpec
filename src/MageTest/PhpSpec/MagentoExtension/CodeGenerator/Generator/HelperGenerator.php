@@ -73,6 +73,7 @@ class HelperGenerator implements GeneratorInterface
         $values = array(
             '%filepath%'        => $filepath,
             '%name%'            => $resource->getName(),
+            '%extends%'         => 'Mage_Core_Helper_Abstract',
             '%namespace%'       => $resource->getSrcNamespace(),
             '%namespace_block%' => '' !== $resource->getSrcNamespace()
                 ?  sprintf("\n\nnamespace %s;", $resource->getSrcNamespace())
@@ -81,7 +82,7 @@ class HelperGenerator implements GeneratorInterface
 
         if (!$content = $this->templates->render('mage_helper', $values)) {
             $content = $this->templates->renderString(
-                file_get_contents(__FILE__, null, null, __COMPILER_HALT_OFFSET__), $values
+                file_get_contents(__DIR__ . '/templates/generic_class.template'), $values
             );
         }
 
@@ -96,10 +97,4 @@ class HelperGenerator implements GeneratorInterface
     {
         return 20;
     }
-}
-__halt_compiler();<?php%namespace_block%
-
-class %name% extends Mage_Core_Helper_Abstract
-{
-
 }

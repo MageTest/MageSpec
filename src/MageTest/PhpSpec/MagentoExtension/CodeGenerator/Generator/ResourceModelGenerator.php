@@ -81,7 +81,7 @@ class ResourceModelGenerator implements GeneratorInterface
 
         if (!$content = $this->templates->render('mage_resource_model', $values)) {
             $content = $this->templates->renderString(
-                file_get_contents(__FILE__, null, null, __COMPILER_HALT_OFFSET__), $values
+                file_get_contents(__DIR__ . '/templates/resource_model.template'), $values
             );
         }
 
@@ -95,14 +95,5 @@ class ResourceModelGenerator implements GeneratorInterface
     public function getPriority()
     {
         return 41;
-    }
-}
-__halt_compiler();<?php%namespace_block%
-
-class %name% extends Mage_Core_Model_Resource_Db_Abstract
-{
-    protected function _construct()
-    {
-
     }
 }
