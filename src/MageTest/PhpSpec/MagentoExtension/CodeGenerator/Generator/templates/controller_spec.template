@@ -1,0 +1,15 @@
+<?php
+
+namespace %namespace%;
+
+use PhpSpec\ObjectBehavior;
+use MageTest\PhpSpec\MagentoExtension\Specification\ControllerBehavior;
+use Prophecy\Argument;
+
+class %name% extends ControllerBehavior
+{
+    function it_is_initializable()
+    {
+        $this->shouldHaveType('%subject%');
+    }
+}
