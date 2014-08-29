@@ -7,7 +7,6 @@ use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\Contro
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\HelperElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ModelElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ResourceModelElement;
-use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\SimpleElement;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Util\Filesystem;
 use PrettyXml\Formatter;

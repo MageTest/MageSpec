@@ -56,6 +56,9 @@ class ResourceModelElement implements ConfigElementInterface
         }
     }
 
+    /**
+     * @return string
+     */
     private function getModelsElement(\SimpleXMLElement $xml)
     {
         $modelElements = $xml->xpath('models');

@@ -21,6 +21,9 @@ class ModuleGenerator
      */
     private $codePool;
 
+    /**
+     * @param string $path
+     */
     public function __construct($path, Filesystem $fileSystem, $codePool = 'local')
     {
         $this->fileSystem = $fileSystem;

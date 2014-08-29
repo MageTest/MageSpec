@@ -175,6 +175,9 @@ class ModelLocator implements ResourceLocatorInterface
         return 40;
     }
 
+    /**
+     * @param string $path
+     */
     protected function findSpecResources($path)
     {
         if (!$this->filesystem->pathExists($path)) {
