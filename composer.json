@@ -11,7 +11,9 @@
         "shanethehat/pretty-xml": "~1.0"
     },
     "require-dev": {
-        "magetest/magento": "~1.8.1.0"
+        "magetest/magento": "~1.8.1.0",
+        "behat/behat": "3.0",
+        "bossa/phpspec2-expect": "*"
     },
     "config": {
         "bin-dir": "bin"
