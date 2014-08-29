@@ -19,6 +19,7 @@ class ModuleGeneratorSpec extends ObjectBehavior
     function it_generates_the_module_xml_file_if_one_does_not_exist($fileSystem)
     {
         $fileSystem->pathExists('public/app/etc/modules/Vendor_Module.xml')->willReturn(false);
+        $fileSystem->pathExists('public/app/etc/modules/')->willReturn(true);
         $fileSystem->putFileContents(
             $this->path . 'Vendor_Module.xml',
             <<<XML
@@ -41,6 +42,7 @@ XML
     {
         $this->beConstructedWith($this->path, $fileSystem, 'community');
         $fileSystem->pathExists('public/app/etc/modules/Vendor_Module.xml')->willReturn(false);
+        $fileSystem->pathExists('public/app/etc/modules/')->willReturn(true);
         $fileSystem->putFileContents(
             $this->path . 'Vendor_Module.xml',
             <<<XML
@@ -62,6 +64,15 @@ XML
     {
         $fileSystem->pathExists('public/app/etc/modules/Vendor_Module.xml')->willReturn(true);
         $fileSystem->putFileContents(Argument::any())->shouldNotBeCalled();
+        $this->generate('Vendor_Module');
+    }
+
+    function it_creates_the_parent_directories_if_they_do_not_exist($fileSystem)
+    {
+        $fileSystem->pathExists('public/app/etc/modules/Vendor_Module.xml')->willReturn(false);
+        $fileSystem->pathExists('public/app/etc/modules/')->willReturn(false);
+        $fileSystem->makeDirectory('public/app/etc/modules/')->shouldBeCalled();
+        $fileSystem->putFileContents(Argument::any(), Argument::any())->shouldBeCalled();
         $this->generate('Vendor_Module');
     }
 }
