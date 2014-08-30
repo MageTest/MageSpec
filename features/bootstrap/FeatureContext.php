@@ -2,6 +2,9 @@
 
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use OutputSpecification\ClassSpecification;
+use OutputSpecification\ObjectSpecification;
+use OutputSpecification\SpecSpecification;
 use PhpSpec\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Filesystem\Filesystem;
@@ -22,6 +25,14 @@ class FeatureContext implements SnippetAcceptingContext
     {
         $this->filesystem = new Filesystem();
         $this->removeTemporaryDirectories();
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function createNewApplicationTester()
+    {
+        $this->applicationTester = $this->createApplicationTester();
     }
 
     /**
@@ -54,7 +65,7 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function iDescribeA($objectType)
     {
-        $this->applicationTester = $this->createApplicationTester();
+
         $this->applicationTester->run(
             sprintf(
                 'describe:%s --no-interaction --config %s %s',
@@ -71,13 +82,11 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function aCorrectlyNamespacedBlockSpecShouldBeGenerated()
     {
-        if (!file_exists('spec/public/app/code/local/Behat/Test/Block/TestSpec.php')) {
-            throw new \RuntimeException('Block spec not found in spec/public/app/code/local/Behat/Test/Block/');
-        }
-        require('spec/public/app/code/local/Behat/Test/Block/TestSpec.php');
-        if (!class_exists('spec\Behat_Test_Block_TestSpec', false)) {
-            throw new \RuntimeException('Class Behat_Test_Block_TestSpec not found');
-        }
+        $this->checkSpecIsGenerated(new SpecSpecification(
+            'Block',
+            'spec/public/app/code/local/Behat/Test/Block/TestSpec.php',
+            'Behat_Test_Block_TestSpec'
+        ));
     }
 
     /**
@@ -85,15 +94,11 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function aCorrectlyNamespacedControllerSpecShouldBeGenerated()
     {
-        if (!file_exists('spec/public/app/code/local/Behat/Test/controllers/TestControllerSpec.php')) {
-            throw new \RuntimeException(
-                'Controller spec not found in spec/public/app/code/local/Behat/Test/controllers/'
-            );
-        }
-        require('spec/public/app/code/local/Behat/Test/controllers/TestControllerSpec.php');
-        if (!class_exists('spec\Behat_Test_TestControllerSpec', false)) {
-            throw new \RuntimeException('Class Behat_Test_TestControllerSpec not found');
-        }
+        $this->checkSpecIsGenerated(new SpecSpecification(
+            'Controller',
+            'spec/public/app/code/local/Behat/Test/controllers/TestControllerSpec.php',
+            'Behat_Test_TestControllerSpec'
+        ));
     }
 
     /**
@@ -101,13 +106,11 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function aCorrectlyNamespacedHelperSpecShouldBeGenerated()
     {
-        if (!file_exists('spec/public/app/code/local/Behat/Test/Helper/TestSpec.php')) {
-            throw new \RuntimeException('Helper spec not found in spec/public/app/code/local/Behat/Test/Helper/');
-        }
-        require('spec/public/app/code/local/Behat/Test/Helper/TestSpec.php');
-        if (!class_exists('spec\Behat_Test_Helper_TestSpec', false)) {
-            throw new \RuntimeException('Class Behat_Test_Helper_TestSpec not found');
-        }
+        $this->checkSpecIsGenerated(new SpecSpecification(
+            'Helper',
+            'spec/public/app/code/local/Behat/Test/Helper/TestSpec.php',
+            'Behat_Test_Helper_TestSpec'
+        ));
     }
 
     /**
@@ -115,13 +118,11 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function aCorrectlyNamespacedModelSpecShouldBeGenerated()
     {
-        if (!file_exists('spec/public/app/code/local/Behat/Test/Model/TestSpec.php')) {
-            throw new \RuntimeException('Model spec not found in spec/public/app/code/local/Behat/Test/Model/');
-        }
-        require('spec/public/app/code/local/Behat/Test/Model/TestSpec.php');
-        if (!class_exists('spec\Behat_Test_Model_TestSpec', false)) {
-            throw new \RuntimeException('Class Behat_Test_Model_TestSpec not found');
-        }
+        $this->checkSpecIsGenerated(new SpecSpecification(
+            'Model',
+            'spec/public/app/code/local/Behat/Test/Model/TestSpec.php',
+            'Behat_Test_Model_TestSpec'
+        ));
     }
 
     /**
@@ -129,13 +130,11 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function aCorrectlyNamespacedResourceModelSpecShouldBeGenerated()
     {
-        if (!file_exists('spec/public/app/code/local/Behat/Test/Model/Resource/TestSpec.php')) {
-            throw new \RuntimeException('Model spec not found in spec/public/app/code/local/Behat/Test/Model/Resource');
-        }
-        require('spec/public/app/code/local/Behat/Test/Model/Resource/TestSpec.php');
-        if (!class_exists('spec\Behat_Test_Model_Resource_TestSpec', false)) {
-            throw new \RuntimeException('Class Behat_Test_Model_Resource_TestSpec not found');
-        }
+        $this->checkSpecIsGenerated(new SpecSpecification(
+            'Resource model',
+            'spec/public/app/code/local/Behat/Test/Model/Resource/TestSpec.php',
+            'Behat_Test_Model_Resource_TestSpec'
+        ));
     }
 
     /**
@@ -168,7 +167,6 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function magespecRunsTheSpec()
     {
-        $this->applicationTester = $this->createApplicationTester();
         $this->applicationTester->putToInputStream("y\n");
         $this->applicationTester->run(
             sprintf('run --config %s %s', $this->configFile, $this->currentSpec),
@@ -181,12 +179,11 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function aBlockClassShouldBeGenerated()
     {
-        if (!file_exists('public/app/code/local/Behat/Spec/Block/Test.php')) {
-            throw new \RuntimeException('Block class not found in public/app/code/local/Behat/Spec/Block');
-        }
-        if (!class_exists('Behat_Spec_Block_Test', false)) {
-            throw new \RuntimeException('Class Behat_Spec_Block_Test not found');
-        }
+        $this->checkClassIsGenerated(new ClassSpecification(
+            'Block',
+            'public/app/code/local/Behat/Spec/Block/Test.php',
+            'Behat_Spec_Block_Test'
+        ));
     }
 
     /**
@@ -194,12 +191,11 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function aControllerClassShouldBeGenerated()
     {
-        if (!file_exists('public/app/code/local/Behat/Spec/controllers/TestController.php')) {
-            throw new \RuntimeException('Controller class not found in public/app/code/local/Behat/Spec/controllers');
-        }
-        if (!class_exists('Behat_Spec_TestController', false)) {
-            throw new \RuntimeException('Class Behat_Spec_TestController not found');
-        }
+        $this->checkClassIsGenerated(new ClassSpecification(
+            'Controller',
+            'public/app/code/local/Behat/Spec/controllers/TestController.php',
+            'Behat_Spec_TestController'
+        ));
     }
 
     /**
@@ -207,12 +203,11 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function aHelperClassShouldBeGenerated()
     {
-        if (!file_exists('public/app/code/local/Behat/Spec/Helper/Test.php')) {
-            throw new \RuntimeException('Helper class not found in public/app/code/local/Behat/Spec/Helper');
-        }
-        if (!class_exists('Behat_Spec_Helper_Test', false)) {
-            throw new \RuntimeException('Class Behat_Spec_Helper_Test not found');
-        }
+        $this->checkClassIsGenerated(new ClassSpecification(
+            'Helper',
+            'public/app/code/local/Behat/Spec/Helper/Test.php',
+            'Behat_Spec_Helper_Test'
+        ));
     }
 
     /**
@@ -220,12 +215,11 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function aModelClassShouldBeGenerated()
     {
-        if (!file_exists('public/app/code/local/Behat/Spec/Model/Test.php')) {
-            throw new \RuntimeException('Model class not found in public/app/code/local/Behat/Spec/Model');
-        }
-        if (!class_exists('Behat_Spec_Model_Test', false)) {
-            throw new \RuntimeException('Class Behat_Spec_Model_Test not found');
-        }
+        $this->checkClassIsGenerated(new ClassSpecification(
+            'Model',
+            'public/app/code/local/Behat/Spec/Model/Test.php',
+            'Behat_Spec_Model_Test'
+        ));
     }
 
     /**
@@ -233,14 +227,11 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function aResourceModelClassShouldBeGenerated()
     {
-        if (!file_exists('public/app/code/local/Behat/Spec/Model/Resource/Test.php')) {
-            throw new \RuntimeException(
-                'Resource model class not found in public/app/code/local/Behat/Spec/Model/Resource'
-            );
-        }
-        if (!class_exists('Behat_Spec_Model_Resource_Test', false)) {
-            throw new \RuntimeException('Class Behat_Spec_Model_Resource_Test not found');
-        }
+        $this->checkClassIsGenerated(new ClassSpecification(
+            'Resource model',
+            'public/app/code/local/Behat/Spec/Model/Resource/Test.php',
+            'Behat_Spec_Model_Resource_Test'
+        ));
     }
 
     /**
@@ -252,5 +243,35 @@ class FeatureContext implements SnippetAcceptingContext
         $application->setAutoExit(false);
 
         return new ApplicationTester($application);
+    }
+
+    private function checkSpecIsGenerated(SpecSpecification $specification)
+    {
+        $this->checkFileExists($specification);
+        require($specification->getFilePath());
+        if (!class_exists('spec\\'.$specification->getClassName(), false)) {
+            throw new \RuntimeException(sprintf('Class %s not found', $specification->getClassName()));
+        }
+    }
+
+    private function checkClassIsGenerated(ClassSpecification $specification)
+    {
+        $this->checkFileExists($specification);
+        if (!class_exists($specification->getClassName(), false)) {
+            throw new \RuntimeException(sprintf('Class %s not found', $specification->getClassName()));
+        }
+    }
+
+    private function checkFileExists(ObjectSpecification $specification)
+    {
+        if (!file_exists($specification->getFilePath())) {
+            throw new \RuntimeException(
+                sprintf(
+                    '%s class not found in %s',
+                    $specification->getType(),
+                    $specification->getDirectory()
+                )
+            );
+        }
     }
 }
