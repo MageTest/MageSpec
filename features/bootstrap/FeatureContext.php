@@ -2,7 +2,10 @@
 
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use PhpSpec\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Filesystem\Filesystem;
+use Console\ApplicationTester;
 
 /**
  * Behat context class.
@@ -11,15 +14,23 @@ class FeatureContext implements SnippetAcceptingContext
 {
     private $configFile;
     private $namespace;
+    private $applicationTester;
+    private $filesystem;
+    private $currentSpec;
 
-    /**
-     * Initializes context.
-     *
-     * Every scenario gets it's own context object.
-     * You can also pass arbitrary arguments to the context constructor through behat.yml.
-     */
     public function __construct()
     {
+        $this->filesystem = new Filesystem();
+        $this->removeTemporaryDirectories();
+    }
+
+    /**
+     * @AfterScenario
+     */
+    public function removeTemporaryDirectories()
+    {
+        $this->filesystem->remove('spec/public');
+        $this->filesystem->remove('public');
     }
 
     /**
@@ -43,17 +54,15 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function iDescribeA($objectType)
     {
-        $app = new PhpSpec\Console\Application('version');
-        $app->setAutoExit(false);
-        $app->run(
-            new ArgvInput(array(
-                'phpspec',
-                'describe:' . $objectType,
-                '-q',
-                '--config',
+        $this->applicationTester = $this->createApplicationTester();
+        $this->applicationTester->run(
+            sprintf(
+                'describe:%s --no-interaction --config %s %s',
+                $objectType,
                 $this->configFile,
                 strtolower($this->namespace) . '/test'
-            ))
+            ),
+            array('decorated' => false)
         );
     }
 
@@ -130,23 +139,118 @@ class FeatureContext implements SnippetAcceptingContext
     }
 
     /**
-     * @AfterScenario
+     * @Given that there is a :objectType spec
      */
-    public function afterScenario()
+    public function thatThereIsASpec($objectType)
     {
-        $this->recursiveRemoveDirectory('spec/public');
+        switch ($objectType) {
+            case 'controller':
+                $dir = 'controllers';
+                $filename = 'TestControllerSpec';
+                break;
+            case 'resource model':
+                $dir = 'Model/Resource';
+                $filename = 'TestSpec';
+                $objectType = str_replace(' ', '_', $objectType);
+                break;
+            default:
+                $dir = ucfirst($objectType);
+                $filename = 'TestSpec';
+
+        }
+        $template = __DIR__ . "/templates/specs/$objectType.template";
+        $this->currentSpec = "spec/public/app/code/local/Behat/Spec/$dir/$filename.php";
+        $this->filesystem->copy($template, $this->currentSpec);
     }
 
-    private function recursiveRemoveDirectory($directory)
+    /**
+     * @When Magespec runs the spec
+     */
+    public function magespecRunsTheSpec()
     {
-        foreach(glob("{$directory}/*") as $file)
-        {
-            if(is_dir($file)) {
-                $this->recursiveRemoveDirectory($file);
-            } else {
-                unlink($file);
-            }
+        $this->applicationTester = $this->createApplicationTester();
+        $this->applicationTester->putToInputStream("y\n");
+        $this->applicationTester->run(
+            sprintf('run --config %s %s', $this->configFile, $this->currentSpec),
+            array('interactive' => true, 'decorated' => false)
+        );
+    }
+
+    /**
+     * @Then a block class should be generated
+     */
+    public function aBlockClassShouldBeGenerated()
+    {
+        if (!file_exists('public/app/code/local/Behat/Spec/Block/Test.php')) {
+            throw new \RuntimeException('Block class not found in public/app/code/local/Behat/Spec/Block');
         }
-        rmdir($directory);
+        if (!class_exists('Behat_Spec_Block_Test', false)) {
+            throw new \RuntimeException('Class Behat_Spec_Block_Test not found');
+        }
+    }
+
+    /**
+     * @Then a controller class should be generated
+     */
+    public function aControllerClassShouldBeGenerated()
+    {
+        if (!file_exists('public/app/code/local/Behat/Spec/controllers/TestController.php')) {
+            throw new \RuntimeException('Controller class not found in public/app/code/local/Behat/Spec/controllers');
+        }
+        if (!class_exists('Behat_Spec_TestController', false)) {
+            throw new \RuntimeException('Class Behat_Spec_TestController not found');
+        }
+    }
+
+    /**
+     * @Then a helper class should be generated
+     */
+    public function aHelperClassShouldBeGenerated()
+    {
+        if (!file_exists('public/app/code/local/Behat/Spec/Helper/Test.php')) {
+            throw new \RuntimeException('Helper class not found in public/app/code/local/Behat/Spec/Helper');
+        }
+        if (!class_exists('Behat_Spec_Helper_Test', false)) {
+            throw new \RuntimeException('Class Behat_Spec_Helper_Test not found');
+        }
+    }
+
+    /**
+     * @Then a model class should be generated
+     */
+    public function aModelClassShouldBeGenerated()
+    {
+        if (!file_exists('public/app/code/local/Behat/Spec/Model/Test.php')) {
+            throw new \RuntimeException('Model class not found in public/app/code/local/Behat/Spec/Model');
+        }
+        if (!class_exists('Behat_Spec_Model_Test', false)) {
+            throw new \RuntimeException('Class Behat_Spec_Model_Test not found');
+        }
+    }
+
+    /**
+     * @Then a resource model class should be generated
+     */
+    public function aResourceModelClassShouldBeGenerated()
+    {
+        if (!file_exists('public/app/code/local/Behat/Spec/Model/Resource/Test.php')) {
+            throw new \RuntimeException(
+                'Resource model class not found in public/app/code/local/Behat/Spec/Model/Resource'
+            );
+        }
+        if (!class_exists('Behat_Spec_Model_Resource_Test', false)) {
+            throw new \RuntimeException('Class Behat_Spec_Model_Resource_Test not found');
+        }
+    }
+
+    /**
+     * @return ApplicationTester
+     */
+    private function createApplicationTester()
+    {
+        $application = new Application('version');
+        $application->setAutoExit(false);
+
+        return new ApplicationTester($application);
     }
 }
