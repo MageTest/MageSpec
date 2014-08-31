@@ -239,11 +239,11 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function thatThereIsASpecForAModuleThatDoesNotYetExist()
     {
-        $template = __DIR__ . "/templates/specs/model.template";
-        $this->currentSpec = "spec/public/app/code/local/Behat/Spec/Model/TestSpec.php";
+        $template = __DIR__ . "/templates/specs/unique_model.template";
+        $this->currentSpec = "spec/public/app/code/local/Behat/Unique/Model/TestSpec.php";
         $this->filesystem->copy($template, $this->currentSpec);
 
-        expect($this->filesystem->exists('public/app/code/local/Behat/Spec'))->toBe(false);
+        expect($this->filesystem->exists('public/app/code/local/Behat/Unique'))->toBe(false);
     }
 
     /**
@@ -251,8 +251,8 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function theModuleXmlFileShouldBeGenerated()
     {
-        if (!file_exists('public/app/etc/modules/Behat_Spec.xml')) {
-            throw new \RuntimeException('Modile XML file was not generated');
+        if (!file_exists('public/app/etc/modules/Behat_Unique.xml')) {
+            throw new \RuntimeException('Module XML file was not generated');
         }
     }
 
