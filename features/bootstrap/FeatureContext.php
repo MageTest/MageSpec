@@ -2,13 +2,13 @@
 
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Console\ApplicationTester;
 use OutputSpecification\ClassSpecification;
 use OutputSpecification\ObjectSpecification;
 use OutputSpecification\SpecSpecification;
 use PhpSpec\Console\Application;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Filesystem\Filesystem;
-use Console\ApplicationTester;
+
 
 /**
  * Behat context class.

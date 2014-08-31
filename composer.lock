@@ -4,8 +4,62 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "75baf354cc9adb3c3d3297c16940cef0",
+    "hash": "2dd266b63de506a66ec0d64f64db812e",
     "packages": [
+        {
+            "name": "doctrine/instantiator",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/instantiator.git",
+                "reference": "26404e0c90565b614ee76b988b9bc8790d77f590"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/26404e0c90565b614ee76b988b9bc8790d77f590",
+                "reference": "26404e0c90565b614ee76b988b9bc8790d77f590",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~5.3"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1.8",
+                "ext-pdo": "*",
+                "ext-phar": "*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "2.0.*@ALPHA"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Instantiator\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "http://ocramius.github.com/"
+                }
+            ],
+            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
+            "homepage": "https://github.com/doctrine/instantiator",
+            "keywords": [
+                "constructor",
+                "instantiate"
+            ],
+            "time": "2014-08-25 15:09:25"
+        },
         {
             "name": "phpdocumentor/reflection-docblock",
             "version": "2.0.3",
@@ -90,30 +144,33 @@
         },
         {
             "name": "phpspec/phpspec",
-            "version": "2.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "61712147412cb647b6cb68b19833a60bfda759a1"
+                "reference": "3deca4dbcd9da79a6fad65ee494cf3e96531aa7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/61712147412cb647b6cb68b19833a60bfda759a1",
-                "reference": "61712147412cb647b6cb68b19833a60bfda759a1",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/3deca4dbcd9da79a6fad65ee494cf3e96531aa7a",
+                "reference": "3deca4dbcd9da79a6fad65ee494cf3e96531aa7a",
                 "shasum": ""
             },
             "require": {
+                "doctrine/instantiator": "~1.0,>=1.0.1",
                 "php": ">=5.3.3",
                 "phpspec/php-diff": "~1.0.0",
                 "phpspec/prophecy": "~1.1",
+                "sebastian/exporter": "~1.0",
                 "symfony/console": "~2.1",
                 "symfony/event-dispatcher": "~2.1",
                 "symfony/finder": "~2.1",
+                "symfony/process": "~2.1",
                 "symfony/yaml": "~2.1"
             },
             "require-dev": {
-                "behat/behat": "~2.5",
-                "bossa/phpspec2-expect": "dev-master",
+                "behat/behat": "~3.0",
+                "bossa/phpspec2-expect": "~1.0",
                 "symfony/filesystem": "~2.1"
             },
             "suggest": {
@@ -125,7 +182,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "2.1.x-dev"
                 }
             },
             "autoload": {
@@ -159,7 +216,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2014-07-01 14:09:19"
+            "time": "2014-08-31 16:28:49"
         },
         {
             "name": "phpspec/prophecy",
@@ -218,6 +275,73 @@
                 "stub"
             ],
             "time": "2014-07-18 21:26:55"
+        },
+        {
+            "name": "sebastian/exporter",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/exporter.git",
+                "reference": "1f9a98e6f5dfe0524cb8c6166f7c82f3e9ae1529"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/1f9a98e6f5dfe0524cb8c6166f7c82f3e9ae1529",
+                "reference": "1f9a98e6f5dfe0524cb8c6166f7c82f3e9ae1529",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.0.*@dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
+                },
+                {
+                    "name": "Jeff Welch",
+                    "email": "whatthejeff@gmail.com"
+                },
+                {
+                    "name": "Volker Dusch",
+                    "email": "github@wallbash.com"
+                },
+                {
+                    "name": "Adam Harvey",
+                    "email": "aharvey@php.net",
+                    "role": "Lead"
+                },
+                {
+                    "name": "Bernhard Schussek",
+                    "email": "bschussek@2bepublished.at"
+                }
+            ],
+            "description": "Provides the functionality to export PHP variables for visualization",
+            "homepage": "http://www.github.com/sebastianbergmann/exporter",
+            "keywords": [
+                "export",
+                "exporter"
+            ],
+            "time": "2014-02-16 08:26:31"
         },
         {
             "name": "shanethehat/pretty-xml",
@@ -570,6 +694,53 @@
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
             "time": "2014-07-28 13:20:46"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v2.5.3",
+            "target-dir": "Symfony/Component/Process",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Process.git",
+                "reference": "e0997d2a9a1a763484b34b989900b61322a9b056"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/e0997d2a9a1a763484b34b989900b61322a9b056",
+                "reference": "e0997d2a9a1a763484b34b989900b61322a9b056",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Process\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-08-05 09:00:40"
         },
         {
             "name": "symfony/yaml",
@@ -990,9 +1161,10 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "phpspec/phpspec": 20
+    },
+    "prefer-stable": false,
     "platform": [
 
     ],
