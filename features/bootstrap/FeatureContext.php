@@ -249,17 +249,13 @@ class FeatureContext implements SnippetAcceptingContext
     {
         $this->checkFileExists($specification);
         require($specification->getFilePath());
-        if (!class_exists('spec\\'.$specification->getClassName(), false)) {
-            throw new \RuntimeException(sprintf('Class %s not found', $specification->getClassName()));
-        }
+        $this->checkClassExists('spec\\'.$specification->getClassName());
     }
 
     private function checkClassIsGenerated(ClassSpecification $specification)
     {
         $this->checkFileExists($specification);
-        if (!class_exists($specification->getClassName(), false)) {
-            throw new \RuntimeException(sprintf('Class %s not found', $specification->getClassName()));
-        }
+        $this->checkClassExists($specification->getClassName());
     }
 
     private function checkFileExists(ObjectSpecification $specification)
@@ -272,6 +268,13 @@ class FeatureContext implements SnippetAcceptingContext
                     $specification->getDirectory()
                 )
             );
+        }
+    }
+
+    private function checkClassExists($className)
+    {
+        if (!class_exists($className, false)) {
+            throw new \RuntimeException(sprintf("Class $className not found"));
         }
     }
 }
