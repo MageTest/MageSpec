@@ -235,6 +235,28 @@ class FeatureContext implements SnippetAcceptingContext
     }
 
     /**
+     * @Given that there is a spec for a module that does not yet exist
+     */
+    public function thatThereIsASpecForAModuleThatDoesNotYetExist()
+    {
+        $template = __DIR__ . "/templates/specs/model.template";
+        $this->currentSpec = "spec/public/app/code/local/Behat/Spec/Model/TestSpec.php";
+        $this->filesystem->copy($template, $this->currentSpec);
+
+        expect($this->filesystem->exists('public/app/code/local/Behat/Spec'))->toBe(false);
+    }
+
+    /**
+     * @Then the module XML file should be generated
+     */
+    public function theModuleXmlFileShouldBeGenerated()
+    {
+        if (!file_exists('public/app/etc/modules/Behat_Spec.xml')) {
+            throw new \RuntimeException('Modile XML file was not generated');
+        }
+    }
+
+    /**
      * @return ApplicationTester
      */
     private function createApplicationTester()
