@@ -5,7 +5,7 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "phpspec/phpspec": "dev-master@dev",
+        "phpspec/phpspec": "dev-master",
         "symfony/dependency-injection": "*",
         "symfony/config": "*",
         "shanethehat/pretty-xml": "~1.0"

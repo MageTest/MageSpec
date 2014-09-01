@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2dd266b63de506a66ec0d64f64db812e",
+    "hash": "abb2146b2e49295307adce4d11a48935",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -136,7 +136,8 @@
             "authors": [
                 {
                     "name": "Chris Boulton",
-                    "homepage": "http://github.com/chrisboulton"
+                    "homepage": "http://github.com/chrisboulton",
+                    "role": "Original developer"
                 }
             ],
             "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
@@ -148,12 +149,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "3deca4dbcd9da79a6fad65ee494cf3e96531aa7a"
+                "reference": "8b03337e4135aa86af3297ec2481be8b2327f95d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/3deca4dbcd9da79a6fad65ee494cf3e96531aa7a",
-                "reference": "3deca4dbcd9da79a6fad65ee494cf3e96531aa7a",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/8b03337e4135aa86af3297ec2481be8b2327f95d",
+                "reference": "8b03337e4135aa86af3297ec2481be8b2327f95d",
                 "shasum": ""
             },
             "require": {
@@ -216,7 +217,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2014-08-31 16:28:49"
+            "time": "2014-09-01 09:54:45"
         },
         {
             "name": "phpspec/prophecy",
@@ -1157,18 +1158,12 @@
             "time": "2014-07-28 13:20:46"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "phpspec/phpspec": 20
     },
     "prefer-stable": false,
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "platform": [],
+    "platform-dev": []
 }
