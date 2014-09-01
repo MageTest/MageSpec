@@ -172,6 +172,9 @@ class ControllerLocator implements ResourceLocatorInterface
         return 10;
     }
 
+    /**
+     * @param string $path
+     */
     protected function findSpecResources($path)
     {
         if (!$this->filesystem->pathExists($path)) {

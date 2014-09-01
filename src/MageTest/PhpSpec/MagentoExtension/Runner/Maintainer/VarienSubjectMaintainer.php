@@ -21,8 +21,6 @@
 namespace MageTest\PhpSpec\MagentoExtension\Runner\Maintainer;
 
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelResource;
-use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienObjectSubject;
-use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienWrapper;
 use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienWrapperFactory;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Loader\Node\ExampleNode;
@@ -30,8 +28,6 @@ use PhpSpec\Runner\CollaboratorManager;
 use PhpSpec\Runner\Maintainer\MaintainerInterface;
 use PhpSpec\Runner\MatcherManager;
 use PhpSpec\SpecificationInterface;
-use PhpSpec\Wrapper\Subject;
-use PhpSpec\Wrapper\Unwrapper;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**

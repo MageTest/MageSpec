@@ -32,29 +32,21 @@ use MageTest\PhpSpec\MagentoExtension\Listener\ModuleUpdateListener;
 use MageTest\PhpSpec\MagentoExtension\Util\ClassDetector;
 use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienWrapperFactory;
 use PhpSpec\Extension\ExtensionInterface;
-use PhpSpec\Console\ExtendableApplicationInterface as ApplicationInterface;
 use PhpSpec\ServiceContainer;
-
 use MageTest\PhpSpec\MagentoExtension\Autoloader\MageLoader;
-
 use MageTest\PhpSpec\MagentoExtension\Runner\Maintainer\VarienSubjectMaintainer;
-
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeModelCommand;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator;
-
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeResourceModelCommand;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ResourceModelLocator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ResourceModelGenerator;
-
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeBlockCommand;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\BlockLocator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\BlockGenerator;
-
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeHelperCommand;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\HelperLocator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\HelperGenerator;
-
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeControllerCommand;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ControllerLocator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerGenerator;
@@ -311,6 +303,9 @@ class Extension implements ExtensionInterface
         });
     }
 
+    /**
+     * @param string $srcPath
+     */
     public function configureAutoloader($srcPath, $codePool)
     {
         MageLoader::register($srcPath, $codePool);

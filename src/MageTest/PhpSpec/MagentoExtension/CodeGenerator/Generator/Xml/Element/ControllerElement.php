@@ -43,6 +43,9 @@ class ControllerElement implements ConfigElementInterface
         return (bool) count($targetElements);
     }
 
+    /**
+     * @param string $path
+     */
     private function getElement(\SimpleXMLElement $xml, $path)
     {
         $elements = $xml->xpath($path);
@@ -54,6 +57,9 @@ class ControllerElement implements ConfigElementInterface
         return $elements[0];
     }
 
+    /**
+     * @param string $moduleName
+     */
     private function getModuleRouteName($moduleName)
     {
         $parts = explode('_', $moduleName);

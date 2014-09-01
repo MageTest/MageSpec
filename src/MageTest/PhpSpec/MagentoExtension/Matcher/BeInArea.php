@@ -22,12 +22,9 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Matcher;
 
-use PhpSpec\Matcher\BasicMatcher,
-    PhpSpec\Exception\Example\FailureException;
-
+use PhpSpec\Matcher\BasicMatcher;
+use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
-
-use PhpSpec\Magento\ControllerSpecification;
 
 /**
  * BeInArea

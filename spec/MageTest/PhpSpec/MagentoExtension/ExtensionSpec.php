@@ -171,6 +171,9 @@ class ExtensionSpec extends ObjectBehavior
         $this->load($container);
     }
 
+    /**
+     * @param string $class
+     */
     protected function service($class, $container)
     {
         return Argument::that(function ($callback) use ($class, $container) {

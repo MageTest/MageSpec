@@ -39,6 +39,9 @@ class ModelElement extends SimpleElementAbstract implements ConfigElementInterfa
         }
     }
 
+    /**
+     * @return string
+     */
     private function getModelsElement(\SimpleXMLElement $xml)
     {
         $modelElements = $xml->xpath('models');

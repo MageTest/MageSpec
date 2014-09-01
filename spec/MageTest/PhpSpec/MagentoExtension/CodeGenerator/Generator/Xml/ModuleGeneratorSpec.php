@@ -2,7 +2,6 @@
 
 namespace spec\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml;
 
-use PhpSpec\Locator\ResourceInterface;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Util\Filesystem;
 use Prophecy\Argument;
