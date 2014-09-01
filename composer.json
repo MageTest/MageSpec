@@ -5,13 +5,15 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "phpspec/phpspec": "~2.0",
+        "phpspec/phpspec": "dev-master@dev",
         "symfony/dependency-injection": "*",
         "symfony/config": "*",
         "shanethehat/pretty-xml": "~1.0"
     },
     "require-dev": {
-        "magetest/magento": "~1.8.1.0"
+        "magetest/magento": "~1.8.1.0",
+        "behat/behat": "3.0",
+        "bossa/phpspec2-expect": "*"
     },
     "config": {
         "bin-dir": "bin"
@@ -26,7 +28,8 @@
                 "vendor/magetest/magento/src/app/code/community",
                 "vendor/magetest/magento/src/app/code/core"
             ],
-            "Mage": "vendor/magetest/magento/src/app/code/core"
+            "Mage": "vendor/magetest/magento/src/app/code/core",
+            "Console" : "vendor/phpspec/phpspec/features/bootstrap/"
         }
     },
     "authors": [
