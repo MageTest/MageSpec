@@ -290,7 +290,7 @@ class VarienCaller extends Caller
     }
 
     /**
-     * @param $method
+     * @param string $method
      * @param  array                                                                                                     $arguments
      * @return \PhpSpec\Exception\Fracture\MethodNotFoundException|\PhpSpec\Exception\Fracture\MethodNotVisibleException
      */
@@ -306,7 +306,7 @@ class VarienCaller extends Caller
     }
 
     /**
-     * @param $property
+     * @param string $property
      * @return \PhpSpec\Exception\Fracture\PropertyNotFoundException
      */
     private function propertyNotFound($property)
@@ -315,7 +315,7 @@ class VarienCaller extends Caller
     }
 
     /**
-     * @param $method
+     * @param string $method
      * @return \PhpSpec\Exception\Wrapper\SubjectException
      */
     private function callingMethodOnNonObject($method)
@@ -324,7 +324,7 @@ class VarienCaller extends Caller
     }
 
     /**
-     * @param $property
+     * @param string $property
      * @return \PhpSpec\Exception\Wrapper\SubjectException
      */
     private function settingPropertyOnNonObject($property)
@@ -333,7 +333,7 @@ class VarienCaller extends Caller
     }
 
     /**
-     * @param $property
+     * @param string $property
      * @return \PhpSpec\Exception\Wrapper\SubjectException
      */
     private function accessingPropertyOnNonObject($property)
@@ -342,7 +342,7 @@ class VarienCaller extends Caller
     }
 
     /**
-     * @param $property
+     * @param string $property
      * @return bool
      */
     private function lookingForConstants($property)
@@ -352,7 +352,7 @@ class VarienCaller extends Caller
     }
 
     /**
-     * @param $property
+     * @param string $property
      * @return bool
      */
     public function constantDefined($property)

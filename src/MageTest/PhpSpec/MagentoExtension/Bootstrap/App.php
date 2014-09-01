@@ -22,14 +22,8 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Bootstrap;
 
-use Mage_Core_Model_App as BaseApp,
-    MageTest_Core_Controller_Front;
-
-use Zend_Controller_Request_Abstract,
-    Zend_Controller_Response_Abstract;
-
-use PhpSpec\Magento\Bootstrap\App\HttpRequest as Mage_Core_Controller_Request_Http,
-    PhpSpec\Magento\Bootstrap\App\HttpResponse as Mage_Core_Controller_Response_Http;
+use Mage_Core_Model_App as BaseApp;
+use MageTest_Core_Controller_Front;
 
 /**
  * App
@@ -53,7 +47,7 @@ class App extends BaseApp
     /**
      * Initialize application front controller
      *
-     * @return Mage_Core_Model_App
+     * @return App
      */
     protected function _initFrontController()
     {
@@ -69,7 +63,7 @@ class App extends BaseApp
      * fire during fixture loading
      *
      * @see Mage_Core_Model_App::dispatchEvent()
-     * @return MageTest_Core_Model_App
+     * @return App
      */
     public function dispatchEvent($eventName, $args)
     {
@@ -102,7 +96,7 @@ class App extends BaseApp
     /**
      * Resets dispatched events information
      *
-     * @return MageTest_Core_Model_App
+     * @return App
      */
     public function resetDispatchedEvents()
     {
