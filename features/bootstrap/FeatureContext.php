@@ -199,7 +199,6 @@ class FeatureContext implements SnippetAcceptingContext
             case 'resource model':
                 $dir = 'Model/Resource';
                 $filename = 'TestSpec';
-                $objectType = str_replace(' ', '_', $objectType);
                 $templateType = 'default';
                 $className = "Behat_${moduleName}_Model_Resource_Test";
                 break;
