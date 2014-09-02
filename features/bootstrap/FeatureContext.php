@@ -31,6 +31,11 @@ class FeatureContext implements SnippetAcceptingContext
     private $namespace;
 
     /**
+     * @var string
+     */
+    private $moduleName;
+
+    /**
      * @var ApplicationTester
      */
     private $applicationTester;
@@ -57,6 +62,14 @@ class FeatureContext implements SnippetAcceptingContext
     public function createNewApplicationTester()
     {
         $this->applicationTester = $this->createApplicationTester();
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function resetModuleData()
+    {
+        $this->moduleName = null;
     }
 
     /**
@@ -170,28 +183,44 @@ class FeatureContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Given that there is a :objectType spec
+     * @Given there is a :objectType spec
      */
     public function thatThereIsASpec($objectType)
     {
+        $moduleName = $this->moduleName ?: 'Spec';
+
         switch ($objectType) {
             case 'controller':
                 $dir = 'controllers';
                 $filename = 'TestControllerSpec';
+                $templateType = 'controller';
+                $className = "Behat_${moduleName}_TestController";
                 break;
             case 'resource model':
                 $dir = 'Model/Resource';
                 $filename = 'TestSpec';
                 $objectType = str_replace(' ', '_', $objectType);
+                $templateType = 'default';
+                $className = "Behat_${moduleName}_Model_Resource_Test";
                 break;
             default:
                 $dir = ucfirst($objectType);
                 $filename = 'TestSpec';
-
+                $templateType = 'default';
+                $className = "Behat_${moduleName}_${dir}_Test";
         }
-        $template = __DIR__ . "/templates/specs/$objectType.template";
-        $this->currentSpec = "spec/public/app/code/local/Behat/Spec/$dir/$filename.php";
-        $this->filesystem->copy($template, $this->currentSpec);
+
+        $template = __DIR__ . "/templates/specs/$templateType.template";
+        $this->currentSpec = "spec/public/app/code/local/Behat/$moduleName/$dir/$filename.php";
+
+        $this->filesystem->dumpFile(
+            $this->currentSpec,
+            str_replace(
+                '%class_name%',
+                $className,
+                file_get_contents($template)
+            )
+        );
     }
 
     /**
@@ -267,22 +296,11 @@ class FeatureContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Given there is a spec for a module that does not yet exist
+     * @Given there is a new module
      */
-    public function thereIsASpecForAModuleThatDoesNotYetExist()
+    public function thereIsANewModule()
     {
-        $template = __DIR__ . "/templates/specs/unique_model.template";
-        $moduleName = 'Unique' . self::$uniqueCount;
-        $this->currentSpec = "spec/public/app/code/local/Behat/$moduleName/Model/TestSpec.php";
-        $this->filesystem->dumpFile(
-            $this->currentSpec,
-            str_replace(
-                '%class_name%',
-                "Behat_${moduleName}_Model_Test",
-                file_get_contents($template)
-            )
-        );
-
+        $this->moduleName = $moduleName = 'Unique' . self::$uniqueCount;
         expect($this->filesystem->exists("public/app/code/local/Behat/$moduleName"))->toBe(false);
     }
 
@@ -302,10 +320,44 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function theConfigXmlFileShouldBeGenerated()
     {
-        $unique = self::$uniqueCount;
-        if (!file_exists("public/app/code/local/Behat/Unique$unique/etc/config.xml")) {
+        $moduleName = $this->moduleName;
+        if (!file_exists("public/app/code/local/Behat/$moduleName/etc/config.xml")) {
             throw new \RuntimeException('Config XML file was not generated');
         }
+    }
+
+    /**
+     * @Then the config XML file should contain a :objectType element
+     */
+    public function theConfigXmlFileShouldContainAnElement($objectType)
+    {
+        $moduleName = $this->moduleName;
+        if (!file_exists("public/app/code/local/Behat/$moduleName/etc/config.xml")) {
+            throw new \RuntimeException('Config XML file was not generated');
+        }
+
+        switch ($objectType) {
+            case 'controller':
+                $path = sprintf('frontend/routers/%s/args/module', strtolower($moduleName));
+                $expectedClass = 'Behat_' . $moduleName;
+                break;
+            case 'resource model':
+                $path = sprintf('global/models/behat_%s_resource/class', strtolower($moduleName));
+                $expectedClass = "Behat_${moduleName}_Model_Resource";
+                break;
+            default:
+                $path = sprintf('global/%ss/behat_%s/class', $objectType, strtolower($moduleName));
+                $expectedClass = sprintf('Behat_%s_%s', $moduleName, ucfirst($objectType));
+        }
+
+        $xml = new \SimpleXMLElement("public/app/code/local/Behat/$moduleName/etc/config.xml", 0, true);
+        $result = $xml->xpath($path);
+
+        if (!$result || count($result) === 0) {
+            throw new \RuntimeException('Element not found in config XML');
+        }
+
+        expect((string) $result[0])->toBe($expectedClass);
     }
 
     /**
