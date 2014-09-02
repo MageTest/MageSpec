@@ -23,7 +23,8 @@
 namespace MageTest\PhpSpec\MagentoExtension\Specification;
 
 use PhpSpec\ObjectBehavior;
-use Zend_Controller_Request_Abstract as Request;
+use Prophecy\Argument;
+use Mage_Core_Controller_Request_Http as Request;
 use Zend_Controller_Response_Abstract as Response;
 
 /**
