@@ -5,10 +5,10 @@ namespace spec;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class Behat_Unique_Model_TestSpec extends ObjectBehavior
+class %class_name%Spec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Behat_Unique_Model_Test');
+        $this->shouldHaveType('%class_name%');
     }
 }

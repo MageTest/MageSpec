@@ -15,10 +15,34 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class FeatureContext implements SnippetAcceptingContext
 {
+    /**
+     * @var int
+     */
+    private static $uniqueCount = 1;
+
+    /**
+     * @var string
+     */
     private $configFile;
+
+    /**
+     * @var string
+     */
     private $namespace;
+
+    /**
+     * @var ApplicationTester
+     */
     private $applicationTester;
+
+    /**
+     * @var Filesystem
+     */
     private $filesystem;
+
+    /**
+     * @var string
+     */
     private $currentSpec;
 
     public function __construct()
@@ -42,6 +66,14 @@ class FeatureContext implements SnippetAcceptingContext
     {
         $this->filesystem->remove('spec/public');
         $this->filesystem->remove('public');
+    }
+
+    /**
+     * @AfterScenario
+     */
+    public function incrementUniqueCounter()
+    {
+        self::$uniqueCount++;
     }
 
     /**
@@ -169,7 +201,7 @@ class FeatureContext implements SnippetAcceptingContext
     {
         $this->applicationTester->putToInputStream("y\n");
         $this->applicationTester->run(
-            sprintf('run --config %s %s', $this->configFile, $this->currentSpec),
+            sprintf('run --config %s --no-rerun %s', $this->configFile, $this->currentSpec),
             array('interactive' => true, 'decorated' => false)
         );
     }
@@ -235,15 +267,23 @@ class FeatureContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Given that there is a spec for a module that does not yet exist
+     * @Given there is a spec for a module that does not yet exist
      */
-    public function thatThereIsASpecForAModuleThatDoesNotYetExist()
+    public function thereIsASpecForAModuleThatDoesNotYetExist()
     {
         $template = __DIR__ . "/templates/specs/unique_model.template";
-        $this->currentSpec = "spec/public/app/code/local/Behat/Unique/Model/TestSpec.php";
-        $this->filesystem->copy($template, $this->currentSpec);
+        $moduleName = 'Unique' . self::$uniqueCount;
+        $this->currentSpec = "spec/public/app/code/local/Behat/$moduleName/Model/TestSpec.php";
+        $this->filesystem->dumpFile(
+            $this->currentSpec,
+            str_replace(
+                '%class_name%',
+                "Behat_${moduleName}_Model_Test",
+                file_get_contents($template)
+            )
+        );
 
-        expect($this->filesystem->exists('public/app/code/local/Behat/Unique'))->toBe(false);
+        expect($this->filesystem->exists("public/app/code/local/Behat/$moduleName"))->toBe(false);
     }
 
     /**
@@ -251,8 +291,20 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function theModuleXmlFileShouldBeGenerated()
     {
-        if (!file_exists('public/app/etc/modules/Behat_Unique.xml')) {
+        $unique = self::$uniqueCount;
+        if (!file_exists("public/app/etc/modules/Behat_Unique$unique.xml")) {
             throw new \RuntimeException('Module XML file was not generated');
+        }
+    }
+
+    /**
+     * @Then the config XML file should be generated
+     */
+    public function theConfigXmlFileShouldBeGenerated()
+    {
+        $unique = self::$uniqueCount;
+        if (!file_exists("public/app/code/local/Behat/Unique$unique/etc/config.xml")) {
+            throw new \RuntimeException('Config XML file was not generated');
         }
     }
 
