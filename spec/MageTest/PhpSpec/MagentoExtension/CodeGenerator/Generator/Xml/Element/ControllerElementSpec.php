@@ -3,7 +3,6 @@
 namespace spec\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ControllerElementSpec extends ObjectBehavior
 {

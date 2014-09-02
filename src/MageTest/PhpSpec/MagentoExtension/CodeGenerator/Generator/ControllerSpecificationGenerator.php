@@ -52,7 +52,7 @@ class ControllerSpecificationGenerator implements GeneratorInterface
 
         if (!$content = $this->templates->render('controller_specification', $values)) {
             $content = $this->templates->renderString(
-                file_get_contents(__FILE__, null, null, __COMPILER_HALT_OFFSET__), $values
+                file_get_contents(__DIR__ . '/templates/controller_spec.template'), $values
             );
         }
 
@@ -66,20 +66,5 @@ class ControllerSpecificationGenerator implements GeneratorInterface
     public function getPriority()
     {
         return 0;
-    }
-}
-__halt_compiler();<?php
-
-namespace %namespace%;
-
-use PhpSpec\ObjectBehavior;
-use MageTest\PhpSpec\MagentoExtension\Specification\ControllerBehavior;
-use Prophecy\Argument;
-
-class %name% extends ControllerBehavior
-{
-    function it_is_initializable()
-    {
-        $this->shouldHaveType('%subject%');
     }
 }

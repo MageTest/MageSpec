@@ -3,7 +3,6 @@
 namespace spec\MageTest\PhpSpec\MagentoExtension\Locator\Magento;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator;
 
 class ModelResourceSpec extends ObjectBehavior

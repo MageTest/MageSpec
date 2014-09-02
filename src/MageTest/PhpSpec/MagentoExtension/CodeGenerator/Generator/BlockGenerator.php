@@ -74,6 +74,7 @@ class BlockGenerator implements GeneratorInterface
         $values = array(
             '%filepath%'        => $filepath,
             '%name%'            => $resource->getName(),
+            '%extends%'         => 'Mage_Core_Block_Abstract',
             '%namespace%'       => $resource->getSrcNamespace(),
             '%namespace_block%' => '' !== $resource->getSrcNamespace()
                 ?  sprintf("\n\nnamespace %s;", $resource->getSrcNamespace())
@@ -82,7 +83,7 @@ class BlockGenerator implements GeneratorInterface
 
         if (!$content = $this->templates->render('mage_block', $values)) {
             $content = $this->templates->renderString(
-                file_get_contents(__FILE__, null, null, __COMPILER_HALT_OFFSET__), $values
+                file_get_contents(__DIR__ . '/templates/generic_class.template'), $values
             );
         }
 
@@ -97,10 +98,4 @@ class BlockGenerator implements GeneratorInterface
     {
         return 30;
     }
-}
-__halt_compiler();<?php%namespace_block%
-
-class %name% extends Mage_Core_Block_Abstract
-{
-
 }

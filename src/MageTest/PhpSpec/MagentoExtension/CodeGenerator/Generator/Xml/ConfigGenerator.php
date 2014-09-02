@@ -33,6 +33,9 @@ class ConfigGenerator
      */
     private $elementGenerators = array();
 
+    /**
+     * @param string $path
+     */
     public function __construct($path, Filesystem $filesystem, Formatter $formatter, $codePool = 'local')
     {
         $this->path = $path . $codePool . DIRECTORY_SEPARATOR;
@@ -45,6 +48,9 @@ class ConfigGenerator
         $this->elementGenerators[] = $elementGenerator;
     }
 
+    /**
+     * @param string $type
+     */
     public function generateElement($type, $moduleName)
     {
         $this->directory = $this->getDirectoryPath($moduleName);
@@ -78,7 +84,7 @@ class ConfigGenerator
             $values = array(
                 '%module_name%' => $moduleName
             );
-            return strtr(file_get_contents(__FILE__, null, null, __COMPILER_HALT_OFFSET__), $values);
+            return strtr(file_get_contents(__DIR__ . '/templates/config.template'), $values);
         }
         return $this->filesystem->getFileContents($this->getFilePath());
     }
@@ -98,6 +104,9 @@ class ConfigGenerator
         return $this->formatter->format($xml->asXML());
     }
 
+    /**
+     * @param string $xml
+     */
     private function writeConfigFile($xml)
     {
         if (!$this->filesystem->isDirectory($this->directory)) {
@@ -106,13 +115,3 @@ class ConfigGenerator
         $this->filesystem->putFileContents($this->getFilePath(), $xml);
     }
 }
-__halt_compiler();<?xml version="1.0" encoding="UTF-8"?>
-<config>
-    <modules>
-        <%module_name%>
-            <version>0.1.0</version>
-        </%module_name%>
-    </modules>
-    <global>
-    </global>
-</config>

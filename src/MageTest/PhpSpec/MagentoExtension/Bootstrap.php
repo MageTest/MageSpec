@@ -22,13 +22,11 @@
 namespace MageTest\PhpSpec\MagentoExtension;
 
 use MageTest\PhpSpec\MagentoExtension\Bootstrap\App;
-
-use Mage_Core_Model_App_Area,
-    Mage_Core_Model_Config,
-    Varien_Event_Collection;
-
-use Mage_Core_Controller_Request_Http,
-    Mage_Core_Controller_Response_Http;
+use Mage_Core_Model_App_Area;
+use Mage_Core_Model_Config;
+use Varien_Event_Collection;
+use Mage_Core_Controller_Request_Http;
+use Mage_Core_Controller_Response_Http;
 
 /**
  * Bootstrap
@@ -128,11 +126,17 @@ class Bootstrap
         return $property;
     }
 
+    /**
+     * @param string $name
+     */
     public function getProtectedPropertyValue($name)
     {
         return $this->getProtectedProperty($name)->getValue();
     }
 
+    /**
+     * @param string $name
+     */
     public function setProtectedProperty($name, $value)
     {
         $property = $this->getProtectedProperty($name);

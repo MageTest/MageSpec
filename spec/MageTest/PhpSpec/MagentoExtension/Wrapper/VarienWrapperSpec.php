@@ -6,7 +6,6 @@ use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Loader\Node\ExampleNode;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Runner\MatcherManager;
-use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class VarienWrapperSpec extends ObjectBehavior

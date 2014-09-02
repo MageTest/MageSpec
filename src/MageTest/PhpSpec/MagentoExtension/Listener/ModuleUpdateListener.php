@@ -10,7 +10,6 @@ use PhpSpec\Console\IO;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\SuiteEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-
 use PhpSpec\Exception\Fracture\ClassNotFoundException as PhpSpecClassException;
 use Prophecy\Exception\Doubler\ClassNotFoundException as ProphecyClassException;
 

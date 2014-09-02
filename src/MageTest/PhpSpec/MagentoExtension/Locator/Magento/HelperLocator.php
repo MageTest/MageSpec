@@ -175,6 +175,9 @@ class HelperLocator implements ResourceLocatorInterface
         return 20;
     }
 
+    /**
+     * @param string $path
+     */
     protected function findSpecResources($path)
     {
         if (!$this->filesystem->pathExists($path)) {

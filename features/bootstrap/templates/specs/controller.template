@@ -1,0 +1,15 @@
+<?php
+
+namespace spec;
+
+use PhpSpec\ObjectBehavior;
+use MageTest\PhpSpec\MagentoExtension\Specification\ControllerBehavior;
+use Prophecy\Argument;
+
+class Behat_Spec_TestControllerSpec extends ControllerBehavior
+{
+    function it_is_initializable()
+    {
+        $this->shouldHaveType('Behat_Spec_TestControllerSpec');
+    }
+}

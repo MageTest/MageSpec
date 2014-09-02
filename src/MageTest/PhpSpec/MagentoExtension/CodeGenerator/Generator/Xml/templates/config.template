@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <%module_name%>
+            <version>0.1.0</version>
+        </%module_name%>
+    </modules>
+    <global>
+    </global>
+</config>

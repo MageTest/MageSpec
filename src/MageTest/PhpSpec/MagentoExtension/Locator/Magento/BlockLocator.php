@@ -180,6 +180,9 @@ class BlockLocator implements ResourceLocatorInterface
         return 30;
     }
 
+    /**
+     * @param string $path
+     */
     protected function findSpecResources($path)
     {
         if (!$this->filesystem->pathExists($path)) {

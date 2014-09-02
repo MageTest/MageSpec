@@ -21,9 +21,9 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder,
-    Symfony\Component\DependencyInjection\Loader\XmlFileLoader,
-    Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\Config\FileLocator;
 
 /**
  * ContainerAwareSpecification

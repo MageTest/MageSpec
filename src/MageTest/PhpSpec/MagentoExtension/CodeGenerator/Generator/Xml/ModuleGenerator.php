@@ -21,6 +21,9 @@ class ModuleGenerator
      */
     private $codePool;
 
+    /**
+     * @param string $path
+     */
     public function __construct($path, Filesystem $fileSystem, $codePool = 'local')
     {
         $this->fileSystem = $fileSystem;
@@ -38,9 +41,14 @@ class ModuleGenerator
             '%module_name%' => $moduleName,
             '%code_pool%' => $this->codePool,
         );
+
+        if (!$this->fileSystem->pathExists($this->path)) {
+            $this->fileSystem->makeDirectory($this->path);
+        }
+
         $this->fileSystem->putFileContents(
             $this->getFilePath($moduleName),
-            strtr(file_get_contents(__FILE__, null, null, __COMPILER_HALT_OFFSET__), $values)
+            strtr(file_get_contents(__DIR__ . '/templates/module.template'), $values)
         );
     }
 
@@ -54,12 +62,3 @@ class ModuleGenerator
         return $this->fileSystem->pathExists($this->getFilePath($moduleName));
     }
 }
-__halt_compiler();<?xml version="1.0" encoding="UTF-8"?>
-<config>
-    <modules>
-        <%module_name%>
-            <active>true</active>
-            <codePool>%code_pool%</codePool>
-        </%module_name%>
-    </modules>
-</config>
