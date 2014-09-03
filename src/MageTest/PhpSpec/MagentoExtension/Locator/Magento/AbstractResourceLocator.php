@@ -137,6 +137,10 @@ abstract class AbstractResourceLocator
     {
         $parts = explode('_', $classname);
 
+        if (count($parts) < 2) {
+            return false;
+        }
+
         return (
             $this->supportsQuery($classname) ||
             $classname === implode('_', array($parts[0], $parts[1], $this->classType, $parts[count($parts)-1]))
