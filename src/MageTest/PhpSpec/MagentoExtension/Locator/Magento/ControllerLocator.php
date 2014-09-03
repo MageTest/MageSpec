@@ -41,28 +41,6 @@ class ControllerLocator extends AbstractResourceLocator implements ResourceLocat
 
     /**
      * @param string $classname
-     * @return ControllerResource
-     */
-    public function createResource($classname)
-    {
-        preg_match($this->validator, $classname, $matches);
-        if (!empty($matches)) {
-            array_shift($matches);
-            array_shift($matches);
-
-            $vendor = ucfirst(array_shift($matches));
-            $module = ucfirst(array_shift($matches));
-
-            $controller = implode('_', array_map('ucfirst', explode('_', implode($matches)))).'Controller';
-
-            $classname = implode('_', array($vendor, $module, $controller));
-        }
-
-        return new ControllerResource(explode('_', $classname), $this);
-    }
-
-    /**
-     * @param string $classname
      * @return bool
      */
     public function supportsClass($classname)
@@ -101,6 +79,23 @@ class ControllerLocator extends AbstractResourceLocator implements ResourceLocat
         return new ControllerResource($parts, $locator);
     }
 
+    /**
+     * @param array $matches
+     * @return string
+     */
+    protected function getClassnameFromMatches(array $matches)
+    {
+        $vendor = ucfirst(array_shift($matches));
+        $module = ucfirst(array_shift($matches));
+
+        $controller = implode('_', array_map('ucfirst', explode('_', implode($matches)))).'Controller';
+        return implode('_', array($vendor, $module, $controller));
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
     protected function getRelative($path)
     {
         $relative = parent::getRelative($path);

@@ -155,12 +155,7 @@ abstract class AbstractResourceLocator
             array_shift($matches);
             array_shift($matches);
 
-            $vendor = ucfirst(array_shift($matches));
-            $module = ucfirst(array_shift($matches));
-
-            $objectName = implode('_', array_map('ucfirst', explode('_', implode($matches))));
-
-            $classname = implode('_', array($vendor, $module, $this->classType, $objectName));
+            $classname = $this->getClassnameFromMatches($matches);
         }
 
         return $this->getResource(explode('_', $classname), $this);
@@ -178,7 +173,7 @@ abstract class AbstractResourceLocator
         }
 
         if ('.php' === substr($path, -4)) {
-            if ( ! $this->isSupported($path)) {
+            if (!$this->isSupported($path)) {
                 return array();
             }
 
@@ -215,6 +210,15 @@ abstract class AbstractResourceLocator
         }
     }
 
+    protected function getClassnameFromMatches(array $matches)
+    {
+        $vendor = ucfirst(array_shift($matches));
+        $module = ucfirst(array_shift($matches));
+
+        $objectName = implode('_', array_map('ucfirst', explode('_', implode('', $matches))));
+        return implode('_', array($vendor, $module, $this->classType, $objectName));
+    }
+
     protected function getRelative($path)
     {
         // cut "Spec.php" from the end
@@ -225,4 +229,4 @@ abstract class AbstractResourceLocator
     abstract protected function isSupported($file);
 
     abstract protected function getResource(array $parts, ResourceLocatorInterface $locator);
-} 
+}
