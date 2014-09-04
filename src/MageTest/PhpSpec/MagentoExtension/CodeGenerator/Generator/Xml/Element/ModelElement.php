@@ -27,7 +27,7 @@ class ModelElement extends SimpleElementAbstract implements ConfigElementInterfa
         $globalElements = $xml->xpath('/config/global');
 
         if (!count($globalElements)) {
-            throw new XmlGeneratorException('Global element not found in ' . $this->getFilePath());
+            throw new XmlGeneratorException(sprintf('Global element not found in %s config file', $moduleName));
         }
 
         $modelsElement = $this->getModelsElement($globalElements[0]);
