@@ -3,3 +3,5 @@ bin
 .idea/
 public
 spec/public
+spec/Behat
+src/Behat
