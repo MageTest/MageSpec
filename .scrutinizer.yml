@@ -6,6 +6,7 @@ filter:
     - example/*
     - fixtures/*
     - vendor/*
+    - src/Mage/*
 
 tools:
   php_code_sniffer:
