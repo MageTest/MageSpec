@@ -52,7 +52,11 @@ class ModuleUpdateListener implements EventSubscriberInterface
         $className = $exception->getClassname();
 
         if (strlen($className)) {
-            $this->classNames[$className] = $this->getModuleName($className);
+            $parts = explode('_', $className);
+            if (!isset($parts[0]) || !isset($parts[1])) {
+                return;
+            }
+            $this->classNames[$className] = $parts[0] . '_' . $parts[1];
         }
     }
 
@@ -74,15 +78,6 @@ class ModuleUpdateListener implements EventSubscriberInterface
                 $moduleName
             );
         }
-    }
-
-    private function getModuleName($className)
-    {
-        $parts = explode('_', $className);
-        if (!isset($parts[0]) || !isset($parts[1])) {
-            throw new XmlGeneratorException('Could not determine a module name from ' . $className);
-        }
-        return $parts[0] . '_' . $parts[1];
     }
 
     private function getClassType($className)
