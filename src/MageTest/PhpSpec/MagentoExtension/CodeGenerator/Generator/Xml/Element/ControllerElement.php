@@ -43,7 +43,9 @@ class ControllerElement implements ConfigElementInterface
     }
 
     /**
+     * @param \SimpleXMLElement $xml
      * @param string $path
+     * @return \SimpleXMLElement
      */
     private function getElement(\SimpleXMLElement $xml, $path)
     {
@@ -58,6 +60,7 @@ class ControllerElement implements ConfigElementInterface
 
     /**
      * @param string $moduleName
+     * @return string
      */
     private function getModuleRouteName($moduleName)
     {

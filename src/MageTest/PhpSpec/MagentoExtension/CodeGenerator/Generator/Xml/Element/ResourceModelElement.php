@@ -18,6 +18,7 @@ class ResourceModelElement implements ConfigElementInterface
     /**
      * @param \SimpleXMLElement $xml
      * @param string $type
+     * @param string $moduleName
      * @return bool
      */
     public function elementExistsInXml(\SimpleXMLElement $xml, $type, $moduleName)
@@ -57,7 +58,8 @@ class ResourceModelElement implements ConfigElementInterface
     }
 
     /**
-     * @return string
+     * @param \SimpleXMLElement $xml
+     * @return \SimpleXmlElement
      */
     private function getModelsElement(\SimpleXMLElement $xml)
     {

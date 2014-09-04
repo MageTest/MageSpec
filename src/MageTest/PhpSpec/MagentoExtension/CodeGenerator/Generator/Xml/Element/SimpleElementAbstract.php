@@ -10,6 +10,7 @@ abstract class SimpleElementAbstract
     /**
      * @param \SimpleXMLElement $xml
      * @param string $type
+     * @param string $moduleName
      * @return bool
      */
     public function elementExistsInXml(\SimpleXMLElement $xml, $type, $moduleName)

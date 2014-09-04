@@ -2,6 +2,8 @@
 
 namespace MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element;
 
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\XmlGeneratorException;
+
 class ModelElement extends SimpleElementAbstract implements ConfigElementInterface
 {
     /**
@@ -40,7 +42,7 @@ class ModelElement extends SimpleElementAbstract implements ConfigElementInterfa
     }
 
     /**
-     * @return string
+     * @return \SimpleXmlElement
      */
     private function getModelsElement(\SimpleXMLElement $xml)
     {
