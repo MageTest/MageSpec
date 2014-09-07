@@ -21,8 +21,7 @@ class ControllerElement implements ConfigElementInterface
      */
     public function addElementToXml(\SimpleXMLElement $xml, $type, $moduleName)
     {
-        $configElement = $this->getElement($xml, 'config');
-        $frontendElement = $this->getElement($configElement, 'frontend');
+        $frontendElement = $this->getElement($xml, 'frontend');
         $routersElement = $this->getElement($frontendElement, 'routers');
         $moduleElement = $this->getElement($routersElement, $this->getModuleRouteName($moduleName));
         $moduleElement->addChild('use', 'standard');
