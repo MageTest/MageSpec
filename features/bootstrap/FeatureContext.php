@@ -77,8 +77,14 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function removeTemporaryDirectories()
     {
-        $this->filesystem->remove('spec/public');
-        $this->filesystem->remove('public');
+        $this->filesystem->remove(
+            array(
+                'spec/public',
+                'spec/Behat',
+                'public',
+                'src/Behat',
+            )
+        );
     }
 
     /**
@@ -357,6 +363,56 @@ class FeatureContext implements SnippetAcceptingContext
         }
 
         expect((string) $result[0])->toBe($expectedClass);
+    }
+
+    /**
+     * @When I describe a non Magento object
+     */
+    public function iDescribeANonMagentoObject()
+    {
+        $this->applicationTester->run(
+            sprintf(
+                'describe --no-interaction --config %s %s',
+                $this->configFile,
+                'Behat/Test'
+            ),
+            array('decorated' => false)
+        );
+    }
+
+    /**
+     * @Then the non Magento spec should be generated
+     */
+    public function theNonMagentoSpecShouldBeGenerated()
+    {
+        $this->checkSpecIsGenerated(new SpecSpecification(
+            'spec',
+            'spec/Behat/TestSpec.php',
+            'Behat\TestSpec'
+        ));
+    }
+
+    /**
+     * @Given there is a spec for a new non Magento object
+     */
+    public function thereIsASpecForANewNonMagentoObject()
+    {
+        $template = __DIR__ . "/templates/specs/non_magento.template";
+        $this->currentSpec = "spec/Behat/TestSpec.php";
+        $this->filesystem->copy($template, $this->currentSpec);
+    }
+
+    /**
+     * @Then the non Magento object should be generated
+     */
+    public function theNonMagentoObjectShouldBeGenerated()
+    {
+        require 'src/Behat/Test.php';
+        $this->checkClassIsGenerated(new ClassSpecification(
+            'Test',
+            'src/Behat/Test.php',
+            'Behat\Test'
+        ));
     }
 
     /**
