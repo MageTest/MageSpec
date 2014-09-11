@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "abb2146b2e49295307adce4d11a48935",
+    "hash": "39a13321409b2b0047c2edc2a5e1d128",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -346,19 +346,21 @@
         },
         {
             "name": "shanethehat/pretty-xml",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shanethehat/pretty-xml.git",
-                "reference": "3499f834be52437923ff42970d0c6707476308c7"
+                "reference": "0c82bec958941746463494f10d01fc78815c4840"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shanethehat/pretty-xml/zipball/3499f834be52437923ff42970d0c6707476308c7",
-                "reference": "3499f834be52437923ff42970d0c6707476308c7",
+                "url": "https://api.github.com/repos/shanethehat/pretty-xml/zipball/0c82bec958941746463494f10d01fc78815c4840",
+                "reference": "0c82bec958941746463494f10d01fc78815c4840",
                 "shasum": ""
             },
             "require-dev": {
+                "behat/behat": "~3.0",
+                "bossa/phpspec2-expect": "*",
                 "phpspec/phpspec": "~2.0"
             },
             "type": "library",
@@ -383,7 +385,7 @@
                 "pretty",
                 "xml"
             ],
-            "time": "2014-08-05 12:51:39"
+            "time": "2014-09-10 06:20:15"
         },
         {
             "name": "symfony/config",
@@ -1158,12 +1160,18 @@
             "time": "2014-07-28 13:20:46"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
         "phpspec/phpspec": 20
     },
     "prefer-stable": false,
-    "platform": [],
-    "platform-dev": []
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
 }
