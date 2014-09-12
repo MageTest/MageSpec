@@ -46,6 +46,8 @@ class ExtensionSpec extends ObjectBehavior
         $container->setShared(Argument::cetera())->willReturn();
 
         $container->addConfigurator(Argument::any())->willReturn();
+
+        $container->getParam(Argument::cetera())->willReturn();
     }
 
     function it_is_initializable()

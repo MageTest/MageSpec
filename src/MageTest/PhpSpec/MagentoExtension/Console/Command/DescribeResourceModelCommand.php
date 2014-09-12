@@ -34,24 +34,17 @@ use Symfony\Component\Console\Input\InputArgument;
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class DescribeResourceModelCommand extends Command
+class DescribeResourceModelCommand extends MageCommand
 {
-    const VALIDATOR = '/^([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
+    /**
+     * @var string
+     */
+    protected $validator = '/^([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
 
-    protected function configure()
-    {
-        $this
-            ->setName('describe:resource_model')
-            ->setDescription('Describe a Magento Resource Model specification')
-            ->addArgument('resource_model_alias', InputArgument::REQUIRED, 'Magento Resource Model alias to be described');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $resource = $input->getArgument('resource_model_alias');
-
-        if ((bool) preg_match(self::VALIDATOR, $resource) === false) {
-            $message = <<<ERR
+    /**
+     * @var string
+     */
+    protected $help = <<<HELP
 The resource model alias provided doesn't follow the Magento naming conventions.
 Please make sure it looks like the following:
 
@@ -60,16 +53,18 @@ Please make sure it looks like the following:
 The lowercase convention is used because it reflects the best practice
 convention within the Magento community. This reflects the identifier that
 you would pass to Mage::getResourceModel() or Mage::getResourceSingleton().
-ERR;
-            throw new \InvalidArgumentException($message);
-        }
+HELP;
 
-        $container = $this->getApplication()->getContainer();
-        $container->configure();
+    /**
+     * @var string
+     */
+    protected $type = 'resource_model';
 
-        $classname = 'resource_model:' . $resource;
-        $resource  = $container->get('locator.resource_manager')->createResource($classname);
-
-        $container->get('code_generator')->generate($resource, 'specification');
+    protected function configure()
+    {
+        $this
+            ->setName('describe:resource_model')
+            ->setDescription('Describe a Magento Resource Model specification')
+            ->addArgument('alias', InputArgument::REQUIRED, 'Magento Resource Model alias to be described');
     }
 }

@@ -10,6 +10,7 @@ abstract class SimpleElementAbstract
     /**
      * @param \SimpleXMLElement $xml
      * @param string $type
+     * @param string $moduleName
      * @return bool
      */
     public function elementExistsInXml(\SimpleXMLElement $xml, $type, $moduleName)
@@ -34,11 +35,27 @@ abstract class SimpleElementAbstract
         $globalElements = $xml->xpath('/config/global');
 
         if (!count($globalElements)) {
-            throw new XmlGeneratorException('Global element not found in ' . $this->getFilePath());
+            throw new XmlGeneratorException(sprintf('Global element not found in %s config file', $moduleName));
         }
 
         $globalElements[0]->addChild($type.'s')
             ->addChild(strtolower($moduleName))
             ->addChild('class', $moduleName . '_' . ucfirst($type));
+    }
+
+    /**
+     * @param \SimpleXMLElement $xml
+     * @param string $path
+     * @return \SimpleXMLElement
+     */
+    protected function getElement(\SimpleXMLElement $xml, $path)
+    {
+        $elements = $xml->xpath($path);
+
+        if (!count($elements)) {
+            return $xml->addChild($path);
+        }
+
+        return $elements[0];
     }
 } 
