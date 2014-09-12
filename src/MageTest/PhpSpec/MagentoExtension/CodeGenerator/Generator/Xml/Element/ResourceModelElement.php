@@ -4,7 +4,7 @@ namespace MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element;
 
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\XmlGeneratorException;
 
-class ResourceModelElement implements ConfigElementInterface
+class ResourceModelElement extends SimpleElementAbstract implements ConfigElementInterface
 {
     /**
      * @param string $type
@@ -46,7 +46,7 @@ class ResourceModelElement implements ConfigElementInterface
             throw new XmlGeneratorException(sprintf('Global element not found in %s config file', $moduleName));
         }
 
-        $modelsElement = $this->getModelsElement($globalElements[0]);
+        $modelsElement = $this->getElement($globalElements[0], 'models');
         $modelsElement->addChild(strtolower($moduleName).'_resource')
             ->addChild('class', $moduleName . '_Model_Resource');
 
@@ -55,20 +55,5 @@ class ResourceModelElement implements ConfigElementInterface
         if (count($modelsClassContainers) && count($modelsClassContainers[0]->xpath('class'))) {
             $modelsClassContainers[0]->addChild('resourceModel', strtolower($moduleName).'_resource');
         }
-    }
-
-    /**
-     * @param \SimpleXMLElement $xml
-     * @return \SimpleXmlElement
-     */
-    private function getModelsElement(\SimpleXMLElement $xml)
-    {
-        $modelElements = $xml->xpath('models');
-
-        if (!count($modelElements)) {
-            return $xml->addChild('models');
-        }
-
-        return $modelElements[0];
     }
 }

@@ -30,7 +30,7 @@ class ModelElement extends SimpleElementAbstract implements ConfigElementInterfa
             throw new XmlGeneratorException(sprintf('Global element not found in %s config file', $moduleName));
         }
 
-        $modelsElement = $this->getModelsElement($globalElements[0]);
+        $modelsElement = $this->getElement($globalElements[0], 'models');
 
         $modelsClassContainer = $modelsElement->addChild(strtolower($moduleName));
         $modelsClassContainer->addChild('class', $moduleName . '_' . ucfirst($type));
@@ -39,19 +39,5 @@ class ModelElement extends SimpleElementAbstract implements ConfigElementInterfa
         if (count($modelsElement->xpath($resourceElementName))) {
             $modelsClassContainer->addChild('resourceModel', $resourceElementName);
         }
-    }
-
-    /**
-     * @return \SimpleXmlElement
-     */
-    private function getModelsElement(\SimpleXMLElement $xml)
-    {
-        $modelElements = $xml->xpath('models');
-
-        if (!count($modelElements)) {
-            return $xml->addChild('models');
-        }
-
-        return $modelElements[0];
     }
 }

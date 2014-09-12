@@ -42,4 +42,20 @@ abstract class SimpleElementAbstract
             ->addChild(strtolower($moduleName))
             ->addChild('class', $moduleName . '_' . ucfirst($type));
     }
+
+    /**
+     * @param \SimpleXMLElement $xml
+     * @param string $path
+     * @return \SimpleXMLElement
+     */
+    protected function getElement(\SimpleXMLElement $xml, $path)
+    {
+        $elements = $xml->xpath($path);
+
+        if (!count($elements)) {
+            return $xml->addChild($path);
+        }
+
+        return $elements[0];
+    }
 } 
