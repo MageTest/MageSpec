@@ -46,6 +46,8 @@ class ExtensionSpec extends ObjectBehavior
         $container->setShared(Argument::cetera())->willReturn();
 
         $container->addConfigurator(Argument::any())->willReturn();
+
+        $container->getParam(Argument::cetera())->willReturn();
     }
 
     function it_is_initializable()
@@ -171,6 +173,9 @@ class ExtensionSpec extends ObjectBehavior
         $this->load($container);
     }
 
+    /**
+     * @param string $class
+     */
     protected function service($class, $container)
     {
         return Argument::that(function ($callback) use ($class, $container) {

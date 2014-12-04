@@ -21,11 +21,7 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Console\Command;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * DescribeHelperCommand
@@ -35,24 +31,17 @@ use Symfony\Component\Console\Input\InputOption;
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class DescribeHelperCommand extends Command
+class DescribeHelperCommand extends MageCommand
 {
-    const VALIDATOR = '/^([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
+    /**
+     * @var string
+     */
+    protected $validator = '/^([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
 
-    protected function configure()
-    {
-        $this
-            ->setName('describe:helper')
-            ->setDescription('Describe a Magento Helper specification')
-            ->addArgument('helper_alias', InputArgument::REQUIRED, 'Magento Helper alias to be described');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $helper = $input->getArgument('helper_alias');
-
-        if ((bool) preg_match(self::VALIDATOR, $helper) === false) {
-            $message = <<<ERR
+    /**
+     * @var string
+     */
+    protected $help = <<<HELP
 The helper alias provided doesn't follow the Magento naming conventions.
 Please make sure it looks like the following:
 
@@ -61,16 +50,17 @@ Please make sure it looks like the following:
 The lowercase convention is used because it reflects the best practice
 convention within the Magento community. This reflects the identifier that
 you would pass to Mage::helper().
-ERR;
-            throw new \InvalidArgumentException($message);
-        }
+HELP;
 
-        $container = $this->getApplication()->getContainer();
-        $container->configure();
+    /**
+     * @var string
+     */
+    protected $type = 'helper';
 
-        $classname = 'helper:' . $helper;
-        $resource  = $container->get('locator.resource_manager')->createResource($classname);
-
-        $container->get('code_generator')->generate($resource, 'specification');
+    protected function configure()
+    {
+        $this->setName('describe:helper')
+            ->setDescription('Describe a Magento Helper specification')
+            ->addArgument('alias', InputArgument::REQUIRED, 'Magento Helper alias to be described');
     }
 }

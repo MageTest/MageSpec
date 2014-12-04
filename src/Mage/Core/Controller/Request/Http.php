@@ -478,7 +478,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_HttpTest
      * Collect properties changed by _forward in protected storage
      * before _forward was called first time.
      *
-     * @return Mage_Core_Controller_Varien_Action
+     * @return Mage_Core_Controller_Request_Http
      */
     public function initForward()
     {

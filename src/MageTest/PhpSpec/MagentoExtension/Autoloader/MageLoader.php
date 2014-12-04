@@ -61,7 +61,7 @@ class MageLoader
     /**
      * Singleton pattern implementation
      *
-     * @return Varien_Autoload
+     * @return MageLoader
      */
     static public function instance($srcPath, $codePool)
     {
@@ -145,7 +145,7 @@ class MageLoader
      * Save information about used classes per scope with class popularity
      * Class_Name:popularity
      *
-     * @return Varien_Autoload
+     * @return MageLoader
      */
     protected function _saveCollectedStat()
     {

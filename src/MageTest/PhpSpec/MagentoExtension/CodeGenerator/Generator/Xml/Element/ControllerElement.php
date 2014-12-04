@@ -2,7 +2,7 @@
 
 namespace MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element;
 
-class ControllerElement implements ConfigElementInterface
+class ControllerElement extends SimpleElementAbstract implements ConfigElementInterface
 {
     /**
      * @param string $type
@@ -21,8 +21,7 @@ class ControllerElement implements ConfigElementInterface
      */
     public function addElementToXml(\SimpleXMLElement $xml, $type, $moduleName)
     {
-        $configElement = $this->getElement($xml, 'config');
-        $frontendElement = $this->getElement($configElement, 'frontend');
+        $frontendElement = $this->getElement($xml, 'frontend');
         $routersElement = $this->getElement($frontendElement, 'routers');
         $moduleElement = $this->getElement($routersElement, $this->getModuleRouteName($moduleName));
         $moduleElement->addChild('use', 'standard');
@@ -43,17 +42,10 @@ class ControllerElement implements ConfigElementInterface
         return (bool) count($targetElements);
     }
 
-    private function getElement(\SimpleXMLElement $xml, $path)
-    {
-        $elements = $xml->xpath($path);
-
-        if (!count($elements)) {
-            return $xml->addChild($path);
-        }
-
-        return $elements[0];
-    }
-
+    /**
+     * @param string $moduleName
+     * @return string
+     */
     private function getModuleRouteName($moduleName)
     {
         $parts = explode('_', $moduleName);

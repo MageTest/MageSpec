@@ -33,6 +33,9 @@ class ConfigGenerator
      */
     private $elementGenerators = array();
 
+    /**
+     * @param string $path
+     */
     public function __construct($path, Filesystem $filesystem, Formatter $formatter, $codePool = 'local')
     {
         $this->path = $path . $codePool . DIRECTORY_SEPARATOR;
@@ -45,6 +48,9 @@ class ConfigGenerator
         $this->elementGenerators[] = $elementGenerator;
     }
 
+    /**
+     * @param string $type
+     */
     public function generateElement($type, $moduleName)
     {
         $this->directory = $this->getDirectoryPath($moduleName);
@@ -98,6 +104,9 @@ class ConfigGenerator
         return $this->formatter->format($xml->asXML());
     }
 
+    /**
+     * @param string $xml
+     */
     private function writeConfigFile($xml)
     {
         if (!$this->filesystem->isDirectory($this->directory)) {

@@ -9,9 +9,7 @@ use PhpSpec\Console\IO;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Exception\Fracture\ClassNotFoundException;
-use PhpSpec\Locator\ResourceInterface;
 use PhpSpec\ObjectBehavior;
-use PhpSpec\Util\Filesystem;
 use Prophecy\Argument;
 
 class ModuleUpdateListenerSpec extends ObjectBehavior
