@@ -181,7 +181,7 @@ abstract class AbstractResourceLocator
         }
 
         $resources = array();
-        foreach ($this->filesystem->findPhpFilesIn($path) as $file) {
+        foreach ($this->filesystem->findSpecFilesIn($path) as $file) {
             $specFile = $file->getRealPath();
             if ($this->isSupported($specFile)) {
                 $resources[] = $this->createResourceFromSpecFile($specFile);
