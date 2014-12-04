@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0d6c3d72a6c359e42068cd7e20aa8f4f",
+    "hash": "8ee9766591ee8e6c33a1073d2ed5f116",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -145,16 +145,16 @@
         },
         {
             "name": "phpspec/phpspec",
-            "version": "2.1.0-RC1",
+            "version": "2.1.0-RC3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "fbd1e6c577cb64302df2b416407fda396db7e102"
+                "reference": "3db2020ea22cfd4bc65a68e2b34ebfd6bb1cbf16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/fbd1e6c577cb64302df2b416407fda396db7e102",
-                "reference": "fbd1e6c577cb64302df2b416407fda396db7e102",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/3db2020ea22cfd4bc65a68e2b34ebfd6bb1cbf16",
+                "reference": "3db2020ea22cfd4bc65a68e2b34ebfd6bb1cbf16",
                 "shasum": ""
             },
             "require": {
@@ -163,7 +163,7 @@
                 "phpspec/php-diff": "~1.0.0",
                 "phpspec/prophecy": "~1.1",
                 "sebastian/exporter": "~1.0",
-                "symfony/console": "~2.1",
+                "symfony/console": "~2.3",
                 "symfony/event-dispatcher": "~2.1",
                 "symfony/finder": "~2.1",
                 "symfony/process": "~2.1",
@@ -217,7 +217,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2014-09-14 12:22:14"
+            "time": "2014-12-04 09:06:11"
         },
         {
             "name": "phpspec/prophecy",
