@@ -73,7 +73,7 @@ class HelperGenerator implements GeneratorInterface
         $values = array(
             '%filepath%'        => $filepath,
             '%name%'            => $resource->getName(),
-            '%extends%'         => 'Mage_Core_Helper_Abstract',
+            '%extends%'         => '\Magento\Framework\App\Helper\AbstractHelper',
             '%namespace%'       => $resource->getSrcNamespace(),
             '%namespace_block%' => '' !== $resource->getSrcNamespace()
                 ?  sprintf("\n\nnamespace %s;", $resource->getSrcNamespace())

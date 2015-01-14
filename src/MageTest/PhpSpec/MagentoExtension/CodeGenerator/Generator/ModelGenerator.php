@@ -73,7 +73,7 @@ class ModelGenerator implements GeneratorInterface
         $values = array(
             '%filepath%'        => $filepath,
             '%name%'            => $resource->getName(),
-            '%extends%'         => 'Mage_Core_Model_Abstract',
+            '%extends%'         => '\Magento\Framework\Model\AbstractExtensibleModel',
             '%namespace%'       => $resource->getSrcNamespace(),
             '%namespace_block%' => '' !== $resource->getSrcNamespace()
                 ?  sprintf("\n\nnamespace %s;", $resource->getSrcNamespace())

@@ -73,7 +73,7 @@ class ControllerGenerator implements GeneratorInterface
         $values = array(
             '%filepath%'        => $filepath,
             '%name%'            => $resource->getName(),
-            '%extends%'         => 'Mage_Core_Controller_Front_Action',
+            '%extends%'         => '\Magento\Framework\App\Action\Action',
             '%namespace%'       => $resource->getSrcNamespace(),
             '%namespace_block%' => '' !== $resource->getSrcNamespace()
                 ?  sprintf("\n\nnamespace %s;", $resource->getSrcNamespace())

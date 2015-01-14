@@ -74,7 +74,7 @@ class BlockGenerator implements GeneratorInterface
         $values = array(
             '%filepath%'        => $filepath,
             '%name%'            => $resource->getName(),
-            '%extends%'         => 'Mage_Core_Block_Abstract',
+            '%extends%'         => '\Magento\Framework\View\Element\Template',
             '%namespace%'       => $resource->getSrcNamespace(),
             '%namespace_block%' => '' !== $resource->getSrcNamespace()
                 ?  sprintf("\n\nnamespace %s;", $resource->getSrcNamespace())
