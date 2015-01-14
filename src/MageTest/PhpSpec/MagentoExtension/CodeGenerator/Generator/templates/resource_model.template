@@ -1,6 +1,8 @@
-<?php%namespace_block%
+<?php
 
-class %name% extends Mage_Core_Model_Resource_Db_Abstract
+%namespace_block%
+
+class %name% extends \Magento\Framework\App\Resource
 {
     protected function _construct()
     {
