@@ -26,13 +26,11 @@ use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerGenerato
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerSpecificationGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\HelperGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator;
-use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ResourceModelGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ConfigGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\BlockElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ControllerElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\HelperElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ModelElement;
-use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ResourceModelElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
 use PhpSpec\ServiceContainer;
 
@@ -52,14 +50,6 @@ class GeneratorAssembler implements Assembler
     {
         $container->setShared('code_generator.generators.mage_model', function ($c) {
             return new ModelGenerator(
-                $c->get('console.io'),
-                $c->get('code_generator.templates'),
-                $c->get('filesystem')
-            );
-        });
-
-        $container->setShared('code_generator.generators.mage_resource_model', function ($c) {
-            return new ResourceModelGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem')
@@ -153,10 +143,6 @@ class GeneratorAssembler implements Assembler
 
         $container->setShared('xml_generator.generators.config.element.model', function($c) {
             return new ModelElement();
-        });
-
-        $container->setShared('xml_generator.generators.config.element.resource_model', function($c) {
-            return new ResourceModelElement();
         });
     }
 }

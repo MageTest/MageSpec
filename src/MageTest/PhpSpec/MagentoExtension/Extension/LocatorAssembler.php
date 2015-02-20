@@ -25,7 +25,6 @@ use MageTest\PhpSpec\MagentoExtension\Locator\Magento\BlockLocator;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ControllerLocator;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\HelperLocator;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator;
-use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ResourceModelLocator;
 use PhpSpec\ServiceContainer;
 
 class LocatorAssembler implements Assembler
@@ -58,12 +57,6 @@ class LocatorAssembler implements Assembler
             $c->setShared('locator.locators.model_locator',
                 function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
                     return new ModelLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
-                }
-            );
-
-            $c->setShared('locator.locators.resource_model_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
-                    return new ResourceModelLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
                 }
             );
 
