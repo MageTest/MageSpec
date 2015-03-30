@@ -2,11 +2,12 @@
 
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Console\ApplicationTester;
+use Fake\YesPrompter;
 use OutputSpecification\ClassSpecification;
 use OutputSpecification\ObjectSpecification;
 use OutputSpecification\SpecSpecification;
 use PhpSpec\Console\Application;
+use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
 
 
@@ -118,11 +119,11 @@ class FeatureContext implements SnippetAcceptingContext
     {
 
         $this->applicationTester->run(
-            sprintf(
-                'describe:%s --no-interaction --config %s %s',
-                $objectType,
-                $this->configFile,
-                strtolower($this->namespace) . '/test'
+            array(
+                'command' => sprintf('describe:%s', $objectType),
+                '--no-interaction' => true,
+                '--config' => $this->configFile,
+                'alias' => strtolower($this->namespace) . '/test'
             ),
             array('decorated' => false)
         );
@@ -233,10 +234,17 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function magespecRunsTheSpec()
     {
-        $this->applicationTester->putToInputStream("y\n");
         $this->applicationTester->run(
-            sprintf('run --config %s --no-rerun %s', $this->configFile, $this->currentSpec),
-            array('interactive' => true, 'decorated' => false)
+            array(
+                'command' =>'run',
+                '--config' =>  $this->configFile,
+                '--no-rerun' => true,
+                $this->currentSpec
+            ),
+            array(
+                'interactive' => true,
+                'decorated' => false
+            )
         );
     }
 
@@ -371,10 +379,11 @@ class FeatureContext implements SnippetAcceptingContext
     public function iDescribeANonMagentoObject()
     {
         $this->applicationTester->run(
-            sprintf(
-                'describe --no-interaction --config %s %s',
-                $this->configFile,
-                'Behat/Test'
+            array(
+                'command' => 'describe',
+                '--no-interaction' => true,
+                '--config' =>  $this->configFile,
+                'class' => 'Behat/Test'
             ),
             array('decorated' => false)
         );
@@ -422,6 +431,7 @@ class FeatureContext implements SnippetAcceptingContext
     {
         $application = new Application('version');
         $application->setAutoExit(false);
+        $application->getContainer()->set('console.prompter', new YesPrompter());
 
         return new ApplicationTester($application);
     }
