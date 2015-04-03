@@ -72,25 +72,7 @@ class ExtensionSpec extends ObjectBehavior
 
         $this->load($container);
     }
-
-    function it_registers_a_console_describe_resource_model_command_when_loaded($container)
-    {
-        $container->setShared('console.commands.describe_resource_model', $this->service('\MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeResourceModelCommand', $container))->shouldBeCalled();
-
-        $this->load($container);
-    }
-
-    function it_registers_a_mage_resource_model_code_generator_when_loaded($container, IO $console, TemplateRenderer $templateRenderer, Filesystem $filesystem)
-    {
-        $container->get('console.io')->willReturn($console);
-        $container->get('code_generator.templates')->willReturn($templateRenderer);
-        $container->get('filesystem')->willReturn($filesystem);
-
-        $container->setShared('code_generator.generators.mage_resource_model', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ResourceModelGenerator', $container))->shouldBeCalled();
-
-        $this->load($container);
-    }
-
+    
     function it_registers_a_console_describe_block_command_when_loaded($container)
     {
         $container->setShared('console.commands.describe_block', $this->service('\MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeBlockCommand', $container))->shouldBeCalled();
