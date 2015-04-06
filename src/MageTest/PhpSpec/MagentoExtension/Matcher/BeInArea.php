@@ -70,7 +70,6 @@ class BeInArea extends BasicMatcher
 
     protected function getNegativeFailureException($name, $subject, array $arguments)
     {
-        $area = $subject->get('mage')->app()->getArea();
         return new FailureException(sprintf(
             'Expected %s not to be in area %s.',
             $this->presenter->presentValue($subject),
