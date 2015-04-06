@@ -54,27 +54,29 @@ class LocatorAssembler implements Assembler
                 $filesystem->makeDirectory($specPath);
             }
 
+            $factory = new LocatorFactory($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
+
             $c->setShared('locator.locators.model_locator',
-                function () use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
-                    return new ModelLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
+                function () use ($factory) {
+                    return $factory->getLocator('model');
                 }
             );
 
             $c->setShared('locator.locators.block_locator',
-                function () use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
-                    return new BlockLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
+                function () use ($factory) {
+                    return $factory->getLocator('block');
                 }
             );
 
             $c->setShared('locator.locators.helper_locator',
-                function () use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
-                    return new HelperLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
+                function () use ($factory) {
+                    return $factory->getLocator('helper');
                 }
             );
 
             $c->setShared('locator.locators.controller_locator',
-                function () use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
-                    return new ControllerLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
+                function () use ($factory) {
+                    return $factory->getLocator('controller');
                 }
             );
         });
