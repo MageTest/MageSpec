@@ -124,7 +124,10 @@ class MageLoader
     {
         self::$_scope = $code;
         if (defined('COMPILER_INCLUDE_PATH')) {
-            @include COMPILER_INCLUDE_PATH . DIRECTORY_SEPARATOR . self::SCOPE_FILE_PREFIX.$code.'.php';
+            $file = COMPILER_INCLUDE_PATH . DIRECTORY_SEPARATOR . self::SCOPE_FILE_PREFIX . $code . '.php';
+            if (file_exists($file)) {
+                include $file;
+            }
         }
     }
 
@@ -157,8 +160,8 @@ class MageLoader
     protected function _saveCollectedStat()
     {
         if (!is_dir($this->_collectPath)) {
-            @mkdir($this->_collectPath);
-            @chmod($this->_collectPath, 0777);
+            mkdir($this->_collectPath);
+            chmod($this->_collectPath, 0777);
         }
 
         if (!is_writeable($this->_collectPath)) {
@@ -198,7 +201,7 @@ class MageLoader
     {
         $local = $this->_srcPath . DIRECTORY_SEPARATOR . $this->_codePool . DIRECTORY_SEPARATOR;
         $controller = explode('_', $class);
-        array_splice($controller, 2, 0 , 'controllers');
+        array_splice($controller, 2, 0, 'controllers');
         $pathToController = implode(DIRECTORY_SEPARATOR, $controller);
         $classFile = $local . $pathToController . '.php';
         if (!file_exists($classFile)) {
