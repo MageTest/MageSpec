@@ -83,13 +83,9 @@ class ControllerLocator extends AbstractResourceLocator implements ResourceLocat
      * @param array $matches
      * @return string
      */
-    protected function getClassnameFromMatches(array $matches)
+    protected function getObjectName(array $matches)
     {
-        $vendor = ucfirst(array_shift($matches));
-        $module = ucfirst(array_shift($matches));
-
-        $controller = implode('_', array_map('ucfirst', explode('_', implode($matches)))).'Controller';
-        return implode('_', array($vendor, $module, $controller));
+        return implode('_', array_map('ucfirst', explode('_', implode($matches)))).'Controller';
     }
 
     /**

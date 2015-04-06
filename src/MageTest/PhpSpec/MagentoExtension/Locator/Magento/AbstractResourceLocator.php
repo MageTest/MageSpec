@@ -232,13 +232,17 @@ abstract class AbstractResourceLocator
         }
     }
 
-    protected function getClassnameFromMatches(array $matches)
+    private function getClassnameFromMatches(array $matches)
     {
         $vendor = ucfirst(array_shift($matches));
         $module = ucfirst(array_shift($matches));
 
-        $objectName = implode('_', array_map('ucfirst', explode('_', implode('', $matches))));
-        return implode('_', array($vendor, $module, $this->classType, $objectName));
+        return implode('_', array($vendor, $module, $this->getObjectName($matches)));
+    }
+
+    protected function getObjectName(array $matches)
+    {
+        return $this->classType . '_' . implode('_', array_map('ucfirst', explode('_', implode($matches))));
     }
 
     protected function getRelative($path)
