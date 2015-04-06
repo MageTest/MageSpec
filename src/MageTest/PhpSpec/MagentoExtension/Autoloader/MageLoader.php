@@ -44,6 +44,8 @@ class MageLoader
 
     /**
      * Class constructor
+     * @param string $srcPath
+     * @param string $codePool
      */
     public function __construct($srcPath, $codePool = 'local')
     {
@@ -61,6 +63,8 @@ class MageLoader
     /**
      * Singleton pattern implementation
      *
+     * @param string $srcPath
+     * @param string $codePool
      * @return MageLoader
      */
     static public function instance($srcPath, $codePool)
@@ -73,6 +77,8 @@ class MageLoader
 
     /**
      * Register SPL autoload function
+     * @param string $srcPath
+     * @param string $codePool
      */
     static public function register($srcPath, $codePool)
     {
@@ -83,6 +89,7 @@ class MageLoader
      * Load class source code
      *
      * @param string $class
+     * @return bool|mixed
      */
     public function autoload($class)
     {
@@ -185,7 +192,7 @@ class MageLoader
      * Includes a controller given a controller class name
      *
      * @param string $class controller class name
-     * @return @link http://www.php.net/manual/en/function.include.php
+     * @return bool|mixed
      */
     private function includeController($class)
     {
