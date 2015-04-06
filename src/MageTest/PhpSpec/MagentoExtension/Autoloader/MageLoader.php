@@ -44,6 +44,8 @@ class MageLoader
 
     /**
      * Class constructor
+     * @param string $srcPath
+     * @param string $codePool
      */
     public function __construct($srcPath, $codePool = 'local')
     {
@@ -61,9 +63,11 @@ class MageLoader
     /**
      * Singleton pattern implementation
      *
+     * @param string $srcPath
+     * @param string $codePool
      * @return MageLoader
      */
-    static public function instance($srcPath, $codePool)
+    public static function instance($srcPath, $codePool)
     {
         if (!self::$_instance) {
             self::$_instance = new MageLoader($srcPath, $codePool);
@@ -73,8 +77,10 @@ class MageLoader
 
     /**
      * Register SPL autoload function
+     * @param string $srcPath
+     * @param string $codePool
      */
-    static public function register($srcPath, $codePool)
+    public static function register($srcPath, $codePool)
     {
         spl_autoload_register(array(self::instance($srcPath, $codePool), 'autoload'));
     }
@@ -83,6 +89,7 @@ class MageLoader
      * Load class source code
      *
      * @param string $class
+     * @return bool|mixed
      */
     public function autoload($class)
     {
@@ -113,11 +120,14 @@ class MageLoader
      *
      * @param string $code scope code
      */
-    static public function registerScope($code)
+    public static function registerScope($code)
     {
         self::$_scope = $code;
         if (defined('COMPILER_INCLUDE_PATH')) {
-            @include COMPILER_INCLUDE_PATH . DIRECTORY_SEPARATOR . self::SCOPE_FILE_PREFIX.$code.'.php';
+            $file = COMPILER_INCLUDE_PATH . DIRECTORY_SEPARATOR . self::SCOPE_FILE_PREFIX . $code . '.php';
+            if (file_exists($file)) {
+                include $file;
+            }
         }
     }
 
@@ -126,7 +136,7 @@ class MageLoader
      *
      * @return string
      */
-    static public function getScope()
+    public static function getScope()
     {
         return self::$_scope;
     }
@@ -150,8 +160,8 @@ class MageLoader
     protected function _saveCollectedStat()
     {
         if (!is_dir($this->_collectPath)) {
-            @mkdir($this->_collectPath);
-            @chmod($this->_collectPath, 0777);
+            mkdir($this->_collectPath);
+            chmod($this->_collectPath, 0777);
         }
 
         if (!is_writeable($this->_collectPath)) {
@@ -185,13 +195,13 @@ class MageLoader
      * Includes a controller given a controller class name
      *
      * @param string $class controller class name
-     * @return @link http://www.php.net/manual/en/function.include.php
+     * @return bool|mixed
      */
     private function includeController($class)
     {
         $local = $this->_srcPath . DIRECTORY_SEPARATOR . $this->_codePool . DIRECTORY_SEPARATOR;
         $controller = explode('_', $class);
-        array_splice($controller, 2, 0 , 'controllers');
+        array_splice($controller, 2, 0, 'controllers');
         $pathToController = implode(DIRECTORY_SEPARATOR, $controller);
         $classFile = $local . $pathToController . '.php';
         if (!file_exists($classFile)) {
