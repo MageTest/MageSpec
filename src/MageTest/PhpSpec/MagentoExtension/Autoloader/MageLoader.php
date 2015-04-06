@@ -67,7 +67,7 @@ class MageLoader
      * @param string $codePool
      * @return MageLoader
      */
-    static public function instance($srcPath, $codePool)
+    public static function instance($srcPath, $codePool)
     {
         if (!self::$_instance) {
             self::$_instance = new MageLoader($srcPath, $codePool);
@@ -80,7 +80,7 @@ class MageLoader
      * @param string $srcPath
      * @param string $codePool
      */
-    static public function register($srcPath, $codePool)
+    public static function register($srcPath, $codePool)
     {
         spl_autoload_register(array(self::instance($srcPath, $codePool), 'autoload'));
     }
@@ -120,7 +120,7 @@ class MageLoader
      *
      * @param string $code scope code
      */
-    static public function registerScope($code)
+    public static function registerScope($code)
     {
         self::$_scope = $code;
         if (defined('COMPILER_INCLUDE_PATH')) {
@@ -133,7 +133,7 @@ class MageLoader
      *
      * @return string
      */
-    static public function getScope()
+    public static function getScope()
     {
         return self::$_scope;
     }
