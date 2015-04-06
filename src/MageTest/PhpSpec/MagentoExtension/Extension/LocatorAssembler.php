@@ -55,25 +55,25 @@ class LocatorAssembler implements Assembler
             }
 
             $c->setShared('locator.locators.model_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
+                function () use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
                     return new ModelLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
                 }
             );
 
             $c->setShared('locator.locators.block_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
+                function () use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
                     return new BlockLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
                 }
             );
 
             $c->setShared('locator.locators.helper_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
+                function () use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
                     return new HelperLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
                 }
             );
 
             $c->setShared('locator.locators.controller_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
+                function () use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
                     return new ControllerLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
                 }
             );

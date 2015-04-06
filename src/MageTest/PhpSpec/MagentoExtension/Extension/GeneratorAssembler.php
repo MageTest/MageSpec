@@ -133,15 +133,15 @@ class GeneratorAssembler implements Assembler
             return new BlockElement();
         });
 
-        $container->setShared('xml_generator.generators.config.element.helper', function($c) {
+        $container->setShared('xml_generator.generators.config.element.helper', function() {
             return new HelperElement();
         });
 
-        $container->setShared('xml_generator.generators.config.element.controller', function($c) {
+        $container->setShared('xml_generator.generators.config.element.controller', function() {
             return new ControllerElement();
         });
 
-        $container->setShared('xml_generator.generators.config.element.model', function($c) {
+        $container->setShared('xml_generator.generators.config.element.model', function() {
             return new ModelElement();
         });
     }
