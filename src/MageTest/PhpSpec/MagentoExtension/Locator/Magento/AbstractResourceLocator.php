@@ -99,27 +99,22 @@ abstract class AbstractResourceLocator
 
     public function findResources($query)
     {
-        $path = rtrim(realpath(str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $query)), DIRECTORY_SEPARATOR);
+        $path = $this->getCleanPath($query);
 
-        if ('.php' !== substr($path, -4)) {
-            $path .= DIRECTORY_SEPARATOR;
+        if (!$path) {
+            return array();
         }
 
-        if ($path && 0 === strpos($path, $this->fullSrcPath)) {
-            $path = $this->fullSpecPath.substr($path, strlen($this->fullSrcPath));
-            $path = preg_replace('/\.php/', 'Spec.php', $path);
+        foreach (array($this->fullSrcPath, $this->srcPath) as $srcPath) {
+            if (0 === strpos($path, $srcPath)) {
+                $path = $srcPath.substr($path, strlen($srcPath));
+                $path = preg_replace('/\.php/', 'Spec.php', $path);
 
-            return $this->findSpecResources($path);
+                return $this->findSpecResources($path);
+            }
         }
 
-        if ($path && 0 === strpos($path, $this->srcPath)) {
-            $path = $this->fullSpecPath.substr($path, strlen($this->srcPath));
-            $path = preg_replace('/\.php/', 'Spec.php', $path);
-
-            return $this->findSpecResources($path);
-        }
-
-        if ($path && 0 === strpos($path, $this->specPath)) {
+        if (0 === strpos($path, $this->specPath)) {
             return $this->findSpecResources($path);
         }
 
@@ -230,6 +225,17 @@ abstract class AbstractResourceLocator
                 $specPath
             ));
         }
+    }
+
+    private function getCleanPath($query)
+    {
+        $path = rtrim(realpath(str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $query)), DIRECTORY_SEPARATOR);
+
+        if ('.php' !== substr($path, -4)) {
+            $path .= DIRECTORY_SEPARATOR;
+        }
+
+        return $path;
     }
 
     private function getClassnameFromMatches(array $matches)
