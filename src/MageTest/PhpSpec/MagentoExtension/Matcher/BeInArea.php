@@ -37,7 +37,7 @@ use PhpSpec\Formatter\Presenter\PresenterInterface;
  */
 class BeInArea extends BasicMatcher
 {
-    private $representer;
+    private $presenter;
 
     public function __construct(PresenterInterface $presenter)
     {
