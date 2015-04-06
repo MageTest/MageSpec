@@ -37,13 +37,18 @@ abstract class AbstractResourceLocator
     protected $filesystem;
     protected $codePool;
 
-    public function __construct($srcNamespace = '', $specNamespacePrefix = '',
-                                $srcPath = 'src', $specPath = 'spec', Filesystem $filesystem = null, $codePool = null)
-    {
+    public function __construct(
+        $srcNamespace = '',
+        $specNamespacePrefix = '',
+        $srcPath = 'src',
+        $specPath = 'spec',
+        Filesystem $filesystem = null,
+        $codePool = null
+    ) {
         $this->checkInitialData();
 
-        $this->filesystem = $filesystem ? : new Filesystem;
-        $this->codePool   = $codePool ? : 'local';
+        $this->setFilesystem($filesystem);
+        $this->setCodePool($codePool);
 
         $this->srcPath       = rtrim(realpath($srcPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
         $this->specPath      = rtrim(realpath($specPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
@@ -52,19 +57,7 @@ abstract class AbstractResourceLocator
         $this->fullSrcPath   = $this->srcPath;
         $this->fullSpecPath  = $this->specPath;
 
-        if (DIRECTORY_SEPARATOR === $this->srcPath) {
-            throw new \InvalidArgumentException(sprintf(
-                'Source code path should be existing filesystem path, but "%s" given.',
-                $srcPath
-            ));
-        }
-
-        if (DIRECTORY_SEPARATOR === $this->specPath) {
-            throw new \InvalidArgumentException(sprintf(
-                'Specs code path should be existing filesystem path, but "%s" given.',
-                $specPath
-            ));
-        }
+        $this->validatePaths($srcPath, $specPath);
     }
 
     public function getFullSrcPath()
@@ -207,6 +200,35 @@ abstract class AbstractResourceLocator
 
         if (null === $this->validator) {
             throw new \UnexpectedValueException('Concrete resource locators mist specify a validation rule');
+        }
+    }
+
+    private function setFilesystem($filesystem)
+    {
+        $this->filesystem = $filesystem ? : new Filesystem;
+    }
+
+    private function setCodePool($codePool)
+    {
+        $this->codePool = $codePool ? : 'local';
+    }
+
+    private function validatePaths($srcPath, $specPath)
+    {
+        $invalidPath = DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
+
+        if ($invalidPath === $this->srcPath) {
+            throw new \InvalidArgumentException(sprintf(
+                'Source code path should be existing filesystem path, but "%s" given.',
+                $srcPath
+            ));
+        }
+
+        if ($invalidPath === $this->specPath) {
+            throw new \InvalidArgumentException(sprintf(
+                'Specs code path should be existing filesystem path, but "%s" given.',
+                $specPath
+            ));
         }
     }
 
