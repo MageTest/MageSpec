@@ -54,7 +54,7 @@ class BeInArea extends BasicMatcher
 
     protected function matches($subject, array $arguments)
     {
-        $subject->get('mage')->app()->getArea() === $arguments[0];
+        return $subject->get('mage')->app()->getArea() === $arguments[0];
     }
 
     protected function getFailureException($name, $subject, array $arguments)
