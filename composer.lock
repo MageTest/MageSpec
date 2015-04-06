@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b1946e966b058c9d8c76682a823c8254",
+    "hash": "df41e58fd721d16a98525cc9b4ae795b",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -145,16 +145,16 @@
         },
         {
             "name": "phpspec/phpspec",
-            "version": "2.2.0-BETA",
+            "version": "2.2.0-BETA2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "a0e90a11eebe03588347acaa0ed60b84ae627fe8"
+                "reference": "a37b456e9af8f0a8f46b8877fbc8b42da5bd38ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/a0e90a11eebe03588347acaa0ed60b84ae627fe8",
-                "reference": "a0e90a11eebe03588347acaa0ed60b84ae627fe8",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/a37b456e9af8f0a8f46b8877fbc8b42da5bd38ae",
+                "reference": "a37b456e9af8f0a8f46b8877fbc8b42da5bd38ae",
                 "shasum": ""
             },
             "require": {
@@ -219,7 +219,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2015-03-28 11:05:22"
+            "time": "2015-04-03 09:20:11"
         },
         {
             "name": "phpspec/prophecy",
