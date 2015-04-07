@@ -101,10 +101,6 @@ abstract class AbstractResourceLocator
     {
         $path = $this->getCleanPath($query);
 
-        if (!$path) {
-            return array();
-        }
-
         foreach (array($this->fullSrcPath, $this->srcPath) as $srcPath) {
             if (0 === strpos($path, $srcPath)) {
                 $path = $srcPath.substr($path, strlen($srcPath));
