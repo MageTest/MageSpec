@@ -119,6 +119,9 @@ class Extension implements ExtensionInterface
         });
     }
 
+    /**
+     * @param ServiceContainer $container
+     */
     private function configureAutoloader($container)
     {
         $container->addConfigurator(function ($c) {
