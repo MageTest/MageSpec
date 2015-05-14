@@ -319,7 +319,7 @@ class VarienCaller extends Caller
      * @param string $method
      * @param array  $arguments
      *
-     * @return \PhpSpec\Exception\Fracture\MethodNotFoundException|\PhpSpec\Exception\Fracture\MethodNotVisibleException
+     * @return \PhpSpec\Exception\Fracture\NamedConstructorNotFoundException
      */
     private function namedConstructorNotFound($method, array $arguments = array())
     {
