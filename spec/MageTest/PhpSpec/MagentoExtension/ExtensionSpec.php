@@ -138,16 +138,6 @@ class ExtensionSpec extends ObjectBehavior
         $this->load($container);
     }
 
-    function it_registers_a_varien_subject_maintainer_when_loaded($container, PresenterInterface $presenter, Unwrapper $unwrapper, EventDispatcherInterface $dispatcher)
-    {
-        $container->get('formatter.presenter')->willReturn($presenter);
-        $container->get('event_dispatcher')->willReturn($dispatcher);
-
-        $container->setShared('runner.maintainers.varien_subject', $this->service('\MageTest\PhpSpec\MagentoExtension\Runner\Maintainer\VarienSubjectMaintainer', $container))->shouldBeCalled();
-
-        $this->load($container);
-    }
-
     function it_adds_locator_configuration_when_loaded($container)
     {
         $container->addConfigurator('locator.locators.mage_locator', true);
