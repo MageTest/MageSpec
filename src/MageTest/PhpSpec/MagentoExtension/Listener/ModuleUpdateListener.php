@@ -22,8 +22,11 @@ class ModuleUpdateListener implements EventSubscriberInterface
     private $detector;
 
     public function __construct(
-        ModuleGenerator $moduleGenerator, ConfigGenerator $configGenerator, IO $io, ClassDetector $detector)
-    {
+        ModuleGenerator $moduleGenerator,
+        ConfigGenerator $configGenerator,
+        IO $io,
+        ClassDetector $detector
+    ) {
         $this->moduleGenerator = $moduleGenerator;
         $this->configGenerator = $configGenerator;
         $this->io = $io;
