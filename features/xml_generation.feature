@@ -44,10 +44,3 @@ Feature: Module XML files are generated
     And there is a "controller" spec
     When Magespec runs the spec
     Then the config XML file should contain a "controller" element
-
-  Scenario: Config XML contains a resource model element
-    Given Magespec has a standard configuration
-    And there is a new module
-    And there is a "resource model" spec
-    When Magespec runs the spec
-    Then the config XML file should contain a "resource model" element

@@ -25,7 +25,6 @@ use MageTest\PhpSpec\MagentoExtension\Locator\Magento\BlockLocator;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ControllerLocator;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\HelperLocator;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator;
-use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ResourceModelLocator;
 use PhpSpec\ServiceContainer;
 
 class LocatorAssembler implements Assembler
@@ -55,33 +54,29 @@ class LocatorAssembler implements Assembler
                 $filesystem->makeDirectory($specPath);
             }
 
-            $c->setShared('locator.locators.model_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
-                    return new ModelLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
-                }
-            );
+            $factory = new LocatorFactory($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
 
-            $c->setShared('locator.locators.resource_model_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
-                    return new ResourceModelLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
+            $c->setShared('locator.locators.model_locator',
+                function () use ($factory) {
+                    return $factory->getLocator('model');
                 }
             );
 
             $c->setShared('locator.locators.block_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
-                    return new BlockLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
+                function () use ($factory) {
+                    return $factory->getLocator('block');
                 }
             );
 
             $c->setShared('locator.locators.helper_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
-                    return new HelperLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
+                function () use ($factory) {
+                    return $factory->getLocator('helper');
                 }
             );
 
             $c->setShared('locator.locators.controller_locator',
-                function ($c) use ($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool) {
-                    return new ControllerLocator($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
+                function () use ($factory) {
+                    return $factory->getLocator('controller');
                 }
             );
         });
