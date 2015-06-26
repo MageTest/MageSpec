@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "83f6b6e9dee66b9c65d3fc8cd6488f13",
+    "hash": "a65d303d600c36702f674a763241be30",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -145,16 +145,16 @@
         },
         {
             "name": "phpspec/phpspec",
-            "version": "2.2.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "9727d75919a00455433e867565bc022f0b985a39"
+                "reference": "36c1e97d59630888fd022a542b1650ae5eab1f18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/9727d75919a00455433e867565bc022f0b985a39",
-                "reference": "9727d75919a00455433e867565bc022f0b985a39",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/36c1e97d59630888fd022a542b1650ae5eab1f18",
+                "reference": "36c1e97d59630888fd022a542b1650ae5eab1f18",
                 "shasum": ""
             },
             "require": {
@@ -219,7 +219,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2015-04-18 16:22:51"
+            "time": "2015-06-22 14:53:22"
         },
         {
             "name": "phpspec/prophecy",
@@ -1366,7 +1366,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "phpspec/phpspec": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
