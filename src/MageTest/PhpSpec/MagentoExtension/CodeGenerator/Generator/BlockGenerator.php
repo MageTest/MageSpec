@@ -22,10 +22,8 @@
 namespace MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator;
 
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\BlockResource;
-use PhpSpec\Console\IO;
-use PhpSpec\CodeGenerator\TemplateRenderer;
+use PhpSpec\CodeGenerator\Generator\PromptingGenerator;
 use PhpSpec\CodeGenerator\Generator\GeneratorInterface;
-use PhpSpec\Util\Filesystem;
 use PhpSpec\Locator\ResourceInterface;
 
 /**
@@ -36,41 +34,45 @@ use PhpSpec\Locator\ResourceInterface;
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class BlockGenerator implements GeneratorInterface
+class BlockGenerator extends PromptingGenerator implements GeneratorInterface
 {
-    private $io;
-    private $templates;
-    private $filesystem;
-
-    public function __construct(IO $io, TemplateRenderer $templates, Filesystem $filesystem = null)
-    {
-        $this->io         = $io;
-        $this->templates  = $templates;
-        $this->filesystem = $filesystem ?: new Filesystem;
-    }
-
+    /**
+     * @param ResourceInterface $resource
+     * @param string $generation
+     * @param array $data
+     * @return bool
+     */
     public function supports(ResourceInterface $resource, $generation, array $data)
     {
         return 'class' === $generation && $resource instanceof BlockResource;
     }
 
-    public function generate(ResourceInterface $resource, array $data = array())
+    /**
+     * @return int
+     */
+    public function getPriority()
     {
-        $filepath = $resource->getSrcFilename();
-        if ($this->filesystem->pathExists($filepath)) {
-            $message = sprintf('File "%s" already exists. Overwrite?', basename($filepath));
-            if (!$this->io->askConfirmation($message, false)) {
-                return;
-            }
+        return 30;
+    }
 
-            $this->io->writeln();
-        }
+    /**
+     * @param ResourceInterface $resource
+     *
+     * @return string
+     */
+    protected function getFilePath(ResourceInterface $resource)
+    {
+        return $resource->getSrcFilename();
+    }
 
-        $path = dirname($filepath);
-        if (!$this->filesystem->isDirectory($path)) {
-            $this->filesystem->makeDirectory($path);
-        }
-
+    /**
+     * @param ResourceInterface $resource
+     * @param string $filepath
+     *
+     * @return string
+     */
+    protected function renderTemplate(ResourceInterface $resource, $filepath)
+    {
         $values = array(
             '%filepath%'        => $filepath,
             '%name%'            => $resource->getName(),
@@ -81,21 +83,27 @@ class BlockGenerator implements GeneratorInterface
                 : '',
         );
 
-        if (!$content = $this->templates->render('mage_block', $values)) {
-            $content = $this->templates->renderString(
+        if (!$content = $this->getTemplateRenderer()->render('mage_block', $values)) {
+            $content = $this->getTemplateRenderer()->renderString(
                 file_get_contents(__DIR__ . '/templates/generic_class.template'), $values
             );
         }
 
-        $this->filesystem->putFileContents($filepath, $content);
-        $this->io->writeln(sprintf(
-            "<info>Magento block <value>%s</value> created in <value>'%s'</value>.</info>\n",
-            $resource->getSrcClassname(), $filepath
-        ));
+        return $content;
     }
 
-    public function getPriority()
+    /**
+     * @param ResourceInterface $resource
+     * @param string $filepath
+     *
+     * @return string
+     */
+    protected function getGeneratedMessage(ResourceInterface $resource, $filepath)
     {
-        return 30;
+        return sprintf(
+            "<info>Magento block <value>%s</value> created in <value>'%s'</value>.</info>\n",
+            $resource->getSrcClassname(),
+            $filepath
+        );
     }
 }
