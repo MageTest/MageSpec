@@ -80,7 +80,7 @@ class ConfigGenerator
 
     private function getCurrentConfigXml($moduleName)
     {
-        if (!$this->moduleFileExists($moduleName)) {
+        if (!$this->moduleFileExists()) {
             $values = array(
                 '%module_name%' => $moduleName
             );
