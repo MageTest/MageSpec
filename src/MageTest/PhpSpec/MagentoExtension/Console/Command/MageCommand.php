@@ -21,6 +21,8 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Console\Command;
 
+use PhpSpec\Locator\ResourceManagerInterface;
+use PhpSpec\ServiceContainer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -42,6 +44,18 @@ abstract class MageCommand extends Command
      */
     protected $type;
 
+    /**
+     * @var ServiceContainer
+     */
+    private $container;
+
+    public function __construct(ServiceContainer $container)
+    {
+        $this->container = $container;
+
+        parent::__construct();
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $alias = $input->getArgument('alias');
@@ -50,12 +64,11 @@ abstract class MageCommand extends Command
             throw new \InvalidArgumentException($this->help);
         }
 
-        $container = $this->getApplication()->getContainer();
-        $container->configure();
+        $this->container->configure();
 
         $classname = $this->type . ':' . $alias;
-        $resource  = $container->get('locator.resource_manager')->createResource($classname);
+        $resource  = $this->container->get('locator.resource_manager')->createResource($classname);
 
-        $container->get('code_generator')->generate($resource, 'specification');
+        $this->container->get('code_generator')->generate($resource, 'specification');
     }
 } 
