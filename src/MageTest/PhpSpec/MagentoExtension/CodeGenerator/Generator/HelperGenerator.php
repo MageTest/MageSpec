@@ -22,7 +22,6 @@
 namespace MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator;
 
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\HelperResource;
-use PhpSpec\CodeGenerator\Generator\PromptingGenerator;
 use PhpSpec\CodeGenerator\Generator\GeneratorInterface;
 use PhpSpec\Locator\ResourceInterface;
 /**
@@ -33,7 +32,7 @@ use PhpSpec\Locator\ResourceInterface;
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class HelperGenerator extends PromptingGenerator implements GeneratorInterface
+class HelperGenerator extends MagentoObjectGenerator implements GeneratorInterface
 {
     /**
      * @param ResourceInterface $resource
@@ -70,33 +69,6 @@ class HelperGenerator extends PromptingGenerator implements GeneratorInterface
      *
      * @return string
      */
-    protected function renderTemplate(ResourceInterface $resource, $filepath)
-    {
-        $values = array(
-            '%filepath%'        => $filepath,
-            '%name%'            => $resource->getName(),
-            '%extends%'         => 'Mage_Core_Helper_Abstract',
-            '%namespace%'       => $resource->getSrcNamespace(),
-            '%namespace_block%' => '' !== $resource->getSrcNamespace()
-                ?  sprintf("\n\nnamespace %s;", $resource->getSrcNamespace())
-                : '',
-        );
-
-        if (!$content = $this->getTemplateRenderer()->render('mage_helper', $values)) {
-            $content = $this->getTemplateRenderer()->renderString(
-                file_get_contents(__DIR__ . '/templates/generic_class.template'), $values
-            );
-        }
-
-        return $content;
-    }
-
-    /**
-     * @param ResourceInterface $resource
-     * @param string $filepath
-     *
-     * @return string
-     */
     protected function getGeneratedMessage(ResourceInterface $resource, $filepath)
     {
         return sprintf(
@@ -104,5 +76,21 @@ class HelperGenerator extends PromptingGenerator implements GeneratorInterface
             $resource->getSrcClassname(),
             $filepath
         );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getParentClass()
+    {
+        return 'Mage_Core_Helper_Abstract';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTemplateName()
+    {
+        return 'mage_helper';
     }
 }

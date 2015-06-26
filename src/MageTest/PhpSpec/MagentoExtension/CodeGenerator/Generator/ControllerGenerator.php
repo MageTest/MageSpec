@@ -22,7 +22,6 @@
 namespace MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator;
 
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ControllerResource;
-use PhpSpec\CodeGenerator\Generator\PromptingGenerator;
 use PhpSpec\CodeGenerator\Generator\GeneratorInterface;
 use PhpSpec\Locator\ResourceInterface;
 /**
@@ -33,7 +32,7 @@ use PhpSpec\Locator\ResourceInterface;
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class ControllerGenerator extends PromptingGenerator implements GeneratorInterface
+class ControllerGenerator extends MagentoObjectGenerator implements GeneratorInterface
 {
     /**
      * @param ResourceInterface $resource
@@ -104,5 +103,21 @@ class ControllerGenerator extends PromptingGenerator implements GeneratorInterfa
             $resource->getSrcClassname(),
             $filepath
         );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getParentClass()
+    {
+        return 'Mage_Core_Controller_Front_Action';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTemplateName()
+    {
+        return 'mage_controller';
     }
 }
