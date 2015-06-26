@@ -101,7 +101,13 @@ class ConfigGenerator
 
     private function getIndentedXml(\SimpleXMLElement $xml)
     {
-        return $this->formatter->format($xml->asXML());
+        $xmlText = $xml->asXML();
+
+        if (false === $xmlText) {
+            throw new \RuntimeException('Failed to convert XML object to string');
+        }
+
+        return $this->formatter->format($xmlText);
     }
 
     /**
