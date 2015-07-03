@@ -65,14 +65,14 @@ class Extension implements ExtensionInterface
 
     private function setFilesystem(ServiceContainer $container)
     {
-        $container->setShared('filesystem', function($c) {
+        $container->setShared('filesystem', function() {
             return new Filesystem();
         });
     }
 
     private function setFormatter(ServiceContainer $container)
     {
-        $container->setShared('xml.formatter', function($c) {
+        $container->setShared('xml.formatter', function() {
             return new Formatter();
         });
     }
@@ -102,8 +102,8 @@ class Extension implements ExtensionInterface
 
     private function setUtils(ServiceContainer $container)
     {
-        $container->setShared('util.class_detector', function ($c) {
-           return new ClassDetector();
+        $container->setShared('util.class_detector', function () {
+            return new ClassDetector();
         });
     }
 

@@ -123,9 +123,7 @@ abstract class AbstractResourceLocator
      */
     public function supportsQuery($query)
     {
-        $isSupported = (bool) preg_match($this->validator, $query) || $this->isSupported($query);;
-
-        return $isSupported;
+        return (bool) preg_match($this->validator, $query) || $this->isSupported($query);
     }
 
     /**
