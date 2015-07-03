@@ -26,11 +26,9 @@ use MageTest\PhpSpec\MagentoExtension\Extension\GeneratorAssembler;
 use MageTest\PhpSpec\MagentoExtension\Extension\LocatorAssembler;
 use MageTest\PhpSpec\MagentoExtension\Listener\ModuleUpdateListener;
 use MageTest\PhpSpec\MagentoExtension\Util\ClassDetector;
-use MageTest\PhpSpec\MagentoExtension\Wrapper\VarienWrapperFactory;
 use PhpSpec\Extension\ExtensionInterface;
 use PhpSpec\ServiceContainer;
 use MageTest\PhpSpec\MagentoExtension\Autoloader\MageLoader;
-use MageTest\PhpSpec\MagentoExtension\Runner\Maintainer\VarienSubjectMaintainer;
 use PhpSpec\Util\Filesystem;
 use PrettyXml\Formatter;
 
@@ -50,7 +48,7 @@ class Extension implements ExtensionInterface
         $this->setFilesystem($container);
         $this->setFormatter($container);
         $this->setGenerators($container);
-        $this->setMaintainers($container);
+        $this->setAccessInspector($container);
         $this->setLocators($container);
         $this->setUtils($container);
         $this->setEvents($container);
@@ -83,14 +81,10 @@ class Extension implements ExtensionInterface
         $generatorAssembler->build($container);
     }
 
-    private function setMaintainers(ServiceContainer $container)
+    private function setAccessInspector(ServiceContainer $container)
     {
-        $container->setShared('runner.maintainers.varien_subject', function ($c) {
-            return new VarienSubjectMaintainer(
-                $c->get('formatter.presenter'),
-                $c->get('event_dispatcher'),
-                new VarienWrapperFactory()
-            );
+        $container->setShared('access_inspector', function($c) {
+            return $c->get('access_inspector.visibility');
         });
     }
 
