@@ -35,20 +35,20 @@ class CommandAssembler implements Assembler
      */
     public function build(ServiceContainer $container)
     {
-        $container->setShared('console.commands.describe_model', function () {
-            return new DescribeModelCommand();
+        $container->setShared('console.commands.describe_model', function () use ($container) {
+            return new DescribeModelCommand($container);
         });
 
-        $container->setShared('console.commands.describe_block', function () {
-            return new DescribeBlockCommand();
+        $container->setShared('console.commands.describe_block', function () use ($container) {
+            return new DescribeBlockCommand($container);
         });
 
-        $container->setShared('console.commands.describe_helper', function () {
-            return new DescribeHelperCommand();
+        $container->setShared('console.commands.describe_helper', function () use ($container) {
+            return new DescribeHelperCommand($container);
         });
 
-        $container->setShared('console.commands.describe_controller', function () {
-            return new DescribeControllerCommand();
+        $container->setShared('console.commands.describe_controller', function () use ($container) {
+            return new DescribeControllerCommand($container);
         });
     }
 } 
