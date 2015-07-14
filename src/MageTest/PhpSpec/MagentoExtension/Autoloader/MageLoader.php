@@ -144,7 +144,7 @@ class MageLoader
     public function __destruct()
     {
         if ($this->_collectClasses) {
-            $this->_saveCollectedStat();
+            $this->_saveCollectedState();
         }
     }
 
@@ -154,37 +154,18 @@ class MageLoader
      *
      * @return MageLoader
      */
-    protected function _saveCollectedStat()
+    protected function _saveCollectedState()
     {
-        if (!is_dir($this->_collectPath)) {
-            mkdir($this->_collectPath);
-            chmod($this->_collectPath, 0777);
-        }
+        $this->prepareCollectPath();
 
         if (!is_writeable($this->_collectPath)) {
             return $this;
         }
 
         foreach ($this->_arrLoadedClasses as $scope => $classes) {
-            $file = $this->_collectPath.DIRECTORY_SEPARATOR.$scope.'.csv';
-            $data = array();
-            if (file_exists($file)) {
-                $data = explode("\n", file_get_contents($file));
-                foreach ($data as $index => $class) {
-                    $class = explode(':', $class);
-                    $searchIndex = array_search($class[0], $classes);
-                    if ($searchIndex !== false) {
-                        $class[1]+=1;
-                        unset($classes[$searchIndex]);
-                    }
-                    $data[$index] = $class[0].':'.$class[1];
-                }
-            }
-            foreach ($classes as $class) {
-                $data[] = $class . ':1';
-            }
-            file_put_contents($file, implode("\n", $data));
+            $this->writeStateFile($scope, $classes);
         }
+
         return $this;
     }
 
@@ -217,5 +198,44 @@ class MageLoader
             return  COMPILER_INCLUDE_PATH . DIRECTORY_SEPARATOR . $class;
         }
         return str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $class)));
+    }
+
+    private function prepareCollectPath()
+    {
+        if (!is_dir($this->_collectPath)) {
+            mkdir($this->_collectPath);
+            chmod($this->_collectPath, 0777);
+        }
+    }
+
+    /**
+     * @param $scope
+     * @param $classes
+     */
+    protected function writeStateFile($scope, $classes)
+    {
+        $file = $this->_collectPath . DIRECTORY_SEPARATOR . $scope . '.csv';
+
+        if (!file_exists($file)) {
+            return;
+        }
+
+        $data = explode("\n", file_get_contents($file));
+        
+        foreach ($data as $index => $class) {
+            $class = explode(':', $class);
+            $searchIndex = array_search($class[0], $classes);
+            if ($searchIndex !== false) {
+                $class[1] += 1;
+                unset($classes[$searchIndex]);
+            }
+            $data[$index] = $class[0] . ':' . $class[1];
+        }
+
+        foreach ($classes as $class) {
+            $data[] = $class . ':1';
+        }
+
+        file_put_contents($file, implode("\n", $data));
     }
 }
