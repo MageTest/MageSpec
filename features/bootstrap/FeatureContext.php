@@ -2,7 +2,7 @@
 
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Fake\YesDialogHelper;
+use Fake\YesPrompter;
 use OutputSpecification\ClassSpecification;
 use OutputSpecification\ObjectSpecification;
 use OutputSpecification\SpecSpecification;
@@ -431,7 +431,7 @@ class FeatureContext implements SnippetAcceptingContext
     {
         $application = new Application('version');
         $application->setAutoExit(false);
-        $application->getHelperSet()->set(new YesDialogHelper());
+        $application->getContainer()->set('console.prompter', new YesPrompter());
 
         return new ApplicationTester($application);
     }

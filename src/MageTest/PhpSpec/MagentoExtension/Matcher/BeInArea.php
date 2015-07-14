@@ -37,7 +37,7 @@ use PhpSpec\Formatter\Presenter\PresenterInterface;
  */
 class BeInArea extends BasicMatcher
 {
-    private $representer;
+    private $presenter;
 
     public function __construct(PresenterInterface $presenter)
     {
@@ -54,7 +54,7 @@ class BeInArea extends BasicMatcher
 
     protected function matches($subject, array $arguments)
     {
-        $subject->get('mage')->app()->getArea() === $arguments[0];
+        return $subject->get('mage')->app()->getArea() === $arguments[0];
     }
 
     protected function getFailureException($name, $subject, array $arguments)
@@ -70,7 +70,6 @@ class BeInArea extends BasicMatcher
 
     protected function getNegativeFailureException($name, $subject, array $arguments)
     {
-        $area = $subject->get('mage')->app()->getArea();
         return new FailureException(sprintf(
             'Expected %s not to be in area %s.',
             $this->presenter->presentValue($subject),
