@@ -27,13 +27,44 @@ use PhpSpec\Util\Filesystem;
 
 abstract class AbstractResourceLocator
 {
+    /**
+     * @var string
+     */
     protected $srcPath;
+
+    /**
+     * @var string
+     */
     protected $specPath;
+
+    /**
+     * @var string
+     */
     protected $srcNamespace;
+
+    /**
+     * @var string
+     */
     protected $specNamespace;
+
+    /**
+     * @var string
+     */
     protected $fullSrcPath;
+
+    /**
+     * @var string
+     */
     protected $fullSpecPath;
+
+    /**
+     * @var Filesystem
+     */
     protected $filesystem;
+
+    /**
+     * @var string
+     */
     protected $codePool;
 
     /**
@@ -182,6 +213,9 @@ abstract class AbstractResourceLocator
         return $this->getResource(explode('_', $classname), $this);
     }
 
+    /**
+     * @return int
+     */
     abstract public function getPriority();
 
     /**
