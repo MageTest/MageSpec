@@ -30,8 +30,7 @@ First, add MageSpec to the list of dependencies inside your `composer.json` and 
                 "public/lib"
             ]
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
 ```
 
