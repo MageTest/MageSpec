@@ -86,12 +86,12 @@ abstract class AbstractResourceLocator
         $this->filesystem = $filesystem ?: new Filesystem();
         $this->codePool = $codePool;
 
-        $this->srcPath       = rtrim(realpath($srcPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
-        $this->specPath      = rtrim(realpath($specPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
-        $this->srcNamespace  = ltrim(trim($srcNamespace, ' \\') . '\\', '\\');
+        $this->srcPath = rtrim(realpath($srcPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
+        $this->specPath = rtrim(realpath($specPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
+        $this->srcNamespace = ltrim(trim($srcNamespace, ' \\') . '\\', '\\');
         $this->specNamespace = trim($specNamespacePrefix, ' \\') . '\\';
-        $this->fullSrcPath   = $this->srcPath;
-        $this->fullSpecPath  = $this->specPath;
+        $this->fullSrcPath = $this->srcPath;
+        $this->fullSpecPath = $this->specPath;
 
         $this->validatePaths($srcPath, $specPath);
     }
