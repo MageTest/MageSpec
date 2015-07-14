@@ -32,15 +32,15 @@ class MageLoader
 {
     const SCOPE_FILE_PREFIX = '__';
 
-    static protected $_instance;
-    static protected $_scope = 'default';
+    static protected $instance;
+    static protected $scope = 'default';
 
-    protected $_isIncludePathDefined = false;
-    protected $_collectClasses = false;
-    protected $_collectPath = null;
-    protected $_arrLoadedClasses = array();
-    protected $_srcPath = '';
-    protected $_codePool = '';
+    protected $isIncludePathDefined = false;
+    protected $collectClasses = false;
+    protected $collectPath = null;
+    protected $arrLoadedClasses = array();
+    protected $srcPath = '';
+    protected $codePool = '';
 
     /**
      * Class constructor
@@ -49,15 +49,15 @@ class MageLoader
      */
     public function __construct($srcPath, $codePool = 'local')
     {
-        $this->_srcPath = $srcPath;
-        $this->_codePool = $codePool;
-        $this->_isIncludePathDefined = defined('COMPILER_INCLUDE_PATH');
-        if ($this->_isIncludePathDefined) {
-            $this->_collectClasses  = true;
-            $this->_collectPath = COMPILER_COLLECT_PATH;
+        $this->srcPath = $srcPath;
+        $this->codePool = $codePool;
+        $this->isIncludePathDefined = defined('COMPILER_INCLUDE_PATH');
+        if ($this->isIncludePathDefined) {
+            $this->collectClasses  = true;
+            $this->collectPath = COMPILER_COLLECT_PATH;
         }
-        set_include_path(get_include_path() . PATH_SEPARATOR . $this->_srcPath . $this->_codePool);
-        self::registerScope(self::$_scope);
+        set_include_path(get_include_path() . PATH_SEPARATOR . $this->srcPath . $this->codePool);
+        self::registerScope(self::$scope);
     }
 
     /**
@@ -69,10 +69,10 @@ class MageLoader
      */
     public static function instance($srcPath, $codePool)
     {
-        if (!self::$_instance) {
-            self::$_instance = new MageLoader($srcPath, $codePool);
+        if (!self::$instance) {
+            self::$instance = new MageLoader($srcPath, $codePool);
         }
-        return self::$_instance;
+        return self::$instance;
     }
 
     /**
@@ -93,8 +93,8 @@ class MageLoader
      */
     public function autoload($class)
     {
-        if ($this->_collectClasses) {
-            $this->_arrLoadedClasses[self::$_scope][] = $class;
+        if ($this->collectClasses) {
+            $this->arrLoadedClasses[self::$scope][] = $class;
         }
 
         if (substr($class, -10) === 'Controller') {
@@ -119,7 +119,7 @@ class MageLoader
      */
     public static function registerScope($code)
     {
-        self::$_scope = $code;
+        self::$scope = $code;
         if (defined('COMPILER_INCLUDE_PATH')) {
             $file = COMPILER_INCLUDE_PATH . DIRECTORY_SEPARATOR . self::SCOPE_FILE_PREFIX . $code . '.php';
             if (file_exists($file)) {
@@ -135,7 +135,7 @@ class MageLoader
      */
     public static function getScope()
     {
-        return self::$_scope;
+        return self::$scope;
     }
 
     /**
@@ -143,8 +143,8 @@ class MageLoader
      */
     public function __destruct()
     {
-        if ($this->_collectClasses) {
-            $this->_saveCollectedState();
+        if ($this->collectClasses) {
+            $this->saveCollectedState();
         }
     }
 
@@ -154,15 +154,15 @@ class MageLoader
      *
      * @return MageLoader
      */
-    protected function _saveCollectedState()
+    protected function saveCollectedState()
     {
         $this->prepareCollectPath();
 
-        if (!is_writeable($this->_collectPath)) {
+        if (!is_writeable($this->collectPath)) {
             return $this;
         }
 
-        foreach ($this->_arrLoadedClasses as $scope => $classes) {
+        foreach ($this->arrLoadedClasses as $scope => $classes) {
             $this->writeStateFile($scope, $classes);
         }
 
@@ -177,7 +177,7 @@ class MageLoader
      */
     private function includeController($class)
     {
-        $local = $this->_srcPath . DIRECTORY_SEPARATOR . $this->_codePool . DIRECTORY_SEPARATOR;
+        $local = $this->srcPath . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
         $controller = explode('_', $class);
         array_splice($controller, 2, 0, 'controllers');
         $pathToController = implode(DIRECTORY_SEPARATOR, $controller);
@@ -194,7 +194,7 @@ class MageLoader
      */
     private function getClassFile($class)
     {
-        if ($this->_isIncludePathDefined) {
+        if ($this->isIncludePathDefined) {
             return  COMPILER_INCLUDE_PATH . DIRECTORY_SEPARATOR . $class;
         }
         return str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $class)));
@@ -202,9 +202,9 @@ class MageLoader
 
     private function prepareCollectPath()
     {
-        if (!is_dir($this->_collectPath)) {
-            mkdir($this->_collectPath);
-            chmod($this->_collectPath, 0777);
+        if (!is_dir($this->collectPath)) {
+            mkdir($this->collectPath);
+            chmod($this->collectPath, 0777);
         }
     }
 
@@ -214,14 +214,14 @@ class MageLoader
      */
     protected function writeStateFile($scope, $classes)
     {
-        $file = $this->_collectPath . DIRECTORY_SEPARATOR . $scope . '.csv';
+        $file = $this->collectPath . DIRECTORY_SEPARATOR . $scope . '.csv';
 
         if (!file_exists($file)) {
             return;
         }
 
         $data = explode("\n", file_get_contents($file));
-        
+
         foreach ($data as $index => $class) {
             $class = explode(':', $class);
             $searchIndex = array_search($class[0], $classes);
