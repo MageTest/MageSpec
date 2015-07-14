@@ -35,10 +35,10 @@ class MageLoader
     static protected $_instance;
     static protected $_scope = 'default';
 
-    protected $_isIncludePathDefined= null;
-    protected $_collectClasses      = false;
-    protected $_collectPath         = null;
-    protected $_arrLoadedClasses    = array();
+    protected $_isIncludePathDefined = false;
+    protected $_collectClasses = false;
+    protected $_collectPath = null;
+    protected $_arrLoadedClasses = array();
     protected $_srcPath = '';
     protected $_codePool = '';
 
@@ -52,9 +52,9 @@ class MageLoader
         $this->_srcPath = $srcPath;
         $this->_codePool = $codePool;
         $this->_isIncludePathDefined = defined('COMPILER_INCLUDE_PATH');
-        if (defined('COMPILER_COLLECT_PATH')) {
+        if ($this->_isIncludePathDefined) {
             $this->_collectClasses  = true;
-            $this->_collectPath     = COMPILER_COLLECT_PATH;
+            $this->_collectPath = COMPILER_COLLECT_PATH;
         }
         set_include_path(get_include_path() . PATH_SEPARATOR . $this->_srcPath . $this->_codePool);
         self::registerScope(self::$_scope);
@@ -96,18 +96,15 @@ class MageLoader
         if ($this->_collectClasses) {
             $this->_arrLoadedClasses[self::$_scope][] = $class;
         }
-        if ($this->_isIncludePathDefined) {
-            $classFile =  COMPILER_INCLUDE_PATH . DIRECTORY_SEPARATOR . $class;
-        } elseif (substr($class, -10) === 'Controller') {
+
+        if (substr($class, -10) === 'Controller') {
             return $this->includeController($class);
-        } else {
-            $classFile = str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $class)));
         }
-        $classFile.= '.php';
 
-        if (! stream_resolve_include_path($classFile)) {
+        $classFile = $this->getClassFile($class) . '.php';
+
+        if (!stream_resolve_include_path($classFile)) {
             return false;
-
         }
 
         return include $classFile;
@@ -208,5 +205,17 @@ class MageLoader
             return false;
         }
         return include_once $classFile;
+    }
+
+    /**
+     * @param string $class
+     * @return string
+     */
+    private function getClassFile($class)
+    {
+        if ($this->_isIncludePathDefined) {
+            return  COMPILER_INCLUDE_PATH . DIRECTORY_SEPARATOR . $class;
+        }
+        return str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $class)));
     }
 }
