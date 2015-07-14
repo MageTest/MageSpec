@@ -81,10 +81,10 @@ abstract class AbstractResourceLocator
         $srcPath = 'src',
         $specPath = 'spec',
         Filesystem $filesystem = null,
-        $codePool = null
+        $codePool = 'local'
     ) {
-        $this->setFilesystem($filesystem);
-        $this->setCodePool($codePool);
+        $this->filesystem = $filesystem ?: new Filesystem();
+        $this->codePool = $codePool;
 
         $this->srcPath       = rtrim(realpath($srcPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
         $this->specPath      = rtrim(realpath($specPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
@@ -253,26 +253,9 @@ abstract class AbstractResourceLocator
      */
     private function createResourceFromSpecFile($path)
     {
-        // cut "Spec.php" from the end
         $relative = $this->getRelative($path);
 
         return $this->getResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
-    }
-
-    /**
-     * @param Filesystem $filesystem
-     */
-    private function setFilesystem(Filesystem $filesystem = null)
-    {
-        $this->filesystem = $filesystem ? : new Filesystem;
-    }
-
-    /**
-     * @param string $codePool
-     */
-    private function setCodePool($codePool)
-    {
-        $this->codePool = $codePool ? : 'local';
     }
 
     /**
