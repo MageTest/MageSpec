@@ -35,10 +35,6 @@ use PhpSpec\Util\Filesystem;
  */
 class ControllerLocator extends AbstractResourceLocator implements ResourceLocatorInterface
 {
-    protected $classType = 'controllers';
-
-    protected $validator = '/^(controller):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)$/';
-
     /**
      * @param string $classname
      * @return bool
@@ -96,9 +92,25 @@ class ControllerLocator extends AbstractResourceLocator implements ResourceLocat
     {
         $relative = parent::getRelative($path);
         return str_replace(
-            DIRECTORY_SEPARATOR . $this->classType . DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR . $this->getClassType() . DIRECTORY_SEPARATOR,
             DIRECTORY_SEPARATOR,
             $relative
         );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClassType()
+    {
+        return 'controllers';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getValidator()
+    {
+        return '/^(controller):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)$/';
     }
 }

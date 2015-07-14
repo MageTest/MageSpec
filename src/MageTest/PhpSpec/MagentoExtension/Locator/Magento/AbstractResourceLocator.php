@@ -27,8 +27,6 @@ use PhpSpec\Util\Filesystem;
 
 abstract class AbstractResourceLocator
 {
-    protected $classType;
-    protected $validator;
     protected $srcPath;
     protected $specPath;
     protected $srcNamespace;
@@ -54,8 +52,6 @@ abstract class AbstractResourceLocator
         Filesystem $filesystem = null,
         $codePool = null
     ) {
-        $this->checkInitialData();
-
         $this->setFilesystem($filesystem);
         $this->setCodePool($codePool);
 
@@ -123,7 +119,7 @@ abstract class AbstractResourceLocator
      */
     public function supportsQuery($query)
     {
-        return (bool) preg_match($this->validator, $query) || $this->isSupported($query);
+        return (bool) preg_match($this->getValidator(), $query) || $this->isSupported($query);
     }
 
     /**
@@ -164,7 +160,7 @@ abstract class AbstractResourceLocator
 
         return (
             $this->supportsQuery($classname) ||
-            $classname === implode('_', array($parts[0], $parts[1], $this->classType, $parts[count($parts)-1]))
+            $classname === implode('_', array($parts[0], $parts[1], $this->getClassType(), $parts[count($parts)-1]))
         );
     }
 
@@ -174,7 +170,7 @@ abstract class AbstractResourceLocator
      */
     public function createResource($classname)
     {
-        preg_match($this->validator, $classname, $matches);
+        preg_match($this->getValidator(), $classname, $matches);
 
         if (!empty($matches)) {
             array_shift($matches);
@@ -227,20 +223,6 @@ abstract class AbstractResourceLocator
         $relative = $this->getRelative($path);
 
         return $this->getResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
-    }
-
-    /**
-     * @throws \UnexpectedValueException
-     */
-    private function checkInitialData()
-    {
-        if (null === $this->classType) {
-            throw new \UnexpectedValueException('Concrete resource locators mist specify a class type');
-        }
-
-        if (null === $this->validator) {
-            throw new \UnexpectedValueException('Concrete resource locators mist specify a validation rule');
-        }
     }
 
     /**
@@ -316,7 +298,7 @@ abstract class AbstractResourceLocator
      */
     protected function getObjectName(array $matches)
     {
-        return $this->classType . '_' . implode('_', array_map('ucfirst', explode('_', implode($matches))));
+        return $this->getClassType() . '_' . implode('_', array_map('ucfirst', explode('_', implode($matches))));
     }
 
     /**
@@ -342,4 +324,14 @@ abstract class AbstractResourceLocator
      * @return ResourceInterface
      */
     abstract protected function getResource(array $parts, ResourceLocatorInterface $locator);
+
+    /**
+     * @return string
+     */
+    abstract protected function getClassType();
+
+    /**
+     * @return string
+     */
+    abstract protected function getValidator();
 }
