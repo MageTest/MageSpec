@@ -163,7 +163,7 @@ class MageLoader
         }
 
         foreach ($this->arrLoadedClasses as $scope => $classes) {
-            $this->writeStateFile($scope, $classes);
+            $this->saveClassScope($scope, $classes);
         }
 
         return $this;
@@ -212,7 +212,7 @@ class MageLoader
      * @param $scope
      * @param $classes
      */
-    protected function writeStateFile($scope, $classes)
+    protected function saveClassScope($scope, $classes)
     {
         $file = $this->collectPath . DIRECTORY_SEPARATOR . $scope . '.csv';
 
@@ -220,6 +220,18 @@ class MageLoader
             return;
         }
 
+        $data = $this->extractDataFromFile($classes, $file);
+
+        file_put_contents($file, implode("\n", $data));
+    }
+
+    /**
+     * @param $classes
+     * @param $file
+     * @return array
+     */
+    protected function extractDataFromFile($classes, $file)
+    {
         $data = explode("\n", file_get_contents($file));
 
         foreach ($data as $index => $class) {
@@ -235,7 +247,7 @@ class MageLoader
         foreach ($classes as $class) {
             $data[] = $class . ':1';
         }
-
-        file_put_contents($file, implode("\n", $data));
+        
+        return $data;
     }
 }
