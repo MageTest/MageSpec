@@ -124,9 +124,6 @@ class ModuleUpdateListener implements EventSubscriberInterface
         if (!isset($parts[2])) {
             throw new XmlGeneratorException('Could not determine an object type from ' . $className);
         }
-        if ($parts[2] === 'Model' && $parts[3] === 'Resource') {
-            return 'resource_model';
-        }
         if ($this->partIsController($parts[count($parts)-1])) {
             return 'controller';
         }
