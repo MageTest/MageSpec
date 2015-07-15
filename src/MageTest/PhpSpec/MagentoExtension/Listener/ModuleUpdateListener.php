@@ -141,7 +141,7 @@ class ModuleUpdateListener implements EventSubscriberInterface
     }
 
     /**
-     * @param $exception
+     * @param \Exception $exception
      * @return bool
      */
     protected function exceptionIsNotUsable($exception)
