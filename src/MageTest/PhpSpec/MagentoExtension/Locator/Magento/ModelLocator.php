@@ -35,10 +35,6 @@ use PhpSpec\Util\Filesystem;
  */
 class ModelLocator extends AbstractResourceLocator implements ResourceLocatorInterface
 {
-    protected $classType = 'Model';
-
-    protected $validator = '/^(model):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
-
     /**
      * @return int
      */
@@ -68,5 +64,21 @@ class ModelLocator extends AbstractResourceLocator implements ResourceLocatorInt
             throw new \InvalidArgumentException('Model resource requires a model locator');
         }
         return new ModelResource($parts, $locator);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClassType()
+    {
+        return 'Model';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getValidator()
+    {
+        return '/^(model):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
     }
 }

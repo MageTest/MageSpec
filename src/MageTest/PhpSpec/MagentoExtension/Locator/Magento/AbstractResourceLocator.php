@@ -27,15 +27,44 @@ use PhpSpec\Util\Filesystem;
 
 abstract class AbstractResourceLocator
 {
-    protected $classType;
-    protected $validator;
+    /**
+     * @var string
+     */
     protected $srcPath;
+
+    /**
+     * @var string
+     */
     protected $specPath;
+
+    /**
+     * @var string
+     */
     protected $srcNamespace;
+
+    /**
+     * @var string
+     */
     protected $specNamespace;
+
+    /**
+     * @var string
+     */
     protected $fullSrcPath;
+
+    /**
+     * @var string
+     */
     protected $fullSpecPath;
+
+    /**
+     * @var Filesystem
+     */
     protected $filesystem;
+
+    /**
+     * @var string
+     */
     protected $codePool;
 
     /**
@@ -52,19 +81,17 @@ abstract class AbstractResourceLocator
         $srcPath = 'src',
         $specPath = 'spec',
         Filesystem $filesystem = null,
-        $codePool = null
+        $codePool = 'local'
     ) {
-        $this->checkInitialData();
+        $this->filesystem = $filesystem ?: new Filesystem();
+        $this->codePool = $codePool;
 
-        $this->setFilesystem($filesystem);
-        $this->setCodePool($codePool);
-
-        $this->srcPath       = rtrim(realpath($srcPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
-        $this->specPath      = rtrim(realpath($specPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
-        $this->srcNamespace  = ltrim(trim($srcNamespace, ' \\') . '\\', '\\');
+        $this->srcPath = rtrim(realpath($srcPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
+        $this->specPath = rtrim(realpath($specPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
+        $this->srcNamespace = ltrim(trim($srcNamespace, ' \\') . '\\', '\\');
         $this->specNamespace = trim($specNamespacePrefix, ' \\') . '\\';
-        $this->fullSrcPath   = $this->srcPath;
-        $this->fullSpecPath  = $this->specPath;
+        $this->fullSrcPath = $this->srcPath;
+        $this->fullSpecPath = $this->specPath;
 
         $this->validatePaths($srcPath, $specPath);
     }
@@ -123,7 +150,7 @@ abstract class AbstractResourceLocator
      */
     public function supportsQuery($query)
     {
-        return (bool) preg_match($this->validator, $query) || $this->isSupported($query);
+        return (bool) preg_match($this->getValidator(), $query) || $this->isSupported($query);
     }
 
     /**
@@ -164,7 +191,7 @@ abstract class AbstractResourceLocator
 
         return (
             $this->supportsQuery($classname) ||
-            $classname === implode('_', array($parts[0], $parts[1], $this->classType, $parts[count($parts)-1]))
+            $classname === implode('_', array($parts[0], $parts[1], $this->getClassType(), $parts[count($parts)-1]))
         );
     }
 
@@ -174,7 +201,7 @@ abstract class AbstractResourceLocator
      */
     public function createResource($classname)
     {
-        preg_match($this->validator, $classname, $matches);
+        preg_match($this->getValidator(), $classname, $matches);
 
         if (!empty($matches)) {
             array_shift($matches);
@@ -186,6 +213,9 @@ abstract class AbstractResourceLocator
         return $this->getResource(explode('_', $classname), $this);
     }
 
+    /**
+     * @return int
+     */
     abstract public function getPriority();
 
     /**
@@ -223,40 +253,9 @@ abstract class AbstractResourceLocator
      */
     private function createResourceFromSpecFile($path)
     {
-        // cut "Spec.php" from the end
         $relative = $this->getRelative($path);
 
         return $this->getResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
-    }
-
-    /**
-     * @throws \UnexpectedValueException
-     */
-    private function checkInitialData()
-    {
-        if (null === $this->classType) {
-            throw new \UnexpectedValueException('Concrete resource locators mist specify a class type');
-        }
-
-        if (null === $this->validator) {
-            throw new \UnexpectedValueException('Concrete resource locators mist specify a validation rule');
-        }
-    }
-
-    /**
-     * @param Filesystem $filesystem
-     */
-    private function setFilesystem(Filesystem $filesystem = null)
-    {
-        $this->filesystem = $filesystem ? : new Filesystem;
-    }
-
-    /**
-     * @param string $codePool
-     */
-    private function setCodePool($codePool)
-    {
-        $this->codePool = $codePool ? : 'local';
     }
 
     /**
@@ -316,7 +315,7 @@ abstract class AbstractResourceLocator
      */
     protected function getObjectName(array $matches)
     {
-        return $this->classType . '_' . implode('_', array_map('ucfirst', explode('_', implode($matches))));
+        return $this->getClassType() . '_' . implode('_', array_map('ucfirst', explode('_', implode($matches))));
     }
 
     /**
@@ -342,4 +341,14 @@ abstract class AbstractResourceLocator
      * @return ResourceInterface
      */
     abstract protected function getResource(array $parts, ResourceLocatorInterface $locator);
+
+    /**
+     * @return string
+     */
+    abstract protected function getClassType();
+
+    /**
+     * @return string
+     */
+    abstract protected function getValidator();
 }
