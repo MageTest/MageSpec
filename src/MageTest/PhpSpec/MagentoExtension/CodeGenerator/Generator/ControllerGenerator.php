@@ -69,33 +69,6 @@ class ControllerGenerator extends MagentoObjectGenerator implements GeneratorInt
      *
      * @return string
      */
-    protected function renderTemplate(ResourceInterface $resource, $filepath)
-    {
-        $values = array(
-            '%filepath%'        => $filepath,
-            '%name%'            => $resource->getName(),
-            '%extends%'         => 'Mage_Core_Controller_Front_Action',
-            '%namespace%'       => $resource->getSrcNamespace(),
-            '%namespace_block%' => '' !== $resource->getSrcNamespace()
-                ?  sprintf("\n\nnamespace %s;", $resource->getSrcNamespace())
-                : '',
-        );
-
-        if (!$content = $this->getTemplateRenderer()->render('mage_controller', $values)) {
-            $content = $this->getTemplateRenderer()->renderString(
-                file_get_contents(__DIR__ . '/templates/generic_class.template'), $values
-            );
-        }
-
-        return $content;
-    }
-
-    /**
-     * @param ResourceInterface $resource
-     * @param string $filepath
-     *
-     * @return string
-     */
     protected function getGeneratedMessage(ResourceInterface $resource, $filepath)
     {
         return sprintf(
