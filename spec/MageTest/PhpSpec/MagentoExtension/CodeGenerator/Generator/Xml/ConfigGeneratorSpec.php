@@ -136,62 +136,6 @@ class ConfigGeneratorSpec extends ObjectBehavior
         $this->generateElement('helper', 'Vendor_Module');
     }
 
-    function it_generates_a_resource_model_element($fileSystem, $formatter)
-    {
-        $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);
-        $fileSystem->pathExists($this->path . 'Vendor/Module/etc/config.xml')->willReturn(true);
-        $fileSystem->getFileContents($this->path . 'Vendor/Module/etc/config.xml')
-            ->willReturn($this->getPlainXmlStructure());
-        $formatter->format(Argument::containingString(
-            '<models><vendor_module_resource><class>Vendor_Module_Model_Resource</class></vendor_module_resource></models>'
-        ))->willReturn($this->getResourceModelXmlStructure());
-        $fileSystem->putFileContents(
-            $this->path . 'Vendor/Module/etc/config.xml',
-            $this->getResourceModelXmlStructure()
-        )->shouldBeCalled();
-
-        $this->addElementGenerator(new ResourceModelElement());
-        $this->generateElement('resource_model', 'Vendor_Module');
-    }
-
-    function it_generates_a_resource_model_when_a_model_element_exists($fileSystem, $formatter)
-    {
-        $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);
-        $fileSystem->pathExists($this->path . 'Vendor/Module/etc/config.xml')->willReturn(true);
-        $fileSystem->getFileContents($this->path . 'Vendor/Module/etc/config.xml')
-            ->willReturn($this->getModelXmlStructure());
-        $formatter->format(Argument::that(function ($arg) {
-            return strpos($arg, '<resourceModel>vendor_module_resource</resourceModel>')
-                && strpos($arg, '<vendor_module_resource><class>Vendor_Module_Model_Resource</class></vendor_module_resource>');
-        }))->willReturn($this->getModelResourceModelXmlStructure());
-        $fileSystem->putFileContents(
-            $this->path . 'Vendor/Module/etc/config.xml',
-            $this->getModelResourceModelXmlStructure()
-        )->shouldBeCalled();
-
-        $this->addElementGenerator(new ResourceModelElement());
-        $this->generateElement('resource_model', 'Vendor_Module');
-    }
-
-    function it_generates_a_model_when_a_resource_model_element_exists($fileSystem, $formatter)
-    {
-        $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);
-        $fileSystem->pathExists($this->path . 'Vendor/Module/etc/config.xml')->willReturn(true);
-        $fileSystem->getFileContents($this->path . 'Vendor/Module/etc/config.xml')
-            ->willReturn($this->getResourceModelXmlStructure());
-        $formatter->format(Argument::that(function ($arg) {
-            return strpos($arg, '<resourceModel>vendor_module_resource</resourceModel>')
-            && strpos($arg, '<class>Vendor_Module_Model_Resource</class>');
-        }))->willReturn($this->getModelResourceModelXmlStructure());
-        $fileSystem->putFileContents(
-            $this->path . 'Vendor/Module/etc/config.xml',
-            $this->getModelResourceModelXmlStructure()
-        )->shouldBeCalled();
-
-        $this->addElementGenerator(new ModelElement());
-        $this->generateElement('model', 'Vendor_Module');
-    }
-
     function it_generates_a_controller_element($fileSystem, $formatter)
     {
         $fileSystem->isDirectory($this->path . 'Vendor/Module/etc/')->willReturn(true);

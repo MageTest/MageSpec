@@ -26,7 +26,6 @@ use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeBlockCommand;
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeControllerCommand;
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeHelperCommand;
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeModelCommand;
-use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeResourceModelCommand;
 use PhpSpec\ServiceContainer;
 
 class CommandAssembler implements Assembler
@@ -36,24 +35,20 @@ class CommandAssembler implements Assembler
      */
     public function build(ServiceContainer $container)
     {
-        $container->setShared('console.commands.describe_model', function ($c) {
-            return new DescribeModelCommand();
+        $container->setShared('console.commands.describe_model', function () use ($container) {
+            return new DescribeModelCommand($container);
         });
 
-        $container->setShared('console.commands.describe_resource_model', function ($c) {
-            return new DescribeResourceModelCommand();
+        $container->setShared('console.commands.describe_block', function () use ($container) {
+            return new DescribeBlockCommand($container);
         });
 
-        $container->setShared('console.commands.describe_block', function ($c) {
-            return new DescribeBlockCommand();
+        $container->setShared('console.commands.describe_helper', function () use ($container) {
+            return new DescribeHelperCommand($container);
         });
 
-        $container->setShared('console.commands.describe_helper', function ($c) {
-            return new DescribeHelperCommand();
-        });
-
-        $container->setShared('console.commands.describe_controller', function ($c) {
-            return new DescribeControllerCommand();
+        $container->setShared('console.commands.describe_controller', function () use ($container) {
+            return new DescribeControllerCommand($container);
         });
     }
 } 

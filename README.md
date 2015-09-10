@@ -1,6 +1,10 @@
 ## MageSpec
 
-[![Build Status](https://travis-ci.org/MageTest/MageSpec.png?branch=develop)](https://travis-ci.org/MageTest/MageSpec)
+[![Build Status](https://travis-ci.org/MageTest/MageSpec.png?branch=master)](https://travis-ci.org/MageTest/MageSpec)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MageTest/MageSpec/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MageTest/MageSpec/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/magetest/magento-phpspec-extension/v/stable.png)](https://packagist.org/packages/magetest/magento-phpspec-extension)
+[![Packagist Downloads](https://poser.pugx.org/magetest/magento-phpspec-extension/downloads.png)](https://packagist.org/packages/magetest/magento-phpspec-extension)
+[![License](https://poser.pugx.org/magetest/magento-phpspec-extension/license)](https://packagist.org/packages/magetest/magento-phpspec-extension)
 
 ## Installation
 
@@ -30,8 +34,7 @@ First, add MageSpec to the list of dependencies inside your `composer.json` and 
                 "public/lib"
             ]
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
 ```
 

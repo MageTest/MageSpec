@@ -33,9 +33,6 @@ use PhpSpec\Locator\ResourceLocatorInterface;
  */
 class HelperLocator extends AbstractResourceLocator implements ResourceLocatorInterface
 {
-    protected $classType = 'Helper';
-    protected $validator = '/^(helper):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
-
     /**
      * @return int
      */
@@ -65,5 +62,21 @@ class HelperLocator extends AbstractResourceLocator implements ResourceLocatorIn
             throw new \InvalidArgumentException('Helper resource requires a helper locator');
         }
         return new HelperResource($parts, $locator);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClassType()
+    {
+        return 'Helper';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getValidator()
+    {
+        return '/^(helper):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
     }
 }

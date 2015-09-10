@@ -5,15 +5,15 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "phpspec/phpspec": "~2.1.1",
-        "symfony/dependency-injection": "*",
-        "symfony/config": "*",
-        "shanethehat/pretty-xml": "~1.0.1"
+        "phpspec/phpspec": "~2.3.0",
+        "symfony/dependency-injection": "~2.1",
+        "symfony/config": "~2.1",
+        "shanethehat/pretty-xml": "~1.0.2"
     },
     "require-dev": {
         "magetest/magento": "~1.8.1.0",
-        "behat/behat": "3.0",
-        "bossa/phpspec2-expect": "*"
+        "behat/behat": "~3.0",
+        "bossa/phpspec2-expect": "~1.0"
     },
     "config": {
         "bin-dir": "bin"
