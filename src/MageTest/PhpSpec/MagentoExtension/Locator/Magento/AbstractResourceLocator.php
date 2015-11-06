@@ -21,118 +21,166 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Locator\Magento;
 
+use PhpSpec\Locator\ResourceInterface;
 use PhpSpec\Locator\ResourceLocatorInterface;
 use PhpSpec\Util\Filesystem;
 
 abstract class AbstractResourceLocator
 {
-    protected $classType;
-    protected $validator;
+    /**
+     * @var string
+     */
     protected $srcPath;
+
+    /**
+     * @var string
+     */
     protected $specPath;
+
+    /**
+     * @var string
+     */
     protected $srcNamespace;
+
+    /**
+     * @var string
+     */
     protected $specNamespace;
+
+    /**
+     * @var string
+     */
     protected $fullSrcPath;
+
+    /**
+     * @var string
+     */
     protected $fullSpecPath;
+
+    /**
+     * @var Filesystem
+     */
     protected $filesystem;
+
+    /**
+     * @var string
+     */
     protected $codePool;
 
-    public function __construct($srcNamespace = '', $specNamespacePrefix = '',
-                                $srcPath = 'src', $specPath = 'spec', Filesystem $filesystem = null, $codePool = null)
-    {
-        $this->checkInitialData();
+    /**
+     * @param string $srcNamespace
+     * @param string $specNamespacePrefix
+     * @param string $srcPath
+     * @param string $specPath
+     * @param Filesystem $filesystem
+     * @param string $codePool
+     */
+    public function __construct(
+        $srcNamespace = '',
+        $specNamespacePrefix = '',
+        $srcPath = 'src',
+        $specPath = 'spec',
+        Filesystem $filesystem = null,
+        $codePool = 'local'
+    ) {
+        $this->filesystem = $filesystem ?: new Filesystem();
+        $this->codePool = $codePool;
 
-        $this->filesystem = $filesystem ? : new Filesystem;
-        $this->codePool   = $codePool ? : 'local';
-
-        $this->srcPath       = rtrim(realpath($srcPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
-        $this->specPath      = rtrim(realpath($specPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
-        $this->srcNamespace  = ltrim(trim($srcNamespace, ' \\') . '\\', '\\');
+        $this->srcPath = rtrim(realpath($srcPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
+        $this->specPath = rtrim(realpath($specPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
+        $this->srcNamespace = ltrim(trim($srcNamespace, ' \\') . '\\', '\\');
         $this->specNamespace = trim($specNamespacePrefix, ' \\') . '\\';
-        $this->fullSrcPath   = $this->srcPath;
-        $this->fullSpecPath  = $this->specPath;
+        $this->fullSrcPath = $this->srcPath;
+        $this->fullSpecPath = $this->specPath;
 
-        if (DIRECTORY_SEPARATOR === $this->srcPath) {
-            throw new \InvalidArgumentException(sprintf(
-                'Source code path should be existing filesystem path, but "%s" given.',
-                $srcPath
-            ));
-        }
-
-        if (DIRECTORY_SEPARATOR === $this->specPath) {
-            throw new \InvalidArgumentException(sprintf(
-                'Specs code path should be existing filesystem path, but "%s" given.',
-                $specPath
-            ));
-        }
+        $this->validatePaths($srcPath, $specPath);
     }
 
+    /**
+     * @return string
+     */
     public function getFullSrcPath()
     {
         return $this->fullSrcPath;
     }
 
+    /**
+     * @return string
+     */
     public function getFullSpecPath()
     {
         return $this->fullSpecPath;
     }
 
+    /**
+     * @return string
+     */
     public function getSrcNamespace()
     {
         return $this->srcNamespace;
     }
 
+    /**
+     * @return string
+     */
     public function getSpecNamespace()
     {
         return $this->specNamespace;
     }
 
+    /**
+     * @return string
+     */
     public function getCodePool()
     {
         return $this->codePool;
     }
 
+    /**
+     * @return array
+     */
     public function getAllResources()
     {
         return $this->findSpecResources($this->fullSpecPath);
     }
 
+    /**
+     * @param string $query
+     * @return bool
+     */
     public function supportsQuery($query)
     {
-        $isSupported = (bool) preg_match($this->validator, $query) || $this->isSupported($query);;
-
-        return $isSupported;
+        return (bool) preg_match($this->getValidator(), $query) || $this->isSupported($query);
     }
 
+    /**
+     * @param string $query
+     * @return array
+     */
     public function findResources($query)
     {
-        $path = rtrim(realpath(str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $query)), DIRECTORY_SEPARATOR);
+        $path = $this->getCleanPath($query);
 
-        if ('.php' !== substr($path, -4)) {
-            $path .= DIRECTORY_SEPARATOR;
+        foreach (array($this->fullSrcPath, $this->srcPath) as $srcPath) {
+            if (0 === strpos($path, $srcPath)) {
+                $path = $srcPath.substr($path, strlen($srcPath));
+                $path = preg_replace('/\.php/', 'Spec.php', $path);
+
+                return $this->findSpecResources($path);
+            }
         }
 
-        if ($path && 0 === strpos($path, $this->fullSrcPath)) {
-            $path = $this->fullSpecPath.substr($path, strlen($this->fullSrcPath));
-            $path = preg_replace('/\.php/', 'Spec.php', $path);
-
-            return $this->findSpecResources($path);
-        }
-
-        if ($path && 0 === strpos($path, $this->srcPath)) {
-            $path = $this->fullSpecPath.substr($path, strlen($this->srcPath));
-            $path = preg_replace('/\.php/', 'Spec.php', $path);
-
-            return $this->findSpecResources($path);
-        }
-
-        if ($path && 0 === strpos($path, $this->specPath)) {
+        if (0 === strpos($path, $this->specPath)) {
             return $this->findSpecResources($path);
         }
 
         return array();
     }
 
+    /**
+     * @param string $classname
+     * @return bool
+     */
     public function supportsClass($classname)
     {
         $parts = explode('_', $classname);
@@ -143,13 +191,17 @@ abstract class AbstractResourceLocator
 
         return (
             $this->supportsQuery($classname) ||
-            $classname === implode('_', array($parts[0], $parts[1], $this->classType, $parts[count($parts)-1]))
+            $classname === implode('_', array($parts[0], $parts[1], $this->getClassType(), $parts[count($parts)-1]))
         );
     }
 
+    /**
+     * @param string $classname
+     * @return ResourceInterface
+     */
     public function createResource($classname)
     {
-        preg_match($this->validator, $classname, $matches);
+        preg_match($this->getValidator(), $classname, $matches);
 
         if (!empty($matches)) {
             array_shift($matches);
@@ -161,10 +213,14 @@ abstract class AbstractResourceLocator
         return $this->getResource(explode('_', $classname), $this);
     }
 
+    /**
+     * @return int
+     */
     abstract public function getPriority();
 
     /**
      * @param string $path
+     * @return array
      */
     protected function findSpecResources($path)
     {
@@ -191,34 +247,81 @@ abstract class AbstractResourceLocator
         return $resources;
     }
 
+    /**
+     * @param string $path
+     * @return ResourceInterface
+     */
     private function createResourceFromSpecFile($path)
     {
-        // cut "Spec.php" from the end
         $relative = $this->getRelative($path);
 
         return $this->getResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
     }
 
-    private function checkInitialData()
+    /**
+     * @param string $srcPath
+     * @param string $specPath
+     * @throws \InvalidArgumentException
+     */
+    private function validatePaths($srcPath, $specPath)
     {
-        if (null === $this->classType) {
-            throw new \UnexpectedValueException('Concrete resource locators mist specify a class type');
+        $invalidPath = DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
+
+        if ($invalidPath === $this->srcPath) {
+            throw new \InvalidArgumentException(sprintf(
+                'Source code path should be existing filesystem path, but "%s" given.',
+                $srcPath
+            ));
         }
 
-        if (null === $this->validator) {
-            throw new \UnexpectedValueException('Concrete resource locators mist specify a validation rule');
+        if ($invalidPath === $this->specPath) {
+            throw new \InvalidArgumentException(sprintf(
+                'Specs code path should be existing filesystem path, but "%s" given.',
+                $specPath
+            ));
         }
     }
 
-    protected function getClassnameFromMatches(array $matches)
+    /**
+     * @param string $query
+     * @return string
+     */
+    private function getCleanPath($query)
+    {
+        $path = rtrim(realpath(str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $query)), DIRECTORY_SEPARATOR);
+
+        if ('.php' !== substr($path, -4)) {
+            $path .= DIRECTORY_SEPARATOR;
+        }
+
+        return $path;
+    }
+
+    /**
+     * @param array $matches
+     * @return string
+     */
+    private function getClassnameFromMatches(array $matches)
     {
         $vendor = ucfirst(array_shift($matches));
         $module = ucfirst(array_shift($matches));
 
-        $objectName = implode('_', array_map('ucfirst', explode('_', implode('', $matches))));
-        return implode('_', array($vendor, $module, $this->classType, $objectName));
+        return implode('_', array($vendor, $module, $this->getObjectName($matches)));
     }
 
+    /**
+     * @param array $matches
+     * @return string
+     */
+    protected function getObjectName(array $matches)
+    {
+        return $this->getClassType() . '_' . implode('_', array_map('ucfirst', explode('_', implode($matches))));
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
     protected function getRelative($path)
     {
         // cut "Spec.php" from the end
@@ -226,7 +329,26 @@ abstract class AbstractResourceLocator
         return preg_replace('/Spec$/', '', $relative);
     }
 
+    /**
+     * @param string $file
+     * @return bool
+     */
     abstract protected function isSupported($file);
 
+    /**
+     * @param array $parts
+     * @param ResourceLocatorInterface $locator
+     * @return ResourceInterface
+     */
     abstract protected function getResource(array $parts, ResourceLocatorInterface $locator);
+
+    /**
+     * @return string
+     */
+    abstract protected function getClassType();
+
+    /**
+     * @return string
+     */
+    abstract protected function getValidator();
 }

@@ -15,21 +15,52 @@ use Prophecy\Exception\Doubler\ClassNotFoundException as ProphecyClassException;
 
 class ModuleUpdateListener implements EventSubscriberInterface
 {
+    /**
+     * @var array
+     */
     private $classNames = array();
+
+    /**
+     * @var ModuleGenerator
+     */
     private $moduleGenerator;
+
+    /**
+     * @var ConfigGenerator
+     */
     private $configGenerator;
+
+    /**
+     * @var IO
+     */
     private $io;
+
+    /**
+     * @var ClassDetector
+     */
     private $detector;
 
+    /**
+     * @param ModuleGenerator $moduleGenerator
+     * @param ConfigGenerator $configGenerator
+     * @param IO $io
+     * @param ClassDetector $detector
+     */
     public function __construct(
-        ModuleGenerator $moduleGenerator, ConfigGenerator $configGenerator, IO $io, ClassDetector $detector)
-    {
+        ModuleGenerator $moduleGenerator,
+        ConfigGenerator $configGenerator,
+        IO $io,
+        ClassDetector $detector
+    ) {
         $this->moduleGenerator = $moduleGenerator;
         $this->configGenerator = $configGenerator;
         $this->io = $io;
         $this->detector = $detector;
     }
 
+    /**
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         return array(
@@ -38,14 +69,14 @@ class ModuleUpdateListener implements EventSubscriberInterface
         );
     }
 
+    /**
+     * @param ExampleEvent $event
+     */
     public function getClassNameAfterExample(ExampleEvent $event)
     {
-        if (null === $exception = $event->getException()) {
-            return;
-        }
+        $exception = $event->getException();
 
-        if (!($exception instanceof PhpSpecClassException) &&
-            !($exception instanceof ProphecyClassException)) {
+        if ($this->exceptionIsNotUsable($exception)) {
             return;
         }
 
@@ -60,6 +91,9 @@ class ModuleUpdateListener implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @param SuiteEvent $event
+     */
     public function createXmlAfterSuite(SuiteEvent $event)
     {
         if (!$this->io->isCodeGenerationEnabled()) {
@@ -80,14 +114,15 @@ class ModuleUpdateListener implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @param string $className
+     * @return string
+     */
     private function getClassType($className)
     {
         $parts = explode('_', $className);
         if (!isset($parts[2])) {
             throw new XmlGeneratorException('Could not determine an object type from ' . $className);
-        }
-        if ($parts[2] === 'Model' && $parts[3] === 'Resource') {
-            return 'resource_model';
         }
         if ($this->partIsController($parts[count($parts)-1])) {
             return 'controller';
@@ -95,9 +130,30 @@ class ModuleUpdateListener implements EventSubscriberInterface
         return strtolower($parts[2]);
     }
 
+    /**
+     * @param string $part
+     * @return bool
+     */
     private function partIsController($part)
     {
         $element = 'Controller';
         return strlen($part) - strlen($element) === strrpos($part, $element);
+    }
+
+    /**
+     * @param \Exception $exception
+     * @return bool
+     */
+    protected function exceptionIsNotUsable($exception)
+    {
+        if (null === $exception) {
+            return true;
+        }
+
+        if (!($exception instanceof PhpSpecClassException || $exception instanceof ProphecyClassException)) {
+            return true;
+        }
+
+        return false;
     }
 }

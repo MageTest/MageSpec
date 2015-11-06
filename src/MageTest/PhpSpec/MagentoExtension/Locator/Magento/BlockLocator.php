@@ -33,10 +33,6 @@ use PhpSpec\Locator\ResourceLocatorInterface;
  */
 class BlockLocator extends AbstractResourceLocator implements ResourceLocatorInterface
 {
-    protected $classType = 'Block';
-
-    protected $validator = '/^(block):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
-
     /**
      * @return int
      */
@@ -66,5 +62,21 @@ class BlockLocator extends AbstractResourceLocator implements ResourceLocatorInt
             throw new \InvalidArgumentException('Block resource requires a block locator');
         }
         return new BlockResource($parts, $locator);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClassType()
+    {
+        return 'Block';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getValidator()
+    {
+        return '/^(block):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
     }
 }

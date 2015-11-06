@@ -2,47 +2,46 @@
 
 namespace MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator;
 
-use PhpSpec\Console\IO;
-use PhpSpec\CodeGenerator\TemplateRenderer;
-use PhpSpec\Util\Filesystem;
+use PhpSpec\CodeGenerator\Generator\PromptingGenerator;
 use PhpSpec\Locator\ResourceInterface;
 use PhpSpec\CodeGenerator\Generator\GeneratorInterface;
 
-class ControllerSpecificationGenerator implements GeneratorInterface
+class ControllerSpecificationGenerator extends PromptingGenerator implements GeneratorInterface
 {
-    private $io;
-    private $templates;
-    private $filesystem;
-
-    public function __construct(IO $io, TemplateRenderer $templates, Filesystem $filesystem = null)
-    {
-        $this->io         = $io;
-        $this->templates  = $templates;
-        $this->filesystem = $filesystem ?: new Filesystem;
-    }
-
+    /**
+     * @param ResourceInterface $resource
+     * @param string $generation
+     * @param array $data
+     * @return bool
+     */
     public function supports(ResourceInterface $resource, $generation, array $data)
     {
         return 'controller_specification' === $generation;
     }
 
-    public function generate(ResourceInterface $resource, array $data = array())
+    public function getPriority()
     {
-        $filepath = $resource->getSpecFilename();
-        if ($this->filesystem->pathExists($filepath)) {
-            $message = sprintf('File "%s" already exists. Overwrite?', basename($filepath));
-            if (!$this->io->askConfirmation($message, false)) {
-                return;
-            }
+        return 0;
+    }
 
-            $this->io->writeln();
-        }
+    /**
+     * @param ResourceInterface $resource
+     *
+     * @return string
+     */
+    protected function getFilePath(ResourceInterface $resource)
+    {
+        return $resource->getSpecFilename();
+    }
 
-        $path = dirname($filepath);
-        if (!$this->filesystem->isDirectory($path)) {
-            $this->filesystem->makeDirectory($path);
-        }
-
+    /**
+     * @param ResourceInterface $resource
+     * @param string $filepath
+     *
+     * @return string
+     */
+    protected function renderTemplate(ResourceInterface $resource, $filepath)
+    {
         $values = array(
             '%filepath%'  => $filepath,
             '%name%'      => $resource->getSpecName(),
@@ -50,21 +49,27 @@ class ControllerSpecificationGenerator implements GeneratorInterface
             '%subject%'   => $resource->getSrcClassname()
         );
 
-        if (!$content = $this->templates->render('controller_specification', $values)) {
-            $content = $this->templates->renderString(
+        if (!$content = $this->getTemplateRenderer()->render('controller_specification', $values)) {
+            $content = $this->getTemplateRenderer()->renderString(
                 file_get_contents(__DIR__ . '/templates/controller_spec.template'), $values
             );
         }
 
-        $this->filesystem->putFileContents($filepath, $content);
-        $this->io->writeln(sprintf(
-            "<info>ControllerSpecification for <value>%s</value> created in <value>'%s'</value>.</info>\n",
-            $resource->getSrcClassname(), $filepath
-        ));
+        return $content;
     }
 
-    public function getPriority()
+    /**
+     * @param ResourceInterface $resource
+     * @param string $filepath
+     *
+     * @return string
+     */
+    protected function getGeneratedMessage(ResourceInterface $resource, $filepath)
     {
-        return 0;
+        sprintf(
+            "<info>ControllerSpecification for <value>%s</value> created in <value>'%s'</value>.</info>\n",
+            $resource->getSrcClassname(),
+            $filepath
+        );
     }
 }
