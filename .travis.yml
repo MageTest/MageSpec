@@ -1,27 +1,25 @@
-# see http://about.travis-ci.org/docs/user/languages/php/ for more hints
 language: php
 
-# list any PHP version you want to test against
 php:
-  # using major version aliases
-
-  # aliased to a recent 5.3.x version
   - 5.3
-  # aliased to a recent 5.4.x version
   - 5.4
-  # aliased to a recent 5.5.x version
   - 5.5
+  - 5.6
+  - 7.0
+  - hhvm
+
+matrix:
+  allow_failures:
+    - php: 7.0
+    - php: hhvm
 
 before_script:
   - composer selfupdate
   - composer update
-# omitting "script:" will default to phpunit
-# use the $DB env variable to determine the phpunit.xml to use
 script:
   - ./bin/behat
   - ./bin/phpspec run
 
-# configure notifications (email, IRC, campfire etc)
 notifications:
   email: "magetest@inviqa.com"
   irc: "chat.freenode.net#magespec"
