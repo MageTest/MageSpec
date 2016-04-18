@@ -96,7 +96,7 @@ What is the simplest thing I want to add? It should tell me if a product as a re
 So let’s do this. Well, not the boring bits. Let MageSpec take care of the boring stuff for us. We just need to tell MageSpec we will be working on the Review module's product class. So running the following command:
 
 ```bash
-$ bin/phpspec describe:model 'magespec_reviews/product'
+$ bin/phpspec describe 'model:magespec_reviews/product'
 ```
 
 Should give us the following output
@@ -234,7 +234,7 @@ Do you want me to create `MageSpec_Reviews_Model_Product::hasReviews()` for you?
 Method MageSpec_Reviews_Model_Product::hasReviews() has been created
 ```
 
-What we just did was moving fast through the ambar state into the red. If you check your class you should now see something like this:
+What we just did was moving fast through the amber state into the red. If you check your class you should now see something like this:
 
 ```php
 <?php
@@ -306,22 +306,22 @@ If you are interested in know more about spec in PHP you better have a look to t
 
 As per today, MageSpec currently allows you to describe different Magento classes. Following you can find a brief list.
 
-### Describing a resource model
-
-```bash
-$ bin/phpspec describe:resource_model 'vendorname_modulename/resourcename'
-```
-
 ### Describing a block
 
 ```bash
-$ bin/phpspec describe:block 'vendorname_modulename/blockname'
+$ bin/phpspec describe 'block:vendorname_modulename/blockname'
 ```
 
 ### Describing a helper
 
 ```bash
-$ bin/phpspec describe:helper 'vendorname_modulename/helpername'
+$ bin/phpspec describe 'helper:vendorname_modulename/helpername'
+```
+
+### Describing a model
+
+```bash
+$ bin/phpspec describe 'model:vendorname_modulename/modelname'
 ```
 
 ## Issue Submission
