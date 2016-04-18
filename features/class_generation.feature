@@ -26,9 +26,3 @@ Feature: Magento classes are generated from specs
     And there is a "model" spec
     When Magespec runs the spec
     Then a model class should be generated
-
-  Scenario: Resource model class is generated from a spec
-    Given Magespec has a standard configuration
-    And there is a "resource model" spec
-    When Magespec runs the spec
-    Then a resource model class should be generated
