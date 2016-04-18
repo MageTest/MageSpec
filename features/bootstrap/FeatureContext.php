@@ -178,18 +178,6 @@ class FeatureContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Then a correctly namespaced resource model spec should be generated
-     */
-    public function aCorrectlyNamespacedResourceModelSpecShouldBeGenerated()
-    {
-        $this->checkSpecIsGenerated(new SpecSpecification(
-            'Resource model',
-            'spec/public/app/code/local/Behat/Test/Model/Resource/TestSpec.php',
-            'Behat_Test_Model_Resource_TestSpec'
-        ));
-    }
-
-    /**
      * @Given there is a :objectType spec
      */
     public function thatThereIsASpec($objectType)
@@ -202,12 +190,6 @@ class FeatureContext implements SnippetAcceptingContext
                 $filename = 'TestControllerSpec';
                 $templateType = 'controller';
                 $className = "Behat_${moduleName}_TestController";
-                break;
-            case 'resource model':
-                $dir = 'Model/Resource';
-                $filename = 'TestSpec';
-                $templateType = 'default';
-                $className = "Behat_${moduleName}_Model_Resource_Test";
                 break;
             default:
                 $dir = ucfirst($objectType);
@@ -297,18 +279,6 @@ class FeatureContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Then a resource model class should be generated
-     */
-    public function aResourceModelClassShouldBeGenerated()
-    {
-        $this->checkClassIsGenerated(new ClassSpecification(
-            'Resource model',
-            'public/app/code/local/Behat/Spec/Model/Resource/Test.php',
-            'Behat_Spec_Model_Resource_Test'
-        ));
-    }
-
-    /**
      * @Given there is a new module
      */
     public function thereIsANewModule()
@@ -353,10 +323,6 @@ class FeatureContext implements SnippetAcceptingContext
             case 'controller':
                 $path = sprintf('frontend/routers/%s/args/module', strtolower($moduleName));
                 $expectedClass = 'Behat_' . $moduleName;
-                break;
-            case 'resource model':
-                $path = sprintf('global/models/behat_%s_resource/class', strtolower($moduleName));
-                $expectedClass = "Behat_${moduleName}_Model_Resource";
                 break;
             default:
                 $path = sprintf('global/%ss/behat_%s/class', $objectType, strtolower($moduleName));
