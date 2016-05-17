@@ -1,4 +1,5 @@
-vendor
+vendor/
+composer.lock
 bin
 .idea/
 public
