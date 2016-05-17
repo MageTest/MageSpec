@@ -23,7 +23,7 @@ namespace spec\MageTest\PhpSpec\MagentoExtension;
 
 use PhpSpec\ObjectBehavior;
 use PhpSpec\ServiceContainer;
-use PhpSpec\Console\IO;
+use PhpSpec\Console\ConsoleIO as IO;
 use PhpSpec\CodeGenerator\TemplateRenderer;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Util\Filesystem;
