@@ -32,6 +32,7 @@ use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\Contro
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\HelperElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ModelElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
+use PhpSpec\Process\Context\JsonExecutionContext;
 use PhpSpec\ServiceContainer;
 
 class GeneratorAssembler implements Assembler
@@ -56,7 +57,8 @@ class GeneratorAssembler implements Assembler
             return new ModelGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
-                $c->get('filesystem')
+                $c->get('filesystem'),
+                new JsonExecutionContext()
             );
         });
 
@@ -64,7 +66,8 @@ class GeneratorAssembler implements Assembler
             return new BlockGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
-                $c->get('filesystem')
+                $c->get('filesystem'),
+                new JsonExecutionContext()
             );
         });
 
@@ -72,7 +75,8 @@ class GeneratorAssembler implements Assembler
             return new HelperGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
-                $c->get('filesystem')
+                $c->get('filesystem'),
+                new JsonExecutionContext()
             );
         });
 
@@ -80,7 +84,8 @@ class GeneratorAssembler implements Assembler
             return new ControllerGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
-                $c->get('filesystem')
+                $c->get('filesystem'),
+                new JsonExecutionContext()
             );
         });
 
@@ -88,7 +93,8 @@ class GeneratorAssembler implements Assembler
             return new ControllerSpecificationGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
-                $c->get('filesystem')
+                $c->get('filesystem'),
+                new JsonExecutionContext()
             );
         });
     }

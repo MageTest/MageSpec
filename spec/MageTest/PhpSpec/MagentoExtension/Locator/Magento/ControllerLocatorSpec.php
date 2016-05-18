@@ -17,7 +17,7 @@ class ControllerLocatorSpec extends ObjectBehavior
 
     function it_is_a_locator()
     {
-        $this->shouldBeAnInstanceOf('PhpSpec\Locator\ResourceLocatorInterface');
+        $this->shouldBeAnInstanceOf('PhpSpec\Locator\ResourceLocator');
     }
 
     function it_is_initializable()

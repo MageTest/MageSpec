@@ -26,7 +26,7 @@ use MageTest\PhpSpec\MagentoExtension\Extension\GeneratorAssembler;
 use MageTest\PhpSpec\MagentoExtension\Extension\LocatorAssembler;
 use MageTest\PhpSpec\MagentoExtension\Listener\ModuleUpdateListener;
 use MageTest\PhpSpec\MagentoExtension\Util\ClassDetector;
-use PhpSpec\Extension\ExtensionInterface;
+use PhpSpec\Extension as PhpspecExtension;
 use PhpSpec\ServiceContainer;
 use MageTest\PhpSpec\MagentoExtension\Autoloader\MageLoader;
 use PhpSpec\Util\Filesystem;
@@ -40,7 +40,7 @@ use PrettyXml\Formatter;
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class Extension implements ExtensionInterface
+class Extension implements PhpspecExtension
 {
     public function load(ServiceContainer $container)
     {

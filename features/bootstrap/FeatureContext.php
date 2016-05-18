@@ -284,7 +284,7 @@ class FeatureContext implements SnippetAcceptingContext
     public function thereIsANewModule()
     {
         $this->moduleName = $moduleName = 'Unique' . self::$uniqueCount;
-        expect($this->filesystem->exists("public/app/code/local/Behat/$moduleName"))->toBe(false);
+        PHPUnit_Framework_Assert::assertFileNotExists("public/app/code/local/Behat/$moduleName");
     }
 
     /**
@@ -336,7 +336,7 @@ class FeatureContext implements SnippetAcceptingContext
             throw new \RuntimeException('Element not found in config XML');
         }
 
-        expect((string) $result[0])->toBe($expectedClass);
+        PHPUnit_Framework_Assert::assertEquals($expectedClass, (string) $result[0]);
     }
 
     /**

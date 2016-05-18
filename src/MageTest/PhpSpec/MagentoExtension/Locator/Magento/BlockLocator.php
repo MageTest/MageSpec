@@ -21,7 +21,7 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Locator\Magento;
 
-use PhpSpec\Locator\ResourceLocatorInterface;
+use PhpSpec\Locator\ResourceLocator as ResourceLocatorInterface;
 
 /**
  * BlockLocator

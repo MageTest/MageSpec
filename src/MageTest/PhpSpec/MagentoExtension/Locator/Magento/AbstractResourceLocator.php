@@ -21,8 +21,8 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Locator\Magento;
 
-use PhpSpec\Locator\ResourceInterface;
-use PhpSpec\Locator\ResourceLocatorInterface;
+use PhpSpec\Locator\Resource as ResourceInterface;
+use PhpSpec\Locator\ResourceLocator as ResourceLocatorInterface;
 use PhpSpec\Util\Filesystem;
 
 abstract class AbstractResourceLocator

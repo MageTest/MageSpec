@@ -2,9 +2,9 @@
 
 namespace MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator;
 
-use PhpSpec\CodeGenerator\Generator\GeneratorInterface;
+use PhpSpec\CodeGenerator\Generator\Generator as GeneratorInterface;
 use PhpSpec\CodeGenerator\Generator\PromptingGenerator;
-use PhpSpec\Locator\ResourceInterface;
+use PhpSpec\Locator\Resource as ResourceInterface;
 
 abstract class MagentoObjectGenerator extends PromptingGenerator implements GeneratorInterface
 {
