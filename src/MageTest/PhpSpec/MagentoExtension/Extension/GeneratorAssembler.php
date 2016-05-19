@@ -58,7 +58,7 @@ class GeneratorAssembler implements Assembler
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
-                new JsonExecutionContext()
+                $c->get('process.executioncontext')
             );
         });
 
@@ -67,7 +67,7 @@ class GeneratorAssembler implements Assembler
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
-                new JsonExecutionContext()
+                $c->get('process.executioncontext')
             );
         });
 
@@ -76,7 +76,7 @@ class GeneratorAssembler implements Assembler
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
-                new JsonExecutionContext()
+                $c->get('process.executioncontext')
             );
         });
 
@@ -85,7 +85,7 @@ class GeneratorAssembler implements Assembler
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
-                new JsonExecutionContext()
+                $c->get('process.executioncontext')
             );
         });
 
@@ -94,7 +94,7 @@ class GeneratorAssembler implements Assembler
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
-                new JsonExecutionContext()
+                $c->get('process.executioncontext')
             );
         });
     }
