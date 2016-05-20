@@ -14,7 +14,7 @@ class HelperResourceSpec extends ObjectBehavior
 
     function it_is_a_resource()
     {
-        $this->shouldBeAnInstanceOf('PhpSpec\Locator\ResourceInterface');
+        $this->shouldBeAnInstanceOf('PhpSpec\Locator\Resource');
     }
 
     function it_is_initializable()

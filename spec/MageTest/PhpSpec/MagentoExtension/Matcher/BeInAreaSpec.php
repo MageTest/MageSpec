@@ -36,7 +36,7 @@ use PhpSpec\ObjectBehavior;
 class BeInAreaSpec extends ObjectBehavior
 {
     /**
-     * @param \PhpSpec\Formatter\Presenter\PresenterInterface $presenter
+     * @param \PhpSpec\Formatter\Presenter\Presenter $presenter
      */
     function let($presenter)
     {

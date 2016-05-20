@@ -22,7 +22,7 @@
 namespace MageTest\PhpSpec\MagentoExtension\Locator\Magento;
 
 use InvalidArgumentException;
-use PhpSpec\Locator\ResourceLocatorInterface;
+use PhpSpec\Locator\ResourceLocator;
 use PhpSpec\Util\Filesystem;
 
 /**
@@ -33,7 +33,7 @@ use PhpSpec\Util\Filesystem;
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class ModelLocator extends AbstractResourceLocator implements ResourceLocatorInterface
+class ModelLocator extends AbstractResourceLocator implements ResourceLocator
 {
     /**
      * @return int
@@ -54,11 +54,11 @@ class ModelLocator extends AbstractResourceLocator implements ResourceLocatorInt
 
     /**
      * @param array $parts
-     * @param ResourceLocatorInterface $locator
+     * @param ResourceLocator $locator
      * @return ModelResource
      * @throws \InvalidArgumentException
      */
-    protected function getResource(array $parts, ResourceLocatorInterface $locator)
+    protected function getResource(array $parts, ResourceLocator $locator)
     {
         if (!$locator instanceof ModelLocator) {
             throw new \InvalidArgumentException('Model resource requires a model locator');

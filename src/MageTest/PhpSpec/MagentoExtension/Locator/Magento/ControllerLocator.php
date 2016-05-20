@@ -22,7 +22,7 @@
 namespace MageTest\PhpSpec\MagentoExtension\Locator\Magento;
 
 use InvalidArgumentException;
-use PhpSpec\Locator\ResourceLocatorInterface;
+use PhpSpec\Locator\ResourceLocator as ResourceLocatorInterface;
 use PhpSpec\Util\Filesystem;
 
 /**

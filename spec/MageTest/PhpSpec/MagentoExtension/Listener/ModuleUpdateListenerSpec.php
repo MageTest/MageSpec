@@ -5,7 +5,7 @@ namespace spec\MageTest\PhpSpec\MagentoExtension\Listener;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ConfigGenerator;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
 use MageTest\PhpSpec\MagentoExtension\Util\ClassDetector;
-use PhpSpec\Console\IO;
+use PhpSpec\Console\ConsoleIO as IO;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Exception\Fracture\ClassNotFoundException;
