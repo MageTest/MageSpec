@@ -27,9 +27,7 @@ use PhpSpec\Console\ConsoleIO as IO;
 use PhpSpec\CodeGenerator\TemplateRenderer;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Util\Filesystem;
-use PhpSpec\Wrapper\Unwrapper;
 use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * ExtensionSpec
@@ -41,9 +39,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ExtensionSpec extends ObjectBehavior
 {
-    function let(ServiceContainer $container)
+    function let(FakeIndexedServiceContainer $container)
     {
-        $container->setShared(Argument::cetera())->willReturn();
+        $container->define(Argument::cetera())->willReturn();
 
         $container->addConfigurator(Argument::any())->willReturn();
 
@@ -57,7 +55,7 @@ class ExtensionSpec extends ObjectBehavior
 
     function it_registers_a_console_describe_model_command_when_loaded($container)
     {
-        $container->setShared('console.commands.describe_model', $this->service('\MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeModelCommand', $container))->shouldBeCalled();
+        $container->define('console.commands.describe_model', $this->service('\MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeModelCommand', $container), ['console.commands'])->shouldBeCalled();
 
         $this->load($container);
     }
@@ -68,14 +66,14 @@ class ExtensionSpec extends ObjectBehavior
         $container->get('code_generator.templates')->willReturn($templateRenderer);
         $container->get('filesystem')->willReturn($filesystem);
 
-        $container->setShared('code_generator.generators.mage_model', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator', $container))->shouldBeCalled();
+        $container->define('code_generator.generators.mage_model', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator', $container), ['code_generator.generators'])->shouldBeCalled();
 
         $this->load($container);
     }
     
     function it_registers_a_console_describe_block_command_when_loaded($container)
     {
-        $container->setShared('console.commands.describe_block', $this->service('\MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeBlockCommand', $container))->shouldBeCalled();
+        $container->define('console.commands.describe_block', $this->service('\MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeBlockCommand', $container), ['console.commands'])->shouldBeCalled();
 
         $this->load($container);
     }
@@ -86,14 +84,14 @@ class ExtensionSpec extends ObjectBehavior
         $container->get('code_generator.templates')->willReturn($templateRenderer);
         $container->get('filesystem')->willReturn($filesystem);
 
-        $container->setShared('code_generator.generators.mage_block', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\BlockGenerator', $container))->shouldBeCalled();
+        $container->define('code_generator.generators.mage_block', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\BlockGenerator', $container), ['code_generator.generators'])->shouldBeCalled();
 
         $this->load($container);
     }
 
     function it_registers_a_console_describe_helper_command_when_loaded($container)
     {
-        $container->setShared('console.commands.describe_helper', $this->service('\MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeHelperCommand', $container))->shouldBeCalled();
+        $container->define('console.commands.describe_helper', $this->service('\MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeHelperCommand', $container), ['console.commands'])->shouldBeCalled();
 
         $this->load($container);
     }
@@ -104,14 +102,14 @@ class ExtensionSpec extends ObjectBehavior
         $container->get('code_generator.templates')->willReturn($templateRenderer);
         $container->get('filesystem')->willReturn($filesystem);
 
-        $container->setShared('code_generator.generators.mage_helper', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\HelperGenerator', $container))->shouldBeCalled();
+        $container->define('code_generator.generators.mage_helper', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\HelperGenerator', $container), ['code_generator.generators'])->shouldBeCalled();
 
         $this->load($container);
     }
 
     function it_registers_a_console_describe_controller_command_when_loaded($container)
     {
-        $container->setShared('console.commands.describe_controller', $this->service('\MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeControllerCommand', $container))->shouldBeCalled();
+        $container->define('console.commands.describe_controller', $this->service('\MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeControllerCommand', $container), ['console.commands'])->shouldBeCalled();
 
         $this->load($container);
     }
@@ -122,7 +120,7 @@ class ExtensionSpec extends ObjectBehavior
         $container->get('code_generator.templates')->willReturn($templateRenderer);
         $container->get('filesystem')->willReturn($filesystem);
 
-        $container->setShared('code_generator.generators.mage_controller', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerGenerator', $container))->shouldBeCalled();
+        $container->define('code_generator.generators.mage_controller', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerGenerator', $container), ['code_generator.generators'])->shouldBeCalled();
 
         $this->load($container);
     }
@@ -133,7 +131,7 @@ class ExtensionSpec extends ObjectBehavior
         $container->get('code_generator.templates')->willReturn($templateRenderer);
         $container->get('filesystem')->willReturn($filesystem);
 
-        $container->setShared('code_generator.generators.controller_specification', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerSpecificationGenerator', $container))->shouldBeCalled();
+        $container->define('code_generator.generators.controller_specification', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerSpecificationGenerator', $container), ['code_generator.generators'])->shouldBeCalled();
 
         $this->load($container);
     }
@@ -160,4 +158,34 @@ class ExtensionSpec extends ObjectBehavior
             return false;
         });
     }
+}
+
+class FakeIndexedServiceContainer implements ServiceContainer
+{
+    public function setParam($id, $value)
+    {}
+
+    public function getParam($id, $default = null)
+    {}
+
+    public function set($id, $service, $tags = [])
+    {}
+
+    public function define($id, callable $definition, $tags = [])
+    {}
+
+    public function get($id)
+    {}
+
+    public function has($id)
+    {}
+
+    public function remove($id)
+    {}
+
+    public function getByTag($tag)
+    {}
+
+    public function addConfigurator($configurator)
+    {}
 }

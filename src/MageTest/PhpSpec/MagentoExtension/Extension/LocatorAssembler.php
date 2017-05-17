@@ -30,6 +30,12 @@ use PhpSpec\ServiceContainer;
 
 class LocatorAssembler implements Assembler
 {
+    private $params;
+
+    public function __construct(array $params  = [])
+    {
+        $this->params = $params;
+    }
 
     /**
      * @param ServiceContainer $container
@@ -38,7 +44,7 @@ class LocatorAssembler implements Assembler
     {
         $assembler = $this;
         $container->addConfigurator(function ($c) use ($assembler) {
-            $config = $c->getParam('mage_locator', array('main' => ''));
+            $config = isset($assembler->params['mage_locator']) ? $assembler->params['mage_locator'] : $c->getParam('mage_locator',  array('main' => ''));
 
             $srcNS = $assembler->getNamespace($config);
             $specPrefix = $assembler->getSpecPrefix($config);
@@ -57,35 +63,39 @@ class LocatorAssembler implements Assembler
 
             $factory = new LocatorFactory($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
 
-            $c->setShared('locator.locators.magento.model_locator',
+            $c->define('locator.locators.magento.model_locator',
                 function () use ($factory) {
                     return $factory->getLocator('model');
-                }
+                },
+                ['locator.locators.magento']
             );
 
-            $c->setShared('locator.locators.magento.block_locator',
+            $c->define('locator.locators.magento.block_locator',
                 function () use ($factory) {
                     return $factory->getLocator('block');
-                }
+                },
+                ['locator.locators.magento']
             );
 
-            $c->setShared('locator.locators.magento.helper_locator',
+            $c->define('locator.locators.magento.helper_locator',
                 function () use ($factory) {
                     return $factory->getLocator('helper');
-                }
+                },
+                ['locator.locators.magento']
             );
 
-            $c->setShared('locator.locators.magento.controller_locator',
+            $c->define('locator.locators.magento.controller_locator',
                 function () use ($factory) {
                     return $factory->getLocator('controller');
-                }
+                },
+                ['locator.locators.magento']
             );
 
             $resourceManager = $c->get('locator.resource_manager');
 
             array_map(
                 array($resourceManager, 'registerLocator'),
-                $c->getByPrefix('locator.locators.magento')
+                $c->getByTag('locator.locators.magento')
             );
         });
     }

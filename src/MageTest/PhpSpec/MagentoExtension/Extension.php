@@ -42,17 +42,17 @@ use PrettyXml\Formatter;
  */
 class Extension implements PhpspecExtension
 {
-    public function load(ServiceContainer $container)
+    public function load(ServiceContainer $container, array $params = [])
     {
         $this->setCommands($container);
         $this->setFilesystem($container);
         $this->setFormatter($container);
-        $this->setGenerators($container);
+        $this->setGenerators($container, $params);
         $this->setAccessInspector($container);
-        $this->setLocators($container);
+        $this->setLocators($container, $params);
         $this->setUtils($container);
         $this->setEvents($container);
-        $this->configureAutoloader($container);
+        $this->configureAutoloader($container, $params);
     }
 
     private function setCommands(ServiceContainer $container)
@@ -63,63 +63,64 @@ class Extension implements PhpspecExtension
 
     private function setFilesystem(ServiceContainer $container)
     {
-        $container->setShared('filesystem', function() {
+        $container->define('filesystem', function() {
             return new Filesystem();
-        });
+        }, ['filesystem']);
     }
 
     private function setFormatter(ServiceContainer $container)
     {
-        $container->setShared('xml.formatter', function() {
+        $container->define('xml.formatter', function() {
             return new Formatter();
-        });
+        }, ['xml.formatter']);
     }
 
-    private function setGenerators(ServiceContainer $container)
+    private function setGenerators(ServiceContainer $container, $params)
     {
-        $generatorAssembler = new GeneratorAssembler();
+        $generatorAssembler = new GeneratorAssembler($params);
         $generatorAssembler->build($container);
     }
 
     private function setAccessInspector(ServiceContainer $container)
     {
-        $container->setShared('access_inspector', function($c) {
+        $container->define('access_inspector', function($c) {
             return $c->get('access_inspector.visibility');
-        });
+        }, ['access_inspector']);
     }
 
-    private function setLocators(ServiceContainer $container)
+    private function setLocators(ServiceContainer $container, array $params)
     {
-        $locatorAssembler = new LocatorAssembler();
+        $locatorAssembler = new LocatorAssembler($params);
         $locatorAssembler->build($container);
     }
 
     private function setUtils(ServiceContainer $container)
     {
-        $container->setShared('util.class_detector', function () {
+        $container->define('util.class_detector', function () {
             return new ClassDetector();
-        });
+        }, ['util.class_detector']);
     }
 
     private function setEvents(ServiceContainer $container)
     {
-        $container->setShared('event_dispatcher.listeners.module_update', function ($c) {
+        $container->define('event_dispatcher.listeners.module_update', function ($c) {
             return new ModuleUpdateListener(
                 $c->get('xml_generator.generators.module'),
                 $c->get('xml_generator.generators.config'),
                 $c->get('console.io'),
                 $c->get('util.class_detector')
             );
-        });
+        }, ['event_dispatcher.listeners']);
     }
 
     /**
      * @param ServiceContainer $container
+     * @param array $params
      */
-    private function configureAutoloader($container)
+    private function configureAutoloader($container, array $params = [])
     {
-        $container->addConfigurator(function ($c) {
-            $suite = $c->getParam('mage_locator', array('main' => ''));
+        $container->addConfigurator(function ($c) use ($params) {
+            $suite = $config = isset($params['mage_locator']) ? $params['mage_locator'] : $c->getParam('mage_locator',  array('main' => ''));
             MageLoader::register(
                 isset($suite['src_path']) ? rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR : 'src',
                 isset($suite['code_pool']) ? $suite['code_pool'] : 'local'

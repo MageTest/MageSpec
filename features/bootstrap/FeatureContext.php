@@ -117,7 +117,6 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function iDescribeA($objectType)
     {
-
         $this->applicationTester->run(
             array(
                 'command' => sprintf('describe:%s', $objectType),

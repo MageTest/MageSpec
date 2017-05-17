@@ -22,6 +22,7 @@
  */
 namespace spec\MageTest\PhpSpec\MagentoExtension\Matcher;
 
+use PhpSpec\Formatter\Presenter\Presenter;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -35,10 +36,7 @@ use PhpSpec\ObjectBehavior;
  */
 class BeInAreaSpec extends ObjectBehavior
 {
-    /**
-     * @param \PhpSpec\Formatter\Presenter\Presenter $presenter
-     */
-    function let($presenter)
+    function let(Presenter $presenter)
     {
         $this->beConstructedWith($presenter);
     }
