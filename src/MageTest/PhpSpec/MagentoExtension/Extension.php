@@ -28,7 +28,6 @@ use MageTest\PhpSpec\MagentoExtension\Listener\ModuleUpdateListener;
 use MageTest\PhpSpec\MagentoExtension\Util\ClassDetector;
 use PhpSpec\Extension as PhpspecExtension;
 use PhpSpec\ServiceContainer;
-use MageTest\PhpSpec\MagentoExtension\Autoloader\MageLoader;
 use PhpSpec\Util\Filesystem;
 use PrettyXml\Formatter;
 
@@ -51,8 +50,7 @@ class Extension implements PhpspecExtension
         $this->setAccessInspector($container);
         $this->setLocators($container, $params);
         $this->setUtils($container);
-        $this->setEvents($container);
-        $this->configureAutoloader($container, $params);
+        $this->setEvents($container, $params);
     }
 
     private function setCommands(ServiceContainer $container)
@@ -101,8 +99,15 @@ class Extension implements PhpspecExtension
         }, ['util.class_detector']);
     }
 
-    private function setEvents(ServiceContainer $container)
+    private function setEvents(ServiceContainer $container, array $params = [])
     {
+        $container->define('event_dispatcher.listeners.bootstrap', function ($c) use ($params) {
+            return new Listener\BootstrapListener(
+                $params,
+                $c->getParam('mage_locator',  array('main' => ''))
+            );
+        }, ['event_dispatcher.listeners']);
+
         $container->define('event_dispatcher.listeners.module_update', function ($c) {
             return new ModuleUpdateListener(
                 $c->get('xml_generator.generators.module'),
@@ -111,20 +116,5 @@ class Extension implements PhpspecExtension
                 $c->get('util.class_detector')
             );
         }, ['event_dispatcher.listeners']);
-    }
-
-    /**
-     * @param ServiceContainer $container
-     * @param array $params
-     */
-    private function configureAutoloader($container, array $params = [])
-    {
-        $container->addConfigurator(function ($c) use ($params) {
-            $suite = $config = isset($params['mage_locator']) ? $params['mage_locator'] : $c->getParam('mage_locator',  array('main' => ''));
-            MageLoader::register(
-                isset($suite['src_path']) ? rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR : 'src',
-                isset($suite['code_pool']) ? $suite['code_pool'] : 'local'
-            );
-        });
     }
 }

@@ -21,6 +21,7 @@
  */
 namespace spec\MageTest\PhpSpec\MagentoExtension;
 
+use MageTest\PhpSpec\MagentoExtension\Listener\BootstrapListener;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\ServiceContainer;
 use PhpSpec\Console\ConsoleIO as IO;
@@ -136,9 +137,9 @@ class ExtensionSpec extends ObjectBehavior
         $this->load($container);
     }
 
-    function it_adds_locator_configuration_when_loaded($container)
+    function it_adds_event_dispatcher_when_loaded($container)
     {
-        $container->addConfigurator('locator.locators.mage_locator', true);
+        $container->define('event_dispatcher.listeners.bootstrap', $this->service(BootstrapListener::class, $container), ['event_dispatcher.listeners'])->shouldBeCalled();
 
         $this->load($container);
     }
