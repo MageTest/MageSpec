@@ -21,6 +21,7 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension;
 
+use MageTest\PhpSpec\MagentoExtension\Configuration\MageLocator;
 use MageTest\PhpSpec\MagentoExtension\Extension\CommandAssembler;
 use MageTest\PhpSpec\MagentoExtension\Extension\GeneratorAssembler;
 use MageTest\PhpSpec\MagentoExtension\Extension\LocatorAssembler;
@@ -43,14 +44,15 @@ class Extension implements PhpspecExtension
 {
     public function load(ServiceContainer $container, array $params = [])
     {
+        $configuration = MageLocator::fromParams($params);
         $this->setCommands($container);
         $this->setFilesystem($container);
         $this->setFormatter($container);
-        $this->setGenerators($container, $params);
+        $this->setGenerators($container, $configuration);
         $this->setAccessInspector($container);
-        $this->setLocators($container, $params);
+        $this->setLocators($container, $configuration);
         $this->setUtils($container);
-        $this->setEvents($container, $params);
+        $this->setEvents($container, $configuration);
     }
 
     private function setCommands(ServiceContainer $container)
@@ -73,9 +75,9 @@ class Extension implements PhpspecExtension
         }, ['xml.formatter']);
     }
 
-    private function setGenerators(ServiceContainer $container, $params)
+    private function setGenerators(ServiceContainer $container, MageLocator $configuration)
     {
-        $generatorAssembler = new GeneratorAssembler($params);
+        $generatorAssembler = new GeneratorAssembler($configuration);
         $generatorAssembler->build($container);
     }
 
@@ -86,9 +88,9 @@ class Extension implements PhpspecExtension
         }, ['access_inspector']);
     }
 
-    private function setLocators(ServiceContainer $container, array $params)
+    private function setLocators(ServiceContainer $container, MageLocator $configuration)
     {
-        $locatorAssembler = new LocatorAssembler($params);
+        $locatorAssembler = new LocatorAssembler($configuration);
         $locatorAssembler->build($container);
     }
 
@@ -99,13 +101,10 @@ class Extension implements PhpspecExtension
         }, ['util.class_detector']);
     }
 
-    private function setEvents(ServiceContainer $container, array $params = [])
+    private function setEvents(ServiceContainer $container, MageLocator $configuration)
     {
-        $container->define('event_dispatcher.listeners.bootstrap', function ($c) use ($params) {
-            return new Listener\BootstrapListener(
-                $params,
-                $c->getParam('mage_locator',  array('main' => ''))
-            );
+        $container->define('event_dispatcher.listeners.bootstrap', function () use ($configuration) {
+            return new Listener\BootstrapListener($configuration);
         }, ['event_dispatcher.listeners']);
 
         $container->define('event_dispatcher.listeners.module_update', function ($c) {

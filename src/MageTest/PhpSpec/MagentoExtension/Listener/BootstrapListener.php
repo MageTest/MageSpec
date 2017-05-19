@@ -3,18 +3,16 @@
 namespace MageTest\PhpSpec\MagentoExtension\Listener;
 
 use MageTest\PhpSpec\MagentoExtension\Autoloader\MageLoader;
+use MageTest\PhpSpec\MagentoExtension\Configuration\MageLocator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class BootstrapListener implements EventSubscriberInterface
 {
-    /**
-     * @var array
-     */
-    private $params;
+    private $configuration;
 
-    public function __construct(array $params = [])
+    public function __construct(MageLocator $configuration)
     {
-        $this->params = $params;
+        $this->configuration = $configuration;
     }
 
     public static function getSubscribedEvents()
@@ -24,10 +22,9 @@ class BootstrapListener implements EventSubscriberInterface
 
     public function beforeSuite()
     {
-        $suite = $config = isset($this->params['mage_locator']) ? $this->params['mage_locator'] : array('main' => '');
         MageLoader::register(
-            isset($suite['src_path']) ? rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR : 'src',
-            isset($suite['code_pool']) ? $suite['code_pool'] : 'local'
+            $this->configuration->getSrcPath(),
+            $this->configuration->getCodePool()
         );
     }
 }

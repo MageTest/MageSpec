@@ -32,19 +32,17 @@ use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\Contro
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\HelperElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ModelElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
+use MageTest\PhpSpec\MagentoExtension\Configuration\MageLocator;
 use PhpSpec\Process\Context\JsonExecutionContext;
 use PhpSpec\ServiceContainer;
 
 class GeneratorAssembler implements Assembler
 {
-    /**
-     * @var array
-     */
-    private $params;
+    private $configuration;
 
-    public function __construct(array $params = [])
+    public function __construct(MageLocator $configuration)
     {
-        $this->params = $params;
+        $this->configuration = $configuration;
     }
 
     /**
@@ -114,20 +112,19 @@ class GeneratorAssembler implements Assembler
      */
     private function setXmlModuleGenerator(ServiceContainer $container)
     {
-        $params = $this->params;
-        $container->define('xml_generator.generators.module', function ($c) use ($params) {
-            $suite = $config = isset($params['mage_locator']) ? $params['mage_locator'] : $c->getParam('mage_locator',  array('main' => ''));
-            if (isset($suite['src_path'])) {
-                $etcPath = rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR . '..'
-                    . DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
-            } else {
+        $configuration = $this->configuration;
+        $container->define('xml_generator.generators.module', function ($c) use ($configuration) {
+            $srcPath = $configuration->getSrcPath();
+            if ($srcPath === MageLocator::DEFAULT_SRC_PATH) {
                 $etcPath = 'app/etc/';
+            } else {
+                $etcPath = $srcPath . DIRECTORY_SEPARATOR . '..'
+                    . DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
             }
-            $codePool = isset($suite['code_pool']) ? $suite['code_pool'] : 'local';
             return new ModuleGenerator(
                 $etcPath,
                 $c->get('filesystem'),
-                $codePool
+                $configuration->getCodePool()
             );
         }, ['xml_generator.generators']);
     }
@@ -137,16 +134,13 @@ class GeneratorAssembler implements Assembler
      */
     private function setXmlConfigGenerator(ServiceContainer $container)
     {
-        $params = $this->params;
-        $container->define('xml_generator.generators.config', function($c) use ($params) {
-            $suite = $config = isset($params['mage_locator']) ? $params['mage_locator'] : $c->getParam('mage_locator',  array('main' => ''));
-            $srcPath = isset($suite['src_path']) ? rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR : 'src';
-            $codePool = isset($suite['code_pool']) ? $suite['code_pool'] : 'local';
+        $configuration = $this->configuration;
+        $container->define('xml_generator.generators.config', function($c) use ($configuration) {
             $generator = new ConfigGenerator(
-                $srcPath,
+                $configuration->getSrcPath(),
                 $c->get('filesystem'),
                 $c->get('xml.formatter'),
-                $codePool
+                $configuration->getCodePool()
             );
 
             array_map(

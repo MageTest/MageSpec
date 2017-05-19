@@ -21,20 +21,16 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Extension;
 
-use MageTest\PhpSpec\MagentoExtension\Locator\Magento\BlockLocator;
-use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ControllerLocator;
-use MageTest\PhpSpec\MagentoExtension\Locator\Magento\HelperLocator;
-use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelLocator;
-use PhpSpec\Locator\ResourceManager;
+use MageTest\PhpSpec\MagentoExtension\Configuration\MageLocator;
 use PhpSpec\ServiceContainer;
 
 class LocatorAssembler implements Assembler
 {
-    private $params;
+    private $configuration;
 
-    public function __construct(array $params  = [])
+    public function __construct(MageLocator $configuration)
     {
-        $this->params = $params;
+        $this->configuration = $configuration;
     }
 
     /**
@@ -44,13 +40,13 @@ class LocatorAssembler implements Assembler
     {
         $assembler = $this;
         $container->addConfigurator(function ($c) use ($assembler) {
-            $config = isset($assembler->params['mage_locator']) ? $assembler->params['mage_locator'] : $c->getParam('mage_locator',  array('main' => ''));
+            $config = $assembler->configuration;
 
-            $srcNS = $assembler->getNamespace($config);
-            $specPrefix = $assembler->getSpecPrefix($config);
-            $srcPath = $assembler->getSrcPath($config);
-            $specPath = $assembler->getSpecPath($config);
-            $codePool = $assembler->getCodePool($config);
+            $srcNS = $config->getNamespace();
+            $specPrefix = $config->getSpecPrefix();
+            $srcPath = $config->getSrcPath();
+            $specPath = $config->getSpecPath();
+            $codePool = $config->getCodePool();
             $filesystem = $c->get('filesystem');
 
             if (!$filesystem->isDirectory($srcPath)) {
@@ -98,30 +94,5 @@ class LocatorAssembler implements Assembler
                 $c->getByTag('locator.locators.magento')
             );
         });
-    }
-
-    public function getNamespace(array $config)
-    {
-        return array_key_exists('namespace', $config) ? $config['namespace'] : '';
-    }
-
-    public function getSpecPrefix(array $config)
-    {
-        return array_key_exists('spec_prefix', $config) ? $config['spec_prefix'] : '';
-    }
-
-    public function getSrcPath(Array $config)
-    {
-        return array_key_exists('src_path', $config) ? rtrim($config['src_path'], '/') . DIRECTORY_SEPARATOR : 'src';
-    }
-
-    public function getSpecPath(array $config)
-    {
-        return array_key_exists('spec_path', $config) ? rtrim($config['spec_path'], '/') . DIRECTORY_SEPARATOR : '.';
-    }
-
-    public function getCodePool(array $config)
-    {
-        return array_key_exists('code_pool', $config) ? $config['code_pool'] : 'local';
     }
 }
