@@ -2,12 +2,18 @@
 
 namespace spec;
 
+use Mage_Core_Controller_Request_Http as Request;
 use PhpSpec\ObjectBehavior;
-use MageTest\PhpSpec\MagentoExtension\Specification\ControllerBehavior;
 use Prophecy\Argument;
+use Zend_Controller_Response_Abstract as Response;
 
-class %class_name%Spec extends ControllerBehavior
+class %class_name%Spec extends ObjectBehavior
 {
+    function let(Request $request, Response $response)
+    {
+        $this->beConstructedWith($request, $response);
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType('%class_name%');
