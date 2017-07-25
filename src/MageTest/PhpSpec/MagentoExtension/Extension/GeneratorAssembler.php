@@ -32,11 +32,19 @@ use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\Contro
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\HelperElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ModelElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
+use MageTest\PhpSpec\MagentoExtension\Configuration\MageLocator;
 use PhpSpec\Process\Context\JsonExecutionContext;
 use PhpSpec\ServiceContainer;
 
 class GeneratorAssembler implements Assembler
 {
+    private $configuration;
+
+    public function __construct(MageLocator $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
     /**
      * @param ServiceContainer $container
      */
@@ -53,50 +61,50 @@ class GeneratorAssembler implements Assembler
      */
     private function setCodeGenerators(ServiceContainer $container)
     {
-        $container->setShared('code_generator.generators.mage_model', function ($c) {
+        $container->define('code_generator.generators.mage_model', function ($c) {
             return new ModelGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
                 new JsonExecutionContext()
             );
-        });
+        }, ['code_generator.generators']);
 
-        $container->setShared('code_generator.generators.mage_block', function ($c) {
+        $container->define('code_generator.generators.mage_block', function ($c) {
             return new BlockGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
                 new JsonExecutionContext()
             );
-        });
+        }, ['code_generator.generators']);
 
-        $container->setShared('code_generator.generators.mage_helper', function ($c) {
+        $container->define('code_generator.generators.mage_helper', function ($c) {
             return new HelperGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
                 new JsonExecutionContext()
             );
-        });
+        }, ['code_generator.generators']);
 
-        $container->setShared('code_generator.generators.mage_controller', function($c) {
+        $container->define('code_generator.generators.mage_controller', function($c) {
             return new ControllerGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
                 new JsonExecutionContext()
             );
-        });
+        }, ['code_generator.generators']);
 
-        $container->setShared('code_generator.generators.controller_specification', function($c) {
+        $container->define('code_generator.generators.controller_specification', function($c) {
             return new ControllerSpecificationGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
                 new JsonExecutionContext()
             );
-        });
+        }, ['code_generator.generators']);
     }
 
     /**
@@ -104,21 +112,21 @@ class GeneratorAssembler implements Assembler
      */
     private function setXmlModuleGenerator(ServiceContainer $container)
     {
-        $container->setShared('xml_generator.generators.module', function ($c) {
-            $suite = $c->getParam('mage_locator', array('main' => ''));
-            if (isset($suite['src_path'])) {
-                $etcPath = rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR . '..'
-                    . DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
-            } else {
+        $configuration = $this->configuration;
+        $container->define('xml_generator.generators.module', function ($c) use ($configuration) {
+            $srcPath = $configuration->getSrcPath();
+            if ($srcPath === MageLocator::DEFAULT_SRC_PATH) {
                 $etcPath = 'app/etc/';
+            } else {
+                $etcPath = $srcPath . DIRECTORY_SEPARATOR . '..'
+                    . DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
             }
-            $codePool = isset($suite['code_pool']) ? $suite['code_pool'] : 'local';
             return new ModuleGenerator(
                 $etcPath,
                 $c->get('filesystem'),
-                $codePool
+                $configuration->getCodePool()
             );
-        });
+        }, ['xml_generator.generators']);
     }
 
     /**
@@ -126,24 +134,22 @@ class GeneratorAssembler implements Assembler
      */
     private function setXmlConfigGenerator(ServiceContainer $container)
     {
-        $container->setShared('xml_generator.generators.config', function($c) {
-            $suite = $c->getParam('mage_locator', array('main' => ''));
-            $srcPath = isset($suite['src_path']) ? rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR : 'src';
-            $codePool = isset($suite['code_pool']) ? $suite['code_pool'] : 'local';
+        $configuration = $this->configuration;
+        $container->define('xml_generator.generators.config', function($c) use ($configuration) {
             $generator = new ConfigGenerator(
-                $srcPath,
+                $configuration->getSrcPath(),
                 $c->get('filesystem'),
                 $c->get('xml.formatter'),
-                $codePool
+                $configuration->getCodePool()
             );
 
             array_map(
                 array($generator, 'addElementGenerator'),
-                $c->getByPrefix('xml_generator.generators.config.element')
+                $c->getByTag('xml_generator.generators.config.element')
             );
 
             return $generator;
-        });
+        }, ['xml_generator.generators']);
     }
 
     /**
@@ -151,20 +157,20 @@ class GeneratorAssembler implements Assembler
      */
     private function setXmlElementGenerators(ServiceContainer $container)
     {
-        $container->setShared('xml_generator.generators.config.element.block', function() {
+        $container->define('xml_generator.generators.config.element.block', function() {
             return new BlockElement();
-        });
+        }, ['xml_generator.generators.config.element']);
 
-        $container->setShared('xml_generator.generators.config.element.helper', function() {
+        $container->define('xml_generator.generators.config.element.helper', function() {
             return new HelperElement();
-        });
+        }, ['xml_generator.generators.config.element']);
 
-        $container->setShared('xml_generator.generators.config.element.controller', function() {
+        $container->define('xml_generator.generators.config.element.controller', function() {
             return new ControllerElement();
-        });
+        }, ['xml_generator.generators.config.element']);
 
-        $container->setShared('xml_generator.generators.config.element.model', function() {
+        $container->define('xml_generator.generators.config.element.model', function() {
             return new ModelElement();
-        });
+        }, ['xml_generator.generators.config.element']);
     }
 }
