@@ -306,12 +306,6 @@ If you are interested in know more about spec in PHP you better have a look to t
 
 As per today, MageSpec currently allows you to describe different Magento classes. Following you can find a brief list.
 
-### Describing a resource model
-
-```bash
-$ bin/phpspec describe:resource_model 'vendorname_modulename/resourcename'
-```
-
 ### Describing a block
 
 ```bash
