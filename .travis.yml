@@ -23,6 +23,7 @@ before_script:
 script:
   - ./bin/behat
   - ./bin/phpspec run
+  - if [[ "$ANALYSIS" == 'true' ]]; then bin/phpcs ; fi
 
 notifications:
   email: "magetest@inviqa.com"
