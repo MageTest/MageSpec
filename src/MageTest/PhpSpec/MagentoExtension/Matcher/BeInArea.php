@@ -24,7 +24,7 @@ namespace MageTest\PhpSpec\MagentoExtension\Matcher;
 
 use PhpSpec\Matcher\BasicMatcher;
 use PhpSpec\Exception\Example\FailureException;
-use PhpSpec\Formatter\Presenter\PresenterInterface;
+use PhpSpec\Formatter\Presenter\Presenter as PresenterInterface;
 
 /**
  * BeInArea

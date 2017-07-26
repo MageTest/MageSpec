@@ -65,23 +65,23 @@ It’s valid to assume that StoryBDD and SpecBDD used together are a very effect
 MageSpec has been developed as PhpSpec extension which means that it depends on it and that we need to tell PhpSpec to load the extension for us. In order to do that we have to create a file in our project root called phpspec.yml and add the following content to it:
 
 ```yml
-extensions: [MageTest\PhpSpec\MagentoExtension\Extension]
+extensions:
+    MageTest\PhpSpec\MagentoExtension\Extension: ~
 ```
 
 However that's not enough. Due to the unusual and non-standard convention used by Magento to store controllers, models, helper and so on, MageSpec implement a custom PhpSpec locator service. Such a locator has to be properly configured accordingly to our project setup which means we need also to add some 'mage_locator' configuration as following:
 
 ```yml
-extensions: [MageTest\PhpSpec\MagentoExtension\Extension]
-mage_locator:
-  spec_prefix: 'spec'
-  src_path: 'public/app/code'
-  spec_path: 'spec/public/app/code'
-  code_pool: 'community'
+extensions:
+    MageTest\PhpSpec\MagentoExtension\Extension:
+        mage_locator:
+            src_path: public/app/code
+            spec_path: spec/public/app/code
 ```
 
 Currently the mage_locator supports four options:
 
-- namespace (default ''): The base namespace for our soruce code
+- namespace (default ''): The base namespace for our source code
 - spec_prefix (default 'spec'): The namespace prefix which will be used to namespace your specs based on your source code namespace
 - src_path (default 'src'): The relative path of your source code
 - spec_path (default '.'): The relative path of your specs

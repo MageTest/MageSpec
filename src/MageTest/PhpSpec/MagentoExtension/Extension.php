@@ -21,14 +21,14 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension;
 
+use MageTest\PhpSpec\MagentoExtension\Configuration\MageLocator;
 use MageTest\PhpSpec\MagentoExtension\Extension\CommandAssembler;
 use MageTest\PhpSpec\MagentoExtension\Extension\GeneratorAssembler;
 use MageTest\PhpSpec\MagentoExtension\Extension\LocatorAssembler;
 use MageTest\PhpSpec\MagentoExtension\Listener\ModuleUpdateListener;
 use MageTest\PhpSpec\MagentoExtension\Util\ClassDetector;
-use PhpSpec\Extension\ExtensionInterface;
+use PhpSpec\Extension as PhpspecExtension;
 use PhpSpec\ServiceContainer;
-use MageTest\PhpSpec\MagentoExtension\Autoloader\MageLoader;
 use PhpSpec\Util\Filesystem;
 use PrettyXml\Formatter;
 
@@ -40,19 +40,19 @@ use PrettyXml\Formatter;
  *
  * @author     MageTest team (https://github.com/MageTest/MageSpec/contributors)
  */
-class Extension implements ExtensionInterface
+class Extension implements PhpspecExtension
 {
-    public function load(ServiceContainer $container)
+    public function load(ServiceContainer $container, array $params = [])
     {
+        $configuration = MageLocator::fromParams($params);
         $this->setCommands($container);
         $this->setFilesystem($container);
         $this->setFormatter($container);
-        $this->setGenerators($container);
+        $this->setGenerators($container, $configuration);
         $this->setAccessInspector($container);
-        $this->setLocators($container);
+        $this->setLocators($container, $configuration);
         $this->setUtils($container);
-        $this->setEvents($container);
-        $this->configureAutoloader($container);
+        $this->setEvents($container, $configuration);
     }
 
     private function setCommands(ServiceContainer $container)
@@ -63,67 +63,57 @@ class Extension implements ExtensionInterface
 
     private function setFilesystem(ServiceContainer $container)
     {
-        $container->setShared('filesystem', function() {
+        $container->define('filesystem', function() {
             return new Filesystem();
-        });
+        }, ['filesystem']);
     }
 
     private function setFormatter(ServiceContainer $container)
     {
-        $container->setShared('xml.formatter', function() {
+        $container->define('xml.formatter', function() {
             return new Formatter();
-        });
+        }, ['xml.formatter']);
     }
 
-    private function setGenerators(ServiceContainer $container)
+    private function setGenerators(ServiceContainer $container, MageLocator $configuration)
     {
-        $generatorAssembler = new GeneratorAssembler();
+        $generatorAssembler = new GeneratorAssembler($configuration);
         $generatorAssembler->build($container);
     }
 
     private function setAccessInspector(ServiceContainer $container)
     {
-        $container->setShared('access_inspector', function($c) {
+        $container->define('access_inspector', function($c) {
             return $c->get('access_inspector.visibility');
-        });
+        }, ['access_inspector']);
     }
 
-    private function setLocators(ServiceContainer $container)
+    private function setLocators(ServiceContainer $container, MageLocator $configuration)
     {
-        $locatorAssembler = new LocatorAssembler();
+        $locatorAssembler = new LocatorAssembler($configuration);
         $locatorAssembler->build($container);
     }
 
     private function setUtils(ServiceContainer $container)
     {
-        $container->setShared('util.class_detector', function () {
+        $container->define('util.class_detector', function () {
             return new ClassDetector();
-        });
+        }, ['util.class_detector']);
     }
 
-    private function setEvents(ServiceContainer $container)
+    private function setEvents(ServiceContainer $container, MageLocator $configuration)
     {
-        $container->setShared('event_dispatcher.listeners.module_update', function ($c) {
+        $container->define('event_dispatcher.listeners.bootstrap', function () use ($configuration) {
+            return new Listener\BootstrapListener($configuration);
+        }, ['event_dispatcher.listeners']);
+
+        $container->define('event_dispatcher.listeners.module_update', function ($c) {
             return new ModuleUpdateListener(
                 $c->get('xml_generator.generators.module'),
                 $c->get('xml_generator.generators.config'),
                 $c->get('console.io'),
                 $c->get('util.class_detector')
             );
-        });
-    }
-
-    /**
-     * @param ServiceContainer $container
-     */
-    private function configureAutoloader($container)
-    {
-        $container->addConfigurator(function ($c) {
-            $suite = $c->getParam('mage_locator', array('main' => ''));
-            MageLoader::register(
-                isset($suite['src_path']) ? rtrim($suite['src_path'], '/') . DIRECTORY_SEPARATOR : 'src',
-                isset($suite['code_pool']) ? $suite['code_pool'] : 'local'
-            );
-        });
+        }, ['event_dispatcher.listeners']);
     }
 }
