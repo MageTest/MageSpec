@@ -10,7 +10,7 @@
 
 ### Prerequisites
 
-MageSpec requires PHP 5.3.x or greater.
+MageSpec requires PHP 5.6.x or greater.
 
 ### Install using composer
 
@@ -19,7 +19,7 @@ First, add MageSpec to the list of dependencies inside your `composer.json` and 
 ```json
 {
     "require-dev": {
-        "magetest/magento-phpspec-extension": "~3.0"
+        "magetest/magento-phpspec-extension": "^4.0"
     },
     "config": {
         "bin-dir": "bin"
@@ -79,7 +79,7 @@ extensions:
             spec_path: spec/public/app/code
 ```
 
-Currently the mage_locator supports four options:
+Currently the mage_locator supports five options:
 
 - namespace (default ''): The base namespace for our source code
 - spec_prefix (default 'spec'): The namespace prefix which will be used to namespace your specs based on your source code namespace
@@ -234,7 +234,7 @@ Do you want me to create `MageSpec_Reviews_Model_Product::hasReviews()` for you?
 Method MageSpec_Reviews_Model_Product::hasReviews() has been created
 ```
 
-What we just did was moving fast through the ambar state into the red. If you check your class you should now see something like this:
+What we just did was moving fast through the amber state into the red. If you check your class you should now see something like this:
 
 ```php
 <?php
