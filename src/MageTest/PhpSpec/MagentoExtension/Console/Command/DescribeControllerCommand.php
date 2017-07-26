@@ -33,6 +33,8 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class DescribeControllerCommand extends MageCommand
 {
+    const TYPE = 'controller';
+
     /**
      * @var string
      */
@@ -55,7 +57,7 @@ HELP;
     /**
      * @var string
      */
-    protected $type = 'controller';
+    protected $type = self::TYPE;
 
     protected function configure()
     {
