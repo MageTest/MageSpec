@@ -112,9 +112,8 @@ class GeneratorAssembler implements Assembler
      */
     private function setXmlModuleGenerator(ServiceContainer $container)
     {
-        $configuration = $this->configuration;
-        $container->define('xml_generator.generators.module', function ($c) use ($configuration) {
-            $srcPath = $configuration->getSrcPath();
+        $container->define('xml_generator.generators.module', function ($c) {
+            $srcPath = $this->configuration->getSrcPath();
             if ($srcPath === MageLocator::DEFAULT_SRC_PATH) {
                 $etcPath = 'app/etc/';
             } else {
@@ -124,7 +123,7 @@ class GeneratorAssembler implements Assembler
             return new ModuleGenerator(
                 $etcPath,
                 $c->get('filesystem'),
-                $configuration->getCodePool()
+                $this->configuration->getCodePool()
             );
         }, ['xml_generator.generators']);
     }
@@ -134,13 +133,12 @@ class GeneratorAssembler implements Assembler
      */
     private function setXmlConfigGenerator(ServiceContainer $container)
     {
-        $configuration = $this->configuration;
-        $container->define('xml_generator.generators.config', function($c) use ($configuration) {
+        $container->define('xml_generator.generators.config', function($c) {
             $generator = new ConfigGenerator(
-                $configuration->getSrcPath(),
+                $this->configuration->getSrcPath(),
                 $c->get('filesystem'),
                 $c->get('xml.formatter'),
-                $configuration->getCodePool()
+                $this->configuration->getCodePool()
             );
 
             array_map(
