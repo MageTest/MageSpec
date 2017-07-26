@@ -6,7 +6,6 @@ use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\BlockE
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ControllerElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\HelperElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ModelElement;
-use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ResourceModelElement;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Util\Filesystem;
 use PrettyXml\Formatter;
@@ -206,52 +205,6 @@ XML;
             <vendor_module>
                 <class>Vendor_Module_Model</class>
             </vendor_module>
-        </models>
-    </global>
-</config>
-XML;
-    }
-
-    private function getModelResourceModelXmlStructure()
-    {
-        return <<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<config>
-    <modules>
-        <Vendor_Module>
-            <version>0.1.0</version>
-        </Vendor_Module>
-    </modules>
-    <global>
-        <models>
-            <vendor_module>
-                <class>Vendor_Module_Model</class>
-                <resourceModel>vendor_model_resource</resourceModel>
-            </vendor_module>
-            <vendor_module_resource>
-                <class>Vendor_Module_Model_Resource</class>
-            </vendor_module_resource>
-        </models>
-    </global>
-</config>
-XML;
-    }
-
-    private function getResourceModelXmlStructure()
-    {
-        return <<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<config>
-    <modules>
-        <Vendor_Module>
-            <version>0.1.0</version>
-        </Vendor_Module>
-    </modules>
-    <global>
-        <models>
-            <vendor_module_resource>
-                <class>Vendor_Module_Model_Resource</class>
-            </vendor_module_resource>
         </models>
     </global>
 </config>
