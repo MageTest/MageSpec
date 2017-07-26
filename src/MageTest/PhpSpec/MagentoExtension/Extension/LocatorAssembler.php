@@ -38,15 +38,13 @@ class LocatorAssembler implements Assembler
      */
     public function build(ServiceContainer $container)
     {
-        $assembler = $this;
-        $container->addConfigurator(function ($c) use ($assembler) {
-            $config = $assembler->configuration;
+        $container->addConfigurator(function ($c) {
 
-            $srcNS = $config->getNamespace();
-            $specPrefix = $config->getSpecPrefix();
-            $srcPath = $config->getSrcPath();
-            $specPath = $config->getSpecPath();
-            $codePool = $config->getCodePool();
+            $srcNS = $this->configuration->getNamespace();
+            $specPrefix = $this->configuration->getSpecPrefix();
+            $srcPath = $this->configuration->getSrcPath();
+            $specPath = $this->configuration->getSpecPath();
+            $codePool = $this->configuration->getCodePool();
             $filesystem = $c->get('filesystem');
 
             if (!$filesystem->isDirectory($srcPath)) {
