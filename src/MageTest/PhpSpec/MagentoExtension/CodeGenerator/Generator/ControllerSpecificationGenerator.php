@@ -42,16 +42,17 @@ class ControllerSpecificationGenerator extends PromptingGenerator implements Gen
      */
     protected function renderTemplate(ResourceInterface $resource, $filepath)
     {
-        $values = array(
+        $values = [
             '%filepath%'  => $filepath,
             '%name%'      => $resource->getSpecName(),
             '%namespace%' => $resource->getSpecNamespace(),
             '%subject%'   => $resource->getSrcClassname()
-        );
+        ];
 
         if (!$content = $this->getTemplateRenderer()->render('controller_specification', $values)) {
             $content = $this->getTemplateRenderer()->renderString(
-                file_get_contents(__DIR__ . '/templates/controller_spec.template'), $values
+                file_get_contents(__DIR__ . '/templates/controller_spec.template'),
+                $values
             );
         }
 

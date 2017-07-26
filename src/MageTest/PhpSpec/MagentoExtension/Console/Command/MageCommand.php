@@ -71,4 +71,4 @@ abstract class MageCommand extends Command
 
         $this->container->get('code_generator')->generate($resource, 'specification');
     }
-} 
+}

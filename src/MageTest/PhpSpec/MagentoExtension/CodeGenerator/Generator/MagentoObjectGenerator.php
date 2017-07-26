@@ -16,7 +16,7 @@ abstract class MagentoObjectGenerator extends PromptingGenerator implements Gene
      */
     protected function renderTemplate(ResourceInterface $resource, $filepath)
     {
-        $values = array(
+        $values = [
             '%filepath%'        => $filepath,
             '%name%'            => $resource->getName(),
             '%extends%'         => $this->getParentClass(),
@@ -24,11 +24,12 @@ abstract class MagentoObjectGenerator extends PromptingGenerator implements Gene
             '%namespace_block%' => '' !== $resource->getSrcNamespace()
                 ?  sprintf("\n\nnamespace %s;", $resource->getSrcNamespace())
                 : '',
-        );
+        ];
 
         if (!$content = $this->getTemplateRenderer()->render($this->getTemplateName(), $values)) {
             $content = $this->getTemplateRenderer()->renderString(
-                file_get_contents(__DIR__ . $this->getTemplateFile()), $values
+                file_get_contents(__DIR__ . $this->getTemplateFile()),
+                $values
             );
         }
 

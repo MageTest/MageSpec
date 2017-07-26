@@ -46,4 +46,4 @@ class SpecSpecification implements ObjectSpecification
     {
         return dirname($this->filePath);
     }
-} 
+}

@@ -57,28 +57,32 @@ class LocatorAssembler implements Assembler
 
             $factory = new LocatorFactory($srcNS, $specPrefix, $srcPath, $specPath, $filesystem, $codePool);
 
-            $c->define('locator.locators.magento.model_locator',
+            $c->define(
+                'locator.locators.magento.model_locator',
                 function () use ($factory) {
                     return $factory->getLocator('model');
                 },
                 ['locator.locators.magento']
             );
 
-            $c->define('locator.locators.magento.block_locator',
+            $c->define(
+                'locator.locators.magento.block_locator',
                 function () use ($factory) {
                     return $factory->getLocator('block');
                 },
                 ['locator.locators.magento']
             );
 
-            $c->define('locator.locators.magento.helper_locator',
+            $c->define(
+                'locator.locators.magento.helper_locator',
                 function () use ($factory) {
                     return $factory->getLocator('helper');
                 },
                 ['locator.locators.magento']
             );
 
-            $c->define('locator.locators.magento.controller_locator',
+            $c->define(
+                'locator.locators.magento.controller_locator',
                 function () use ($factory) {
                     return $factory->getLocator('controller');
                 },
@@ -88,7 +92,7 @@ class LocatorAssembler implements Assembler
             $resourceManager = $c->get('locator.resource_manager');
 
             array_map(
-                array($resourceManager, 'registerLocator'),
+                [$resourceManager, 'registerLocator'],
                 $c->getByTag('locator.locators.magento')
             );
         });

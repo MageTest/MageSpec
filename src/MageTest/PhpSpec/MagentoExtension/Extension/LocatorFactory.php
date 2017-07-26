@@ -21,7 +21,6 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Extension;
 
-
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\AbstractResourceLocator;
 use PhpSpec\Util\Filesystem;
 

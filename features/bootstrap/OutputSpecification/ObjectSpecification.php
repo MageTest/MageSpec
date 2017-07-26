@@ -2,7 +2,6 @@
 
 namespace OutputSpecification;
 
-
 interface ObjectSpecification
 {
     /**
@@ -24,4 +23,4 @@ interface ObjectSpecification
      * @return string
      */
     public function getDirectory();
-} 
+}
