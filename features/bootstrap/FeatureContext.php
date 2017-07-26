@@ -187,26 +187,19 @@ class FeatureContext implements SnippetAcceptingContext
             case 'controller':
                 $dir = 'controllers';
                 $filename = 'TestControllerSpec';
-                $templateType = 'controller';
                 $className = "Behat_${moduleName}_TestController";
                 break;
             default:
                 $dir = ucfirst($objectType);
                 $filename = 'TestSpec';
-                $templateType = 'default';
                 $className = "Behat_${moduleName}_${dir}_Test";
         }
 
-        $template = __DIR__ . "/templates/specs/$templateType.template";
         $this->currentSpec = "spec/public/app/code/local/Behat/$moduleName/$dir/$filename.php";
 
         $this->filesystem->dumpFile(
             $this->currentSpec,
-            str_replace(
-                '%class_name%',
-                $className,
-                file_get_contents($template)
-            )
+            $this->updateClassNameInTemplate($className, $this->getTemplate($objectType))
         );
     }
 
@@ -360,7 +353,7 @@ class FeatureContext implements SnippetAcceptingContext
     public function theNonMagentoSpecShouldBeGenerated()
     {
         $this->checkSpecIsGenerated(new SpecSpecification(
-            'spec',
+            'non_magento',
             'spec/Behat/TestSpec.php',
             'Behat\TestSpec'
         ));
@@ -371,7 +364,7 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function thereIsASpecForANewNonMagentoObject()
     {
-        $template = __DIR__ . "/templates/specs/non_magento.template";
+        $template = $this->getTemplate('non_magento');
         $this->currentSpec = "spec/Behat/TestSpec.php";
         $this->filesystem->copy($template, $this->currentSpec);
     }
@@ -406,6 +399,8 @@ class FeatureContext implements SnippetAcceptingContext
         $this->checkFileExists($specification);
         require($specification->getFilePath());
         $this->checkClassExists('spec\\'.$specification->getClassName());
+
+        $this->checkSpecIsCorrect($specification);
     }
 
     private function checkClassIsGenerated(ClassSpecification $specification)
@@ -432,5 +427,42 @@ class FeatureContext implements SnippetAcceptingContext
         if (!class_exists($className, false)) {
             throw new \RuntimeException(sprintf("Class $className not found"));
         }
+    }
+
+    private function checkSpecIsCorrect(SpecSpecification $specSpecification)
+    {
+        $expectedSpec = $this->updateClassNameInTemplate(
+            $specSpecification->getClassName(),
+            $this->getTemplate($specSpecification->getType())
+        );
+
+        $generatedSpec = file_get_contents($specSpecification->getFilePath());
+
+        PHPUnit_Framework_Assert::assertEquals($expectedSpec, $generatedSpec);
+    }
+
+    private function getTemplate($objectType)
+    {
+        switch (strtolower($objectType)) {
+            case 'controller':
+                $templateType = 'controller';
+                break;
+            case 'non_magento':
+                $templateType = 'non_magento';
+                break;
+            default:
+                $templateType = 'default';
+        }
+
+        return __DIR__ . "/templates/specs/$templateType.template";
+    }
+
+    private function updateClassNameInTemplate($className, $template)
+    {
+        return str_replace(
+            '%class_name%',
+            preg_replace('/Spec$/', '', $className),
+            file_get_contents($template)
+        );
     }
 }
