@@ -13,7 +13,8 @@
     "require-dev": {
         "magetest/magento": "~1.8.1.0",
         "behat/behat": "~3.0",
-        "phpunit/phpunit": "^4.0|^5.0"
+        "phpunit/phpunit": "^4.0|^5.0",
+        "squizlabs/php_codesniffer": "^3.0"
     },
     "config": {
         "bin-dir": "bin"
