@@ -23,6 +23,7 @@ namespace spec\MageTest\PhpSpec\MagentoExtension;
 
 use MageTest\PhpSpec\MagentoExtension\Listener\BootstrapListener;
 use PhpSpec\ObjectBehavior;
+use PhpSpec\Process\Context\ExecutionContext;
 use PhpSpec\ServiceContainer;
 use PhpSpec\Console\ConsoleIO as IO;
 use PhpSpec\CodeGenerator\TemplateRenderer;
@@ -61,11 +62,17 @@ class ExtensionSpec extends ObjectBehavior
         $this->load($container);
     }
 
-    function it_registers_a_mage_model_code_generator_when_loaded($container, IO $console, TemplateRenderer $templateRenderer, Filesystem $filesystem)
-    {
+    function it_registers_a_mage_model_code_generator_when_loaded(
+        $container,
+        IO $console,
+        TemplateRenderer $templateRenderer,
+        Filesystem $filesystem,
+        ExecutionContext $executionContext
+    ) {
         $container->get('console.io')->willReturn($console);
         $container->get('code_generator.templates')->willReturn($templateRenderer);
         $container->get('filesystem')->willReturn($filesystem);
+        $container->get('process.executioncontext')->willReturn($executionContext);
 
         $container->define('code_generator.generators.mage_model', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ModelGenerator', $container), ['code_generator.generators'])->shouldBeCalled();
 
@@ -79,11 +86,17 @@ class ExtensionSpec extends ObjectBehavior
         $this->load($container);
     }
 
-    function it_registers_a_mage_block_code_generator_when_loaded($container, IO $console, TemplateRenderer $templateRenderer, Filesystem $filesystem)
-    {
+    function it_registers_a_mage_block_code_generator_when_loaded(
+        $container,
+        IO $console,
+        TemplateRenderer $templateRenderer,
+        Filesystem $filesystem,
+        ExecutionContext $executionContext
+    ) {
         $container->get('console.io')->willReturn($console);
         $container->get('code_generator.templates')->willReturn($templateRenderer);
         $container->get('filesystem')->willReturn($filesystem);
+        $container->get('process.executioncontext')->willReturn($executionContext);
 
         $container->define('code_generator.generators.mage_block', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\BlockGenerator', $container), ['code_generator.generators'])->shouldBeCalled();
 
@@ -97,11 +110,17 @@ class ExtensionSpec extends ObjectBehavior
         $this->load($container);
     }
 
-    function it_registers_a_mage_helper_code_generator_when_loaded($container, IO $console, TemplateRenderer $templateRenderer, Filesystem $filesystem)
-    {
+    function it_registers_a_mage_helper_code_generator_when_loaded(
+        $container,
+        IO $console,
+        TemplateRenderer $templateRenderer,
+        Filesystem $filesystem,
+        ExecutionContext $executionContext
+    ) {
         $container->get('console.io')->willReturn($console);
         $container->get('code_generator.templates')->willReturn($templateRenderer);
         $container->get('filesystem')->willReturn($filesystem);
+        $container->get('process.executioncontext')->willReturn($executionContext);
 
         $container->define('code_generator.generators.mage_helper', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\HelperGenerator', $container), ['code_generator.generators'])->shouldBeCalled();
 
@@ -115,22 +134,34 @@ class ExtensionSpec extends ObjectBehavior
         $this->load($container);
     }
 
-    function it_registers_a_mage_controller_code_generator_when_loaded($container, IO $console, TemplateRenderer $templateRenderer, Filesystem $filesystem)
-    {
+    function it_registers_a_mage_controller_code_generator_when_loaded(
+        $container,
+        IO $console,
+        TemplateRenderer $templateRenderer,
+        Filesystem $filesystem,
+        ExecutionContext $executionContext
+    ) {
         $container->get('console.io')->willReturn($console);
         $container->get('code_generator.templates')->willReturn($templateRenderer);
         $container->get('filesystem')->willReturn($filesystem);
+        $container->get('process.executioncontext')->willReturn($executionContext);
 
         $container->define('code_generator.generators.mage_controller', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerGenerator', $container), ['code_generator.generators'])->shouldBeCalled();
 
         $this->load($container);
     }
 
-    function it_registers_a_mage_controller_specification_generator_when_loaded($container, IO $console, TemplateRenderer $templateRenderer, Filesystem $filesystem)
-    {
+    function it_registers_a_mage_controller_specification_generator_when_loaded(
+        $container,
+        IO $console,
+        TemplateRenderer $templateRenderer,
+        Filesystem $filesystem,
+        ExecutionContext $executionContext
+    ) {
         $container->get('console.io')->willReturn($console);
         $container->get('code_generator.templates')->willReturn($templateRenderer);
         $container->get('filesystem')->willReturn($filesystem);
+        $container->get('process.executioncontext')->willReturn($executionContext);
 
         $container->define('code_generator.generators.controller_specification', $this->service('\MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerSpecificationGenerator', $container), ['code_generator.generators'])->shouldBeCalled();
 
