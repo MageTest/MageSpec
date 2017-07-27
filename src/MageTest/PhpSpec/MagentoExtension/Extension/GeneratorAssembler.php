@@ -33,7 +33,6 @@ use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\Helper
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ModelElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
 use MageTest\PhpSpec\MagentoExtension\Configuration\MageLocator;
-use PhpSpec\Process\Context\JsonExecutionContext;
 use PhpSpec\ServiceContainer;
 
 class GeneratorAssembler implements Assembler
