@@ -318,6 +318,12 @@ $ bin/phpspec describe:block 'vendorname_modulename/blockname'
 $ bin/phpspec describe:helper 'vendorname_modulename/helpername'
 ```
 
+### Describing a controller
+
+```bash
+$ bin/phpspec describe:controller 'vendorname_modulename/helpername'
+```
+
 ## Issue Submission
 
 Make sure you've read the [issue submission guidelines](https://github.com/MageTest/MageSpec/blob/develop/contributing.md#issue-submission) before you open a [new issue](https://github.com/MageTest/MageSpec/blob/develop/issues/new).

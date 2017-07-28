@@ -21,6 +21,7 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Console\Command;
 
+use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\ControllerSpecificationGenerator;
 use PhpSpec\Locator\ResourceManagerInterface;
 use PhpSpec\ServiceContainer;
 use Symfony\Component\Console\Command\Command;
@@ -69,6 +70,9 @@ abstract class MageCommand extends Command
         $classname = $this->type . ':' . $alias;
         $resource  = $this->container->get('locator.resource_manager')->createResource($classname);
 
-        $this->container->get('code_generator')->generate($resource, 'specification');
+        $this->container->get('code_generator')->generate(
+            $resource,
+            $this->type == DescribeControllerCommand::TYPE ? ControllerSpecificationGenerator::SUPPORTED_GENERATOR : 'specification'
+        );
     }
 }
