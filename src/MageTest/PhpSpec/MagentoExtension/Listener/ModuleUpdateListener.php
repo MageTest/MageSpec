@@ -18,7 +18,7 @@ class ModuleUpdateListener implements EventSubscriberInterface
     /**
      * @var array
      */
-    private $classNames = array();
+    private $classNames = [];
 
     /**
      * @var ModuleGenerator
@@ -63,10 +63,10 @@ class ModuleUpdateListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            'afterExample' => array('getClassNameAfterExample', 10),
-            'afterSuite'   => array('createXmlAfterSuite', -20),
-        );
+        return [
+            'afterExample' => ['getClassNameAfterExample', 10],
+            'afterSuite'   => ['createXmlAfterSuite', -20],
+        ];
     }
 
     /**

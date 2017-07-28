@@ -86,8 +86,11 @@ abstract class AbstractResourceLocator
         $this->filesystem = $filesystem ?: new Filesystem();
         $this->codePool = $codePool;
 
-        $this->srcPath = rtrim(realpath($srcPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
-        $this->specPath = rtrim(realpath($specPath), '/\\') . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
+        $absoluteSrcPath = rtrim(realpath($srcPath), '/\\');
+        $absoluteSpecPath = rtrim(realpath($specPath), '/\\');
+
+        $this->srcPath = $absoluteSrcPath . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
+        $this->specPath = $absoluteSpecPath . DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
         $this->srcNamespace = ltrim(trim($srcNamespace, ' \\') . '\\', '\\');
         $this->specNamespace = trim($specNamespacePrefix, ' \\') . '\\';
         $this->fullSrcPath = $this->srcPath;
@@ -161,7 +164,7 @@ abstract class AbstractResourceLocator
     {
         $path = $this->getCleanPath($query);
 
-        foreach (array($this->fullSrcPath, $this->srcPath) as $srcPath) {
+        foreach ([$this->fullSrcPath, $this->srcPath] as $srcPath) {
             if (0 === strpos($path, $srcPath)) {
                 $path = $srcPath.substr($path, strlen($srcPath));
                 $path = preg_replace('/\.php/', 'Spec.php', $path);
@@ -174,7 +177,7 @@ abstract class AbstractResourceLocator
             return $this->findSpecResources($path);
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -191,7 +194,7 @@ abstract class AbstractResourceLocator
 
         return (
             $this->supportsQuery($classname) ||
-            $classname === implode('_', array($parts[0], $parts[1], $this->getClassType(), $parts[count($parts)-1]))
+            $classname === implode('_', [$parts[0], $parts[1], $this->getClassType(), $parts[count($parts)-1]])
         );
     }
 
@@ -225,18 +228,18 @@ abstract class AbstractResourceLocator
     protected function findSpecResources($path)
     {
         if (!$this->filesystem->pathExists($path)) {
-            return array();
+            return [];
         }
 
         if ('.php' === substr($path, -4)) {
             if (!$this->isSupported($path)) {
-                return array();
+                return [];
             }
 
-            return array($this->createResourceFromSpecFile(realpath($path)));
+            return [$this->createResourceFromSpecFile(realpath($path))];
         }
 
-        $resources = array();
+        $resources = [];
         foreach ($this->filesystem->findSpecFilesIn($path) as $file) {
             $specFile = $file->getRealPath();
             if ($this->isSupported($specFile)) {
@@ -288,7 +291,7 @@ abstract class AbstractResourceLocator
      */
     private function getCleanPath($query)
     {
-        $path = rtrim(realpath(str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $query)), DIRECTORY_SEPARATOR);
+        $path = rtrim(realpath(str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $query)), DIRECTORY_SEPARATOR);
 
         if ('.php' !== substr($path, -4)) {
             $path .= DIRECTORY_SEPARATOR;
@@ -306,7 +309,7 @@ abstract class AbstractResourceLocator
         $vendor = ucfirst(array_shift($matches));
         $module = ucfirst(array_shift($matches));
 
-        return implode('_', array($vendor, $module, $this->getObjectName($matches)));
+        return implode('_', [$vendor, $module, $this->getObjectName($matches)]);
     }
 
     /**

@@ -15,6 +15,7 @@ In order for us to help you please check that you've completed the following ste
 ## Style Guide
 
 MageSpec follows the standards defined in the [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md), [PSR-1](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1.md) and [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2.md) documents.
+Run `bin/phpcs` to check your code follows the standards before submitting a PR.
 
 ## Pull Request Guidelines
 

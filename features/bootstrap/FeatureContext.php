@@ -1,6 +1,5 @@
 <?php
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Fake\YesPrompter;
 use OutputSpecification\ClassSpecification;
@@ -9,7 +8,6 @@ use OutputSpecification\SpecSpecification;
 use PhpSpec\Console\Application;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
-
 
 /**
  * Behat context class.
@@ -79,12 +77,12 @@ class FeatureContext implements SnippetAcceptingContext
     public function removeTemporaryDirectories()
     {
         $this->filesystem->remove(
-            array(
+            [
                 'spec/public',
                 'spec/Behat',
                 'public',
                 'src/Behat',
-            )
+            ]
         );
     }
 
@@ -118,13 +116,13 @@ class FeatureContext implements SnippetAcceptingContext
     public function iDescribeA($objectType)
     {
         $this->applicationTester->run(
-            array(
+            [
                 'command' => sprintf('describe:%s', $objectType),
                 '--no-interaction' => true,
                 '--config' => $this->configFile,
                 'alias' => strtolower($this->namespace) . '/test'
-            ),
-            array('decorated' => false)
+            ],
+            ['decorated' => false]
         );
     }
 
@@ -216,16 +214,16 @@ class FeatureContext implements SnippetAcceptingContext
     public function magespecRunsTheSpec()
     {
         $this->applicationTester->run(
-            array(
+            [
                 'command' =>'run',
                 '--config' =>  $this->configFile,
                 '--no-rerun' => true,
                 $this->currentSpec
-            ),
-            array(
+            ],
+            [
                 'interactive' => true,
                 'decorated' => false
-            )
+            ]
         );
     }
 
@@ -344,13 +342,13 @@ class FeatureContext implements SnippetAcceptingContext
     public function iDescribeANonMagentoObject()
     {
         $this->applicationTester->run(
-            array(
+            [
                 'command' => 'describe',
                 '--no-interaction' => true,
                 '--config' =>  $this->configFile,
                 'class' => 'Behat/Test'
-            ),
-            array('decorated' => false)
+            ],
+            ['decorated' => false]
         );
     }
 

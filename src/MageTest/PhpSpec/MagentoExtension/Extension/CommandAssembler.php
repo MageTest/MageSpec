@@ -21,7 +21,6 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Extension;
 
-
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeBlockCommand;
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeControllerCommand;
 use MageTest\PhpSpec\MagentoExtension\Console\Command\DescribeHelperCommand;
@@ -51,4 +50,4 @@ class CommandAssembler implements Assembler
             return new DescribeControllerCommand($container);
         }, ['console.commands']);
     }
-} 
+}

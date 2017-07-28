@@ -37,10 +37,10 @@ class ModuleGenerator
             return;
         }
 
-        $values = array(
+        $values = [
             '%module_name%' => $moduleName,
             '%code_pool%' => $this->codePool,
-        );
+        ];
 
         if (!$this->fileSystem->pathExists($this->path)) {
             $this->fileSystem->makeDirectory($this->path);

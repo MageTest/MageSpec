@@ -38,7 +38,7 @@ class MageLoader
     protected $isIncludePathDefined = false;
     protected $collectClasses = false;
     protected $collectPath = null;
-    protected $arrLoadedClasses = array();
+    protected $arrLoadedClasses = [];
     protected $srcPath = '';
     protected $codePool = '';
 
@@ -82,7 +82,7 @@ class MageLoader
      */
     public static function register($srcPath, $codePool)
     {
-        spl_autoload_register(array(self::instance($srcPath, $codePool), 'autoload'));
+        spl_autoload_register([self::instance($srcPath, $codePool), 'autoload']);
     }
 
     /**

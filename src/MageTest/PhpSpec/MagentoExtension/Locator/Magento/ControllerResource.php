@@ -41,7 +41,7 @@ class ControllerResource implements ResourceInterface
     {
         $this->parts   = $parts;
         $this->pathParts = $parts;
-        array_splice($this->pathParts, 2, 0, array('controllers'));
+        array_splice($this->pathParts, 2, 0, ['controllers']);
         $this->locator = $locator;
     }
 

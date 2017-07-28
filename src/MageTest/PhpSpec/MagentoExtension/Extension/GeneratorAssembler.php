@@ -87,7 +87,7 @@ class GeneratorAssembler implements Assembler
             );
         }, ['code_generator.generators']);
 
-        $container->define('code_generator.generators.mage_controller', function($c) {
+        $container->define('code_generator.generators.mage_controller', function ($c) {
             return new ControllerGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
@@ -96,7 +96,7 @@ class GeneratorAssembler implements Assembler
             );
         }, ['code_generator.generators']);
 
-        $container->define('code_generator.generators.controller_specification', function($c) {
+        $container->define('code_generator.generators.controller_specification', function ($c) {
             return new ControllerSpecificationGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
@@ -132,7 +132,7 @@ class GeneratorAssembler implements Assembler
      */
     private function setXmlConfigGenerator(ServiceContainer $container)
     {
-        $container->define('xml_generator.generators.config', function($c) {
+        $container->define('xml_generator.generators.config', function ($c) {
             $generator = new ConfigGenerator(
                 $this->configuration->getSrcPath(),
                 $c->get('filesystem'),
@@ -141,7 +141,7 @@ class GeneratorAssembler implements Assembler
             );
 
             array_map(
-                array($generator, 'addElementGenerator'),
+                [$generator, 'addElementGenerator'],
                 $c->getByTag('xml_generator.generators.config.element')
             );
 
@@ -154,19 +154,19 @@ class GeneratorAssembler implements Assembler
      */
     private function setXmlElementGenerators(ServiceContainer $container)
     {
-        $container->define('xml_generator.generators.config.element.block', function() {
+        $container->define('xml_generator.generators.config.element.block', function () {
             return new BlockElement();
         }, ['xml_generator.generators.config.element']);
 
-        $container->define('xml_generator.generators.config.element.helper', function() {
+        $container->define('xml_generator.generators.config.element.helper', function () {
             return new HelperElement();
         }, ['xml_generator.generators.config.element']);
 
-        $container->define('xml_generator.generators.config.element.controller', function() {
+        $container->define('xml_generator.generators.config.element.controller', function () {
             return new ControllerElement();
         }, ['xml_generator.generators.config.element']);
 
-        $container->define('xml_generator.generators.config.element.model', function() {
+        $container->define('xml_generator.generators.config.element.model', function () {
             return new ModelElement();
         }, ['xml_generator.generators.config.element']);
     }

@@ -63,14 +63,14 @@ class Extension implements PhpspecExtension
 
     private function setFilesystem(ServiceContainer $container)
     {
-        $container->define('filesystem', function() {
+        $container->define('filesystem', function () {
             return new Filesystem();
         }, ['filesystem']);
     }
 
     private function setFormatter(ServiceContainer $container)
     {
-        $container->define('xml.formatter', function() {
+        $container->define('xml.formatter', function () {
             return new Formatter();
         }, ['xml.formatter']);
     }
@@ -83,7 +83,7 @@ class Extension implements PhpspecExtension
 
     private function setAccessInspector(ServiceContainer $container)
     {
-        $container->define('access_inspector', function($c) {
+        $container->define('access_inspector', function ($c) {
             return $c->get('access_inspector.visibility');
         }, ['access_inspector']);
     }
