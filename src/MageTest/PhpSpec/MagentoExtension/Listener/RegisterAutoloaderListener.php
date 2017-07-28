@@ -6,7 +6,7 @@ use MageTest\PhpSpec\MagentoExtension\Autoloader\MageLoader;
 use MageTest\PhpSpec\MagentoExtension\Configuration\MageLocator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class BootstrapListener implements EventSubscriberInterface
+class RegisterAutoloaderListener implements EventSubscriberInterface
 {
     private $configuration;
 

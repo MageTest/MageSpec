@@ -103,8 +103,8 @@ class Extension implements PhpspecExtension
 
     private function setEvents(ServiceContainer $container, MageLocator $configuration)
     {
-        $container->define('event_dispatcher.listeners.bootstrap', function () use ($configuration) {
-            return new Listener\BootstrapListener($configuration);
+        $container->define('event_dispatcher.listeners.register_autoloader', function () use ($configuration) {
+            return new Listener\RegisterAutoloaderListener($configuration);
         }, ['event_dispatcher.listeners']);
 
         $container->define('event_dispatcher.listeners.module_update', function ($c) {

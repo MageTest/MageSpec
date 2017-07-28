@@ -21,7 +21,7 @@
  */
 namespace spec\MageTest\PhpSpec\MagentoExtension;
 
-use MageTest\PhpSpec\MagentoExtension\Listener\BootstrapListener;
+use MageTest\PhpSpec\MagentoExtension\Listener\RegisterAutoloaderListener;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Process\Context\ExecutionContext;
 use PhpSpec\ServiceContainer;
@@ -170,7 +170,7 @@ class ExtensionSpec extends ObjectBehavior
 
     function it_adds_event_dispatcher_when_loaded($container)
     {
-        $container->define('event_dispatcher.listeners.bootstrap', $this->service(BootstrapListener::class, $container), ['event_dispatcher.listeners'])->shouldBeCalled();
+        $container->define('event_dispatcher.listeners.register_autoloader', $this->service(RegisterAutoloaderListener::class, $container), ['event_dispatcher.listeners'])->shouldBeCalled();
 
         $this->load($container);
     }
