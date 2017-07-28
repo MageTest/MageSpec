@@ -72,7 +72,8 @@ abstract class MageCommand extends Command
 
         $this->container->get('code_generator')->generate(
             $resource,
-            $this->type == DescribeControllerCommand::TYPE ? ControllerSpecificationGenerator::SUPPORTED_GENERATOR : 'specification'
+            $this->type == DescribeControllerCommand::TYPE ?
+                ControllerSpecificationGenerator::SUPPORTED_GENERATOR : 'specification'
         );
     }
 }
