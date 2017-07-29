@@ -63,14 +63,14 @@ class Extension implements PhpspecExtension
 
     private function setFilesystem(ServiceContainer $container)
     {
-        $container->define('filesystem', function() {
+        $container->define('filesystem', function () {
             return new Filesystem();
         }, ['filesystem']);
     }
 
     private function setFormatter(ServiceContainer $container)
     {
-        $container->define('xml.formatter', function() {
+        $container->define('xml.formatter', function () {
             return new Formatter();
         }, ['xml.formatter']);
     }
@@ -83,7 +83,7 @@ class Extension implements PhpspecExtension
 
     private function setAccessInspector(ServiceContainer $container)
     {
-        $container->define('access_inspector', function($c) {
+        $container->define('access_inspector', function ($c) {
             return $c->get('access_inspector.visibility');
         }, ['access_inspector']);
     }
@@ -103,8 +103,8 @@ class Extension implements PhpspecExtension
 
     private function setEvents(ServiceContainer $container, MageLocator $configuration)
     {
-        $container->define('event_dispatcher.listeners.bootstrap', function () use ($configuration) {
-            return new Listener\BootstrapListener($configuration);
+        $container->define('event_dispatcher.listeners.register_autoloader', function () use ($configuration) {
+            return new Listener\RegisterAutoloaderListener($configuration);
         }, ['event_dispatcher.listeners']);
 
         $container->define('event_dispatcher.listeners.module_update', function ($c) {

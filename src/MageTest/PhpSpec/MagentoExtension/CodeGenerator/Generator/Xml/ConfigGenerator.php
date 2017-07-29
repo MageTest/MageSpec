@@ -31,7 +31,7 @@ class ConfigGenerator
     /**
      * @var array
      */
-    private $elementGenerators = array();
+    private $elementGenerators = [];
 
     /**
      * @param string $path
@@ -81,9 +81,9 @@ class ConfigGenerator
     private function getCurrentConfigXml($moduleName)
     {
         if (!$this->moduleFileExists()) {
-            $values = array(
+            $values = [
                 '%module_name%' => $moduleName
-            );
+            ];
             return strtr(file_get_contents(__DIR__ . '/templates/config.template'), $values);
         }
         return $this->filesystem->getFileContents($this->getFilePath());

@@ -6,7 +6,7 @@ use MageTest\PhpSpec\MagentoExtension\Autoloader\MageLoader;
 use MageTest\PhpSpec\MagentoExtension\Configuration\MageLocator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class BootstrapListener implements EventSubscriberInterface
+class RegisterAutoloaderListener implements EventSubscriberInterface
 {
     private $configuration;
 
@@ -17,7 +17,7 @@ class BootstrapListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array('beforeSuite' => array('beforeSuite', 1100));
+        return ['beforeSuite' => ['beforeSuite', 1100]];
     }
 
     public function beforeSuite()

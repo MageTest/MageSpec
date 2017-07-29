@@ -2,7 +2,6 @@
 
 namespace OutputSpecification;
 
-
 class ClassSpecification implements ObjectSpecification
 {
     private $type;
@@ -47,4 +46,4 @@ class ClassSpecification implements ObjectSpecification
     {
         return dirname($this->filePath);
     }
-} 
+}

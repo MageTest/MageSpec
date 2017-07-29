@@ -29,4 +29,4 @@ interface Assembler
      * @param ServiceContainer $container
      */
     public function build(ServiceContainer $container);
-} 
+}

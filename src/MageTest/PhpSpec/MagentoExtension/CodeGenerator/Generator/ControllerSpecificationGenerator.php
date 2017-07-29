@@ -8,6 +8,8 @@ use PhpSpec\Locator\Resource as ResourceInterface;
 
 class ControllerSpecificationGenerator extends PromptingGenerator implements GeneratorInterface
 {
+    const SUPPORTED_GENERATOR = 'controller_specification';
+
     /**
      * @param ResourceInterface $resource
      * @param string $generation
@@ -16,7 +18,7 @@ class ControllerSpecificationGenerator extends PromptingGenerator implements Gen
      */
     public function supports(ResourceInterface $resource, $generation, array $data)
     {
-        return 'controller_specification' === $generation;
+        return self::SUPPORTED_GENERATOR === $generation;
     }
 
     public function getPriority()
@@ -42,16 +44,17 @@ class ControllerSpecificationGenerator extends PromptingGenerator implements Gen
      */
     protected function renderTemplate(ResourceInterface $resource, $filepath)
     {
-        $values = array(
+        $values = [
             '%filepath%'  => $filepath,
             '%name%'      => $resource->getSpecName(),
             '%namespace%' => $resource->getSpecNamespace(),
             '%subject%'   => $resource->getSrcClassname()
-        );
+        ];
 
-        if (!$content = $this->getTemplateRenderer()->render('controller_specification', $values)) {
+        if (!$content = $this->getTemplateRenderer()->render(self::SUPPORTED_GENERATOR, $values)) {
             $content = $this->getTemplateRenderer()->renderString(
-                file_get_contents(__DIR__ . '/templates/controller_spec.template'), $values
+                file_get_contents(__DIR__ . '/templates/controller_spec.template'),
+                $values
             );
         }
 
@@ -66,7 +69,7 @@ class ControllerSpecificationGenerator extends PromptingGenerator implements Gen
      */
     protected function getGeneratedMessage(ResourceInterface $resource, $filepath)
     {
-        sprintf(
+        return sprintf(
             "<info>ControllerSpecification for <value>%s</value> created in <value>'%s'</value>.</info>\n",
             $resource->getSrcClassname(),
             $filepath

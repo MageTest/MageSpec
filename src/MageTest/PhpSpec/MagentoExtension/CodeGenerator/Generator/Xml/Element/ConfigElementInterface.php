@@ -2,7 +2,6 @@
 
 namespace MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element;
 
-
 interface ConfigElementInterface
 {
     /**
@@ -26,4 +25,4 @@ interface ConfigElementInterface
      * @return boolean
      */
     public function elementExistsInXml(\SimpleXMLElement $xml, $type, $moduleName);
-} 
+}

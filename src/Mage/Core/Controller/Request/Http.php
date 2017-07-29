@@ -32,9 +32,9 @@
  */
 class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_HttpTestCase
 {
-	const XML_NODE_DIRECT_FRONT_NAMES = 'global/request/direct_front_name';
+    const XML_NODE_DIRECT_FRONT_NAMES = 'global/request/direct_front_name';
 
-	const MAGE_TEST_USER_AGENT = 'PhpSpec/Magento Mock Browser';
+    const MAGE_TEST_USER_AGENT = 'PhpSpec/Magento Mock Browser';
 
     /**
      * ORIGINAL_PATH_INFO
@@ -51,7 +51,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_HttpTest
      */
     protected $_rewritedPathInfo= null;
     protected $_requestedRouteName = null;
-    protected $_routingInfo = array();
+    protected $_routingInfo = [];
 
     protected $_route;
 
@@ -71,7 +71,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_HttpTest
      *
      * @var array
      */
-    protected $_beforeForwardInfo = array();
+    protected $_beforeForwardInfo = [];
 
 
     /**
@@ -117,14 +117,12 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_HttpTest
                     $this->setPathInfo(implode('/', $p));
                     $this->_storeCode = $storeCode;
                     Mage::app()->setCurrentStore($storeCode);
-                }
-                else {
+                } else {
                     $this->_storeCode = Mage::app()->getStore()->getCode();
                 }
             } else {
                 $this->_storeCode = Mage::app()->getStore()->getCode();
             }
-
         }
         return $this->_storeCode;
     }
@@ -168,8 +166,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_HttpTest
                     if ($storeCode!=='' && isset($stores[$storeCode])) {
                         Mage::app()->setCurrentStore($storeCode);
                         $pathInfo = '/'.(isset($pathParts[1]) ? $pathParts[1] : '');
-                    }
-                    elseif ($storeCode !== '') {
+                    } elseif ($storeCode !== '') {
                         $this->setActionName('noRoute');
                     }
                 }
@@ -235,7 +232,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_HttpTest
             if ($names) {
                 $this->_directFrontNames = $names->asArray();
             } else {
-                return array();
+                return [];
             }
         }
         return $this->_directFrontNames;
@@ -275,7 +272,9 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_HttpTest
     {
         $this->_route = $route;
         $router = Mage::app()->getFrontController()->getRouterByRoute($route);
-        if (!$router) return $this;
+        if (!$router) {
+            return $this;
+        }
         $module = $router->getFrontNameByRoute($route);
         if ($module) {
             $this->setModuleName($module);
@@ -318,8 +317,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_HttpTest
     {
         if (is_array($key)) {
             $_POST = $key;
-        }
-        else {
+        } else {
             $_POST[$key] = $value;
         }
         return $this;
@@ -483,12 +481,12 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_HttpTest
     public function initForward()
     {
         if (empty($this->_beforeForwardInfo)) {
-            $this->_beforeForwardInfo = array(
+            $this->_beforeForwardInfo = [
                 'params' => $this->getParams(),
                 'action_name' => $this->getActionName(),
                 'controller_name' => $this->getControllerName(),
                 'module_name' => $this->getModuleName()
-            );
+            ];
         }
 
         return $this;

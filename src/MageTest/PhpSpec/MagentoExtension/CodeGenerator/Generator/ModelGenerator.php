@@ -24,6 +24,7 @@ namespace MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\ModelResource;
 use PhpSpec\CodeGenerator\Generator\Generator as GeneratorInterface;
 use PhpSpec\Locator\Resource as ResourceInterface;
+
 /**
  * ModelGenerator
  *

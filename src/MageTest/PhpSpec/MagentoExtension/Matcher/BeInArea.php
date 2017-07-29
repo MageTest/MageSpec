@@ -49,7 +49,7 @@ class BeInArea extends BasicMatcher
         return $alias === 'beInArea' &&
                $subject instanceof \Mage_Core_Controller_Front_Action &&
                isset($arguments[0]) &&
-               in_array($arguments[0], array('admin', 'frontend'));
+               in_array($arguments[0], ['admin', 'frontend']);
     }
 
     protected function matches($subject, array $arguments)

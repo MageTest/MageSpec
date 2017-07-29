@@ -33,7 +33,6 @@ use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\Helper
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element\ModelElement;
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\ModuleGenerator;
 use MageTest\PhpSpec\MagentoExtension\Configuration\MageLocator;
-use PhpSpec\Process\Context\JsonExecutionContext;
 use PhpSpec\ServiceContainer;
 
 class GeneratorAssembler implements Assembler
@@ -66,7 +65,7 @@ class GeneratorAssembler implements Assembler
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
-                new JsonExecutionContext()
+                $c->get('process.executioncontext')
             );
         }, ['code_generator.generators']);
 
@@ -75,7 +74,7 @@ class GeneratorAssembler implements Assembler
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
-                new JsonExecutionContext()
+                $c->get('process.executioncontext')
             );
         }, ['code_generator.generators']);
 
@@ -84,25 +83,25 @@ class GeneratorAssembler implements Assembler
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
-                new JsonExecutionContext()
+                $c->get('process.executioncontext')
             );
         }, ['code_generator.generators']);
 
-        $container->define('code_generator.generators.mage_controller', function($c) {
+        $container->define('code_generator.generators.mage_controller', function ($c) {
             return new ControllerGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
-                new JsonExecutionContext()
+                $c->get('process.executioncontext')
             );
         }, ['code_generator.generators']);
 
-        $container->define('code_generator.generators.controller_specification', function($c) {
+        $container->define('code_generator.generators.controller_specification', function ($c) {
             return new ControllerSpecificationGenerator(
                 $c->get('console.io'),
                 $c->get('code_generator.templates'),
                 $c->get('filesystem'),
-                new JsonExecutionContext()
+                $c->get('process.executioncontext')
             );
         }, ['code_generator.generators']);
     }
@@ -112,9 +111,8 @@ class GeneratorAssembler implements Assembler
      */
     private function setXmlModuleGenerator(ServiceContainer $container)
     {
-        $configuration = $this->configuration;
-        $container->define('xml_generator.generators.module', function ($c) use ($configuration) {
-            $srcPath = $configuration->getSrcPath();
+        $container->define('xml_generator.generators.module', function ($c) {
+            $srcPath = $this->configuration->getSrcPath();
             if ($srcPath === MageLocator::DEFAULT_SRC_PATH) {
                 $etcPath = 'app/etc/';
             } else {
@@ -124,7 +122,7 @@ class GeneratorAssembler implements Assembler
             return new ModuleGenerator(
                 $etcPath,
                 $c->get('filesystem'),
-                $configuration->getCodePool()
+                $this->configuration->getCodePool()
             );
         }, ['xml_generator.generators']);
     }
@@ -134,17 +132,16 @@ class GeneratorAssembler implements Assembler
      */
     private function setXmlConfigGenerator(ServiceContainer $container)
     {
-        $configuration = $this->configuration;
-        $container->define('xml_generator.generators.config', function($c) use ($configuration) {
+        $container->define('xml_generator.generators.config', function ($c) {
             $generator = new ConfigGenerator(
-                $configuration->getSrcPath(),
+                $this->configuration->getSrcPath(),
                 $c->get('filesystem'),
                 $c->get('xml.formatter'),
-                $configuration->getCodePool()
+                $this->configuration->getCodePool()
             );
 
             array_map(
-                array($generator, 'addElementGenerator'),
+                [$generator, 'addElementGenerator'],
                 $c->getByTag('xml_generator.generators.config.element')
             );
 
@@ -157,19 +154,19 @@ class GeneratorAssembler implements Assembler
      */
     private function setXmlElementGenerators(ServiceContainer $container)
     {
-        $container->define('xml_generator.generators.config.element.block', function() {
+        $container->define('xml_generator.generators.config.element.block', function () {
             return new BlockElement();
         }, ['xml_generator.generators.config.element']);
 
-        $container->define('xml_generator.generators.config.element.helper', function() {
+        $container->define('xml_generator.generators.config.element.helper', function () {
             return new HelperElement();
         }, ['xml_generator.generators.config.element']);
 
-        $container->define('xml_generator.generators.config.element.controller', function() {
+        $container->define('xml_generator.generators.config.element.controller', function () {
             return new ControllerElement();
         }, ['xml_generator.generators.config.element']);
 
-        $container->define('xml_generator.generators.config.element.model', function() {
+        $container->define('xml_generator.generators.config.element.model', function () {
             return new ModelElement();
         }, ['xml_generator.generators.config.element']);
     }

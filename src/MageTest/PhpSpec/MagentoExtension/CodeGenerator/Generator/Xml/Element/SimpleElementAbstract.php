@@ -2,7 +2,6 @@
 
 namespace MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\Element;
 
-
 use MageTest\PhpSpec\MagentoExtension\CodeGenerator\Generator\Xml\XmlGeneratorException;
 
 abstract class SimpleElementAbstract
@@ -58,4 +57,4 @@ abstract class SimpleElementAbstract
 
         return $elements[0];
     }
-} 
+}
