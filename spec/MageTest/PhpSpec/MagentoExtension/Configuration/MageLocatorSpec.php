@@ -3,6 +3,7 @@
 namespace spec\MageTest\PhpSpec\MagentoExtension\Configuration;
 
 use PhpSpec\ObjectBehavior;
+use spec\MageTest\PhpSpec\DirectorySeparator;
 
 class MageLocatorSpec extends ObjectBehavior
 {
@@ -24,8 +25,8 @@ class MageLocatorSpec extends ObjectBehavior
     {
         $namesapce = 'Magento';
         $specPrefix = 'spec';
-        $srcPath = 'public/app/code';
-        $specPath = 'spec/public/app/code';
+        $srcPath = DirectorySeparator::replacePathWithDirectorySeperator('public/app/code');
+        $specPath = DirectorySeparator::replacePathWithDirectorySeperator('spec/public/app/code');
         $codePool = 'community';
         $configuration = [
             'namespace' => $namesapce,
@@ -40,8 +41,8 @@ class MageLocatorSpec extends ObjectBehavior
         $this->beConstructedThrough('fromParams', [$params]);
         $this->getNamespace()->shouldBe($namesapce);
         $this->getSpecPrefix()->shouldBe($specPrefix);
-        $this->getSrcPath()->shouldBe($srcPath . '/');
-        $this->getSpecPath()->shouldBe($specPath . '/');
+        $this->getSrcPath()->shouldBe(DirectorySeparator::replacePathWithDirectorySeperator($srcPath . '/'));
+        $this->getSpecPath()->shouldBe(DirectorySeparator::replacePathWithDirectorySeperator($specPath . '/'));
         $this->getCodePool()->shouldBe($codePool);
     }
 }
