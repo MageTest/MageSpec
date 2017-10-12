@@ -34,6 +34,9 @@
             "Console" : "vendor/phpspec/phpspec/features/bootstrap/"
         }
     },
+    "autoload-dev": {
+        "psr-4": { "spec\\": "spec/" }
+    },
     "authors": [
         {
             "name": "Alistair Stead",

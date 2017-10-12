@@ -53,14 +53,14 @@ class MageLocator
     public function getSrcPath()
     {
         return array_key_exists('src_path', $this->configuration) ?
-            rtrim($this->configuration['src_path'], '/') . DIRECTORY_SEPARATOR :
+            rtrim($this->configuration['src_path'], DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR :
             self::DEFAULT_SRC_PATH;
     }
 
     public function getSpecPath()
     {
         return array_key_exists('spec_path', $this->configuration) ?
-            rtrim($this->configuration['spec_path'], '/') . DIRECTORY_SEPARATOR :
+            rtrim($this->configuration['spec_path'], DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR :
             '.';
     }
 

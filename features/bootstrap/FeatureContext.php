@@ -6,7 +6,9 @@ use OutputSpecification\ClassSpecification;
 use OutputSpecification\ObjectSpecification;
 use OutputSpecification\SpecSpecification;
 use PhpSpec\Console\Application;
+use spec\MageTest\PhpSpec\DirectorySeparator;
 use Symfony\Component\Console\Tester\ApplicationTester;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -76,14 +78,18 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function removeTemporaryDirectories()
     {
-        $this->filesystem->remove(
-            [
-                'spec/public',
-                'spec/Behat',
-                'public',
-                'src/Behat',
-            ]
-        );
+        try {
+            $this->filesystem->remove(
+                [
+                    DirectorySeparator::replacePathWithDirectorySeperator('spec/public'),
+                    DirectorySeparator::replacePathWithDirectorySeperator('spec/Behat'),
+                    DirectorySeparator::replacePathWithDirectorySeperator('public'),
+                    DirectorySeparator::replacePathWithDirectorySeperator('src/Behat'),
+                ]
+            );
+        } catch (IOException $e) {
+            //ignoring exception
+        }
     }
 
     /**
@@ -99,7 +105,9 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function magespecHasAStandardConfiguration()
     {
-        $this->configFile = __DIR__ . '/config_files/standard.yml';
+        $this->configFile = DirectorySeparator::replacePathWithDirectorySeperator(
+            __DIR__ . '/config_files/standard.yml'
+        );
     }
 
     /**
@@ -120,7 +128,7 @@ class FeatureContext implements SnippetAcceptingContext
                 'command' => sprintf('describe:%s', $objectType),
                 '--no-interaction' => true,
                 '--config' => $this->configFile,
-                'alias' => strtolower($this->namespace) . '/test'
+                'alias' => strtolower($this->namespace) . DirectorySeparator::replacePathWithDirectorySeperator('/test')
             ],
             ['decorated' => false]
         );
@@ -193,7 +201,9 @@ class FeatureContext implements SnippetAcceptingContext
                 $className = "Behat_${moduleName}_${dir}_Test";
         }
 
-        $this->currentSpec = "spec/public/app/code/local/Behat/$moduleName/$dir/$filename.php";
+        $this->currentSpec = DirectorySeparator::replacePathWithDirectorySeperator(
+            "spec/public/app/code/local/Behat/$moduleName/$dir/$filename.php"
+        );
 
         $this->filesystem->dumpFile(
             $this->currentSpec,
@@ -274,7 +284,9 @@ class FeatureContext implements SnippetAcceptingContext
     public function thereIsANewModule()
     {
         $this->moduleName = $moduleName = 'Unique' . self::$uniqueCount;
-        PHPUnit_Framework_Assert::assertFileNotExists("public/app/code/local/Behat/$moduleName");
+        PHPUnit_Framework_Assert::assertFileNotExists(
+            DirectorySeparator::replacePathWithDirectorySeperator("public/app/code/local/Behat/$moduleName")
+        );
     }
 
     /**
@@ -283,7 +295,7 @@ class FeatureContext implements SnippetAcceptingContext
     public function theModuleXmlFileShouldBeGenerated()
     {
         $unique = self::$uniqueCount;
-        if (!file_exists("public/app/etc/modules/Behat_Unique$unique.xml")) {
+        if (!file_exists(DirectorySeparator::replacePathWithDirectorySeperator("public/app/etc/modules/Behat_Unique$unique.xml"))) {
             throw new \RuntimeException('Module XML file was not generated');
         }
     }
@@ -294,7 +306,7 @@ class FeatureContext implements SnippetAcceptingContext
     public function theConfigXmlFileShouldBeGenerated()
     {
         $moduleName = $this->moduleName;
-        if (!file_exists("public/app/code/local/Behat/$moduleName/etc/config.xml")) {
+        if (!file_exists(DirectorySeparator::replacePathWithDirectorySeperator("public/app/code/local/Behat/$moduleName/etc/config.xml"))) {
             throw new \RuntimeException('Config XML file was not generated');
         }
     }
@@ -305,7 +317,7 @@ class FeatureContext implements SnippetAcceptingContext
     public function theConfigXmlFileShouldContainAnElement($objectType)
     {
         $moduleName = $this->moduleName;
-        if (!file_exists("public/app/code/local/Behat/$moduleName/etc/config.xml")) {
+        if (!file_exists(DirectorySeparator::replacePathWithDirectorySeperator("public/app/code/local/Behat/$moduleName/etc/config.xml"))) {
             throw new \RuntimeException('Config XML file was not generated');
         }
 
@@ -319,8 +331,13 @@ class FeatureContext implements SnippetAcceptingContext
                 $expectedClass = sprintf('Behat_%s_%s', $moduleName, ucfirst($objectType));
         }
 
-        $xml = new \SimpleXMLElement("public/app/code/local/Behat/$moduleName/etc/config.xml", 0, true);
-        $result = $xml->xpath($path);
+        $xml = new \SimpleXMLElement(
+            DirectorySeparator::replacePathWithDirectorySeperator("public/app/code/local/Behat/$moduleName/etc/config.xml"),
+            0,
+            true
+        );
+
+        $result = $xml->xpath(DirectorySeparator::replacePathWithDirectorySeperator($path));
 
         if (!$result || count($result) === 0) {
             throw new \RuntimeException('Element not found in config XML');
@@ -339,7 +356,7 @@ class FeatureContext implements SnippetAcceptingContext
                 'command' => 'describe',
                 '--no-interaction' => true,
                 '--config' =>  $this->configFile,
-                'class' => 'Behat/Test'
+                'class' => DirectorySeparator::replacePathWithDirectorySeperator('Behat/Test')
             ],
             ['decorated' => false]
         );
@@ -363,7 +380,7 @@ class FeatureContext implements SnippetAcceptingContext
     public function thereIsASpecForANewNonMagentoObject()
     {
         $template = $this->getTemplate('non_magento');
-        $this->currentSpec = "spec/Behat/TestSpec.php";
+        $this->currentSpec = DirectorySeparator::replacePathWithDirectorySeperator("spec/Behat/TestSpec.php");
         $this->filesystem->copy($template, $this->currentSpec);
     }
 
@@ -372,7 +389,7 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function theNonMagentoObjectShouldBeGenerated()
     {
-        require 'src/Behat/Test.php';
+        require DirectorySeparator::replacePathWithDirectorySeperator('src/Behat/Test.php');
         $this->checkClassIsGenerated(new ClassSpecification(
             'Test',
             'src/Behat/Test.php',
@@ -452,7 +469,7 @@ class FeatureContext implements SnippetAcceptingContext
                 $templateType = 'default';
         }
 
-        return __DIR__ . "/templates/specs/$templateType.template";
+        return DirectorySeparator::replacePathWithDirectorySeperator(__DIR__ . "/templates/specs/$templateType.template");
     }
 
     private function updateClassNameInTemplate($className, $template)

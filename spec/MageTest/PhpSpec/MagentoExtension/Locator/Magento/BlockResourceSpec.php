@@ -4,6 +4,7 @@ namespace spec\MageTest\PhpSpec\MagentoExtension\Locator\Magento;
 
 use PhpSpec\ObjectBehavior;
 use MageTest\PhpSpec\MagentoExtension\Locator\Magento\BlockLocator;
+use spec\MageTest\PhpSpec\DirectorySeparator;
 
 class BlockResourceSpec extends ObjectBehavior
 {
@@ -34,8 +35,8 @@ class BlockResourceSpec extends ObjectBehavior
 
     function it_generates_src_filename_from_provided_parts_using_locator($locator)
     {
-        $locator->getFullSrcPath()->willReturn('/app/code/local/');
-        $this->getSrcFilename()->shouldReturn('/app/code/local/VendorName/ModuleName/Block/BlockName.php');
+        $locator->getFullSrcPath()->willReturn(DirectorySeparator::replacePathWithDirectorySeperator('/app/code/local/'));
+        $this->getSrcFilename()->shouldReturn(DirectorySeparator::replacePathWithDirectorySeperator('/app/code/local/VendorName/ModuleName/Block/BlockName.php'));
     }
 
     function it_should_return_empty_src_namespace($locator)
@@ -51,9 +52,9 @@ class BlockResourceSpec extends ObjectBehavior
 
     function it_generates_spec_filename_from_provided_parts_using_locator($locator)
     {
-        $locator->getFullSpecPath()->willReturn('/spec/');
+        $locator->getFullSpecPath()->willReturn(DirectorySeparator::replacePathWithDirectorySeperator('/spec/'));
 
-        $this->getSpecFilename()->shouldReturn('/spec/VendorName/ModuleName/Block/BlockNameSpec.php');
+        $this->getSpecFilename()->shouldReturn(DirectorySeparator::replacePathWithDirectorySeperator('/spec/VendorName/ModuleName/Block/BlockNameSpec.php'));
     }
 
     function it_should_return_spec_as_spec_namespace($locator)
