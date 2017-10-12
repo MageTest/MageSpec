@@ -2,6 +2,8 @@
 
 namespace OutputSpecification;
 
+use spec\MageTest\PhpSpec\DirectorySeparator;
+
 class ClassSpecification implements ObjectSpecification
 {
     private $type;
@@ -11,7 +13,7 @@ class ClassSpecification implements ObjectSpecification
     public function __construct($type, $filePath, $className)
     {
         $this->type = $type;
-        $this->filePath = $filePath;
+        $this->filePath = DirectorySeparator::replacePathWithDirectorySeperator($filePath);
         $this->className = $className;
     }
 
