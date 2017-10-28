@@ -25,7 +25,7 @@ use PhpSpec\Locator\Resource as ResourceInterface;
 use PhpSpec\Locator\ResourceLocator as ResourceLocatorInterface;
 use PhpSpec\Util\Filesystem;
 
-abstract class AbstractResourceLocator
+abstract class AbstractResourceLocator implements ResourceLocatorInterface
 {
     /**
      * @var string
@@ -147,20 +147,12 @@ abstract class AbstractResourceLocator
         return $this->findSpecResources($this->fullSpecPath);
     }
 
-    /**
-     * @param string $query
-     * @return bool
-     */
-    public function supportsQuery($query)
+    public function supportsQuery(string $query): bool
     {
         return (bool) preg_match($this->getValidator(), $query) || $this->isSupported($query);
     }
 
-    /**
-     * @param string $query
-     * @return array
-     */
-    public function findResources($query)
+    public function findResources(string $query): array
     {
         $path = $this->getCleanPath($query);
 
@@ -180,11 +172,7 @@ abstract class AbstractResourceLocator
         return [];
     }
 
-    /**
-     * @param string $classname
-     * @return bool
-     */
-    public function supportsClass($classname)
+    public function supportsClass(string $classname): bool
     {
         $parts = explode('_', $classname);
 
@@ -198,11 +186,7 @@ abstract class AbstractResourceLocator
         );
     }
 
-    /**
-     * @param string $classname
-     * @return ResourceInterface
-     */
-    public function createResource($classname)
+    public function createResource(string $classname): ResourceInterface
     {
         preg_match($this->getValidator(), $classname, $matches);
 
@@ -216,16 +200,9 @@ abstract class AbstractResourceLocator
         return $this->getResource(explode('_', $classname), $this);
     }
 
-    /**
-     * @return int
-     */
-    abstract public function getPriority();
+    abstract public function getPriority(): int;
 
-    /**
-     * @param string $path
-     * @return array
-     */
-    protected function findSpecResources($path)
+    protected function findSpecResources(string $path): array
     {
         if (!$this->filesystem->pathExists($path)) {
             return [];
@@ -250,23 +227,14 @@ abstract class AbstractResourceLocator
         return $resources;
     }
 
-    /**
-     * @param string $path
-     * @return ResourceInterface
-     */
-    private function createResourceFromSpecFile($path)
+    private function createResourceFromSpecFile(string $path): ResourceInterface
     {
         $relative = $this->getRelative($path);
 
         return $this->getResource(explode(DIRECTORY_SEPARATOR, $relative), $this);
     }
 
-    /**
-     * @param string $srcPath
-     * @param string $specPath
-     * @throws \InvalidArgumentException
-     */
-    private function validatePaths($srcPath, $specPath)
+    private function validatePaths(string $srcPath, string $specPath)
     {
         $invalidPath = DIRECTORY_SEPARATOR . $this->codePool . DIRECTORY_SEPARATOR;
 
@@ -285,11 +253,7 @@ abstract class AbstractResourceLocator
         }
     }
 
-    /**
-     * @param string $query
-     * @return string
-     */
-    private function getCleanPath($query)
+    private function getCleanPath(string $query): string
     {
         $path = rtrim(realpath(str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $query)), DIRECTORY_SEPARATOR);
 
@@ -300,11 +264,7 @@ abstract class AbstractResourceLocator
         return $path;
     }
 
-    /**
-     * @param array $matches
-     * @return string
-     */
-    private function getClassnameFromMatches(array $matches)
+    private function getClassnameFromMatches(array $matches): string
     {
         $vendor = ucfirst(array_shift($matches));
         $module = ucfirst(array_shift($matches));
@@ -312,46 +272,23 @@ abstract class AbstractResourceLocator
         return implode('_', [$vendor, $module, $this->getObjectName($matches)]);
     }
 
-    /**
-     * @param array $matches
-     * @return string
-     */
-    protected function getObjectName(array $matches)
+    protected function getObjectName(array $matches): string
     {
         return $this->getClassType() . '_' . implode('_', array_map('ucfirst', explode('_', implode($matches))));
     }
 
-    /**
-     * @param string $path
-     * @return string
-     */
-    protected function getRelative($path)
+    protected function getRelative(string $path): string
     {
         // cut "Spec.php" from the end
         $relative = substr($path, strlen($this->fullSpecPath), -4);
         return preg_replace('/Spec$/', '', $relative);
     }
 
-    /**
-     * @param string $file
-     * @return bool
-     */
-    abstract protected function isSupported($file);
+    abstract protected function isSupported(string $file): bool;
 
-    /**
-     * @param array $parts
-     * @param ResourceLocatorInterface $locator
-     * @return ResourceInterface
-     */
-    abstract protected function getResource(array $parts, ResourceLocatorInterface $locator);
+    abstract protected function getResource(array $parts, ResourceLocatorInterface $locator): ResourceInterface;
 
-    /**
-     * @return string
-     */
-    abstract protected function getClassType();
+    abstract protected function getClassType(): string;
 
-    /**
-     * @return string
-     */
-    abstract protected function getValidator();
+    abstract protected function getValidator(): string;
 }

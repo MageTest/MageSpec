@@ -21,6 +21,7 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Locator\Magento;
 
+use PhpSpec\Locator\Resource as ResourceInterface;
 use PhpSpec\Locator\ResourceLocator as ResourceLocatorInterface;
 
 /**
@@ -33,30 +34,18 @@ use PhpSpec\Locator\ResourceLocator as ResourceLocatorInterface;
  */
 class HelperLocator extends AbstractResourceLocator implements ResourceLocatorInterface
 {
-    /**
-     * @return int
-     */
-    public function getPriority()
+
+    public function getPriority(): int
     {
         return 20;
     }
 
-    /**
-     * @param string $file
-     * @return bool
-     */
-    protected function isSupported($file)
+    protected function isSupported(string $file): bool
     {
         return strpos($file, 'Helper') > 0;
     }
 
-    /**
-     * @param array $parts
-     * @param ResourceLocatorInterface $locator
-     * @return HelperResource
-     * @throws \InvalidArgumentException
-     */
-    protected function getResource(array $parts, ResourceLocatorInterface $locator)
+    protected function getResource(array $parts, ResourceLocatorInterface $locator): ResourceInterface
     {
         if (!$locator instanceof HelperLocator) {
             throw new \InvalidArgumentException('Helper resource requires a helper locator');
@@ -64,18 +53,12 @@ class HelperLocator extends AbstractResourceLocator implements ResourceLocatorIn
         return new HelperResource($parts, $locator);
     }
 
-    /**
-     * @return string
-     */
-    protected function getClassType()
+    protected function getClassType(): string
     {
         return 'Helper';
     }
 
-    /**
-     * @return string
-     */
-    protected function getValidator()
+    protected function getValidator(): string
     {
         return '/^(helper):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
     }

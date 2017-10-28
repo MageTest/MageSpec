@@ -194,28 +194,28 @@ class ExtensionSpec extends ObjectBehavior
 
 class FakeIndexedServiceContainer implements ServiceContainer
 {
-    public function setParam($id, $value)
+    public function setParam(string $id, $value)
     {}
 
-    public function getParam($id, $default = null)
+    public function getParam(string $id, $default = null)
     {}
 
-    public function set($id, $service, $tags = [])
+    public function set(string $id, $service, array $tags = [])
     {}
 
-    public function define($id, callable $definition, $tags = [])
+    public function define(string $id, callable $definition, array $tags = [])
     {}
 
-    public function get($id)
+    public function get(string $id)
     {}
 
-    public function has($id)
+    public function has(string $id): bool
     {}
 
-    public function remove($id)
+    public function remove(string $id)
     {}
 
-    public function getByTag($tag)
+    public function getByTag(string $tag): array
     {}
 
     public function addConfigurator($configurator)

@@ -21,6 +21,7 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Locator\Magento;
 
+use PhpSpec\Locator\Resource as ResourceInterface;
 use PhpSpec\Locator\ResourceLocator as ResourceLocatorInterface;
 
 /**
@@ -33,30 +34,18 @@ use PhpSpec\Locator\ResourceLocator as ResourceLocatorInterface;
  */
 class BlockLocator extends AbstractResourceLocator implements ResourceLocatorInterface
 {
-    /**
-     * @return int
-     */
-    public function getPriority()
+
+    public function getPriority(): int
     {
         return 30;
     }
 
-    /**
-     * @param string $file
-     * @return bool
-     */
-    protected function isSupported($file)
+    protected function isSupported(string $file): bool
     {
         return strpos($file, 'Block') > 0;
     }
 
-    /**
-     * @param array $parts
-     * @param ResourceLocatorInterface $locator
-     * @return BlockResource
-     * @throws \InvalidArgumentException
-     */
-    protected function getResource(array $parts, ResourceLocatorInterface $locator)
+    protected function getResource(array $parts, ResourceLocatorInterface $locator): ResourceInterface
     {
         if (!$locator instanceof BlockLocator) {
             throw new \InvalidArgumentException('Block resource requires a block locator');
@@ -64,18 +53,12 @@ class BlockLocator extends AbstractResourceLocator implements ResourceLocatorInt
         return new BlockResource($parts, $locator);
     }
 
-    /**
-     * @return string
-     */
-    protected function getClassType()
+    protected function getClassType(): string
     {
         return 'Block';
     }
 
-    /**
-     * @return string
-     */
-    protected function getValidator()
+    protected function getValidator(): string
     {
         return '/^(block):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
     }

@@ -30,6 +30,8 @@ class ModuleUpdateListenerSpec extends ObjectBehavior
     {
         $event->getException()->willReturn($exception);
 
+        $exception->getClassname()->willReturn('Vendor_Module_Model_Foo');
+
         $this->getClassNameAfterExample($event);
 
         $exception->getClassname()->shouldHaveBeenCalled();

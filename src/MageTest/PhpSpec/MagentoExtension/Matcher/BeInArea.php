@@ -44,7 +44,7 @@ class BeInArea extends BasicMatcher
         $this->presenter = $presenter;
     }
 
-    public function supports($alias, $subject, array $arguments)
+    public function supports(string $alias, $subject, array $arguments): bool
     {
         return $alias === 'beInArea' &&
                $subject instanceof \Mage_Core_Controller_Front_Action &&
@@ -52,12 +52,12 @@ class BeInArea extends BasicMatcher
                in_array($arguments[0], ['admin', 'frontend']);
     }
 
-    protected function matches($subject, array $arguments)
+    protected function matches($subject, array $arguments): bool
     {
         return $subject->get('mage')->app()->getArea() === $arguments[0];
     }
 
-    protected function getFailureException($name, $subject, array $arguments)
+    protected function getFailureException(string $name, $subject, array $arguments): FailureException
     {
         $area = $subject->get('mage')->app()->getArea();
         return new FailureException(sprintf(
@@ -68,7 +68,7 @@ class BeInArea extends BasicMatcher
         ));
     }
 
-    protected function getNegativeFailureException($name, $subject, array $arguments)
+    protected function getNegativeFailureException(string $name, $subject, array $arguments): FailureException
     {
         return new FailureException(sprintf(
             'Expected %s not to be in area %s.',

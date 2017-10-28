@@ -21,9 +21,8 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Locator\Magento;
 
-use InvalidArgumentException;
+use PhpSpec\Locator\Resource as ResourceInterface;
 use PhpSpec\Locator\ResourceLocator as ResourceLocatorInterface;
-use PhpSpec\Util\Filesystem;
 
 /**
  * ControllerLocator
@@ -35,39 +34,22 @@ use PhpSpec\Util\Filesystem;
  */
 class ControllerLocator extends AbstractResourceLocator implements ResourceLocatorInterface
 {
-    /**
-     * @param string $classname
-     * @return bool
-     */
-    public function supportsClass($classname)
+    public function supportsClass(string $classname): bool
     {
         return ($this->supportsQuery($classname) || preg_match('/Controller$/', $classname));
     }
 
-    /**
-     * @return int
-     */
-    public function getPriority()
+    public function getPriority(): int
     {
         return 10;
     }
 
-    /**
-     * @param string $file
-     * @return bool
-     */
-    protected function isSupported($file)
+    protected function isSupported(string $file): bool
     {
         return strpos($file, 'controllers') > 0;
     }
 
-    /**
-     * @param array $parts
-     * @param ResourceLocatorInterface $locator
-     * @return ControllerResource
-     * @throws \InvalidArgumentException
-     */
-    protected function getResource(array $parts, ResourceLocatorInterface $locator)
+    protected function getResource(array $parts, ResourceLocatorInterface $locator): ResourceInterface
     {
         if (!$locator instanceof ControllerLocator) {
             throw new \InvalidArgumentException('Controller resource requires a controller locator');
@@ -75,20 +57,12 @@ class ControllerLocator extends AbstractResourceLocator implements ResourceLocat
         return new ControllerResource($parts, $locator);
     }
 
-    /**
-     * @param array $matches
-     * @return string
-     */
-    protected function getObjectName(array $matches)
+    protected function getObjectName(array $matches): string
     {
         return implode('_', array_map('ucfirst', explode('_', implode($matches)))).'Controller';
     }
 
-    /**
-     * @param string $path
-     * @return string
-     */
-    protected function getRelative($path)
+    protected function getRelative(string $path): string
     {
         $relative = parent::getRelative($path);
         return str_replace(
@@ -98,18 +72,12 @@ class ControllerLocator extends AbstractResourceLocator implements ResourceLocat
         );
     }
 
-    /**
-     * @return string
-     */
-    protected function getClassType()
+    protected function getClassType(): string
     {
         return 'controllers';
     }
 
-    /**
-     * @return string
-     */
-    protected function getValidator()
+    protected function getValidator(): string
     {
         return '/^(controller):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)$/';
     }

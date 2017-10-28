@@ -35,42 +35,23 @@ use PhpSpec\Locator\Resource as ResourceInterface;
  */
 class HelperGenerator extends MagentoObjectGenerator implements GeneratorInterface
 {
-    /**
-     * @param ResourceInterface $resource
-     * @param string $generation
-     * @param array $data
-     * @return bool
-     */
-    public function supports(ResourceInterface $resource, $generation, array $data)
+
+    public function supports(ResourceInterface $resource, string $generation, array $data): bool
     {
         return 'class' === $generation && $resource instanceof HelperResource;
     }
 
-    /**
-     * @return int
-     */
-    public function getPriority()
+    public function getPriority(): int
     {
         return 20;
     }
 
-    /**
-     * @param ResourceInterface $resource
-     *
-     * @return string
-     */
-    protected function getFilePath(ResourceInterface $resource)
+    protected function getFilePath(ResourceInterface $resource): string
     {
         return $resource->getSrcFilename();
     }
 
-    /**
-     * @param ResourceInterface $resource
-     * @param string $filepath
-     *
-     * @return string
-     */
-    protected function getGeneratedMessage(ResourceInterface $resource, $filepath)
+    protected function getGeneratedMessage(ResourceInterface $resource, string $filepath): string
     {
         return sprintf(
             "<info>Magento helper <value>%s</value> created in <value>'%s'</value>.</info>\n",
@@ -79,18 +60,12 @@ class HelperGenerator extends MagentoObjectGenerator implements GeneratorInterfa
         );
     }
 
-    /**
-     * @return string
-     */
-    protected function getParentClass()
+    protected function getParentClass(): string
     {
         return 'Mage_Core_Helper_Abstract';
     }
 
-    /**
-     * @return string
-     */
-    protected function getTemplateName()
+    protected function getTemplateName(): string
     {
         return 'mage_helper';
     }
