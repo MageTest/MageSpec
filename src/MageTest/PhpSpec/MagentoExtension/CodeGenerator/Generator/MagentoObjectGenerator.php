@@ -8,13 +8,7 @@ use PhpSpec\Locator\Resource as ResourceInterface;
 
 abstract class MagentoObjectGenerator extends PromptingGenerator implements GeneratorInterface
 {
-    /**
-     * @param ResourceInterface $resource
-     * @param string $filepath
-     *
-     * @return string
-     */
-    protected function renderTemplate(ResourceInterface $resource, $filepath)
+    protected function renderTemplate(ResourceInterface $resource, string $filepath): string
     {
         $values = [
             '%filepath%'        => $filepath,
@@ -36,20 +30,11 @@ abstract class MagentoObjectGenerator extends PromptingGenerator implements Gene
         return $content;
     }
 
-    /**
-     * @return string
-     */
-    abstract protected function getParentClass();
+    abstract protected function getParentClass(): string;
 
-    /**
-     * @return string
-     */
-    abstract protected function getTemplateName();
+    abstract protected function getTemplateName(): string;
 
-    /**
-     * @return string
-     */
-    protected function getTemplateFile()
+    protected function getTemplateFile(): string
     {
         return '/templates/generic_class.template';
     }

@@ -10,39 +10,22 @@ class ControllerSpecificationGenerator extends PromptingGenerator implements Gen
 {
     const SUPPORTED_GENERATOR = 'controller_specification';
 
-    /**
-     * @param ResourceInterface $resource
-     * @param string $generation
-     * @param array $data
-     * @return bool
-     */
-    public function supports(ResourceInterface $resource, $generation, array $data)
+    public function supports(ResourceInterface $resource, string $generation, array $data): bool
     {
         return self::SUPPORTED_GENERATOR === $generation;
     }
 
-    public function getPriority()
+    public function getPriority(): int
     {
         return 0;
     }
 
-    /**
-     * @param ResourceInterface $resource
-     *
-     * @return string
-     */
-    protected function getFilePath(ResourceInterface $resource)
+    protected function getFilePath(ResourceInterface $resource): string
     {
         return $resource->getSpecFilename();
     }
 
-    /**
-     * @param ResourceInterface $resource
-     * @param string $filepath
-     *
-     * @return string
-     */
-    protected function renderTemplate(ResourceInterface $resource, $filepath)
+    protected function renderTemplate(ResourceInterface $resource, string $filepath): string
     {
         $values = [
             '%filepath%'  => $filepath,
@@ -61,13 +44,7 @@ class ControllerSpecificationGenerator extends PromptingGenerator implements Gen
         return $content;
     }
 
-    /**
-     * @param ResourceInterface $resource
-     * @param string $filepath
-     *
-     * @return string
-     */
-    protected function getGeneratedMessage(ResourceInterface $resource, $filepath)
+    protected function getGeneratedMessage(ResourceInterface $resource, string $filepath): string
     {
         return sprintf(
             "<info>ControllerSpecification for <value>%s</value> created in <value>'%s'</value>.</info>\n",

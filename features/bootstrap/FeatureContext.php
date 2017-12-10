@@ -6,6 +6,7 @@ use OutputSpecification\ClassSpecification;
 use OutputSpecification\ObjectSpecification;
 use OutputSpecification\SpecSpecification;
 use PhpSpec\Console\Application;
+use PHPUnit\Framework\Assert;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -274,7 +275,7 @@ class FeatureContext implements SnippetAcceptingContext
     public function thereIsANewModule()
     {
         $this->moduleName = $moduleName = 'Unique' . self::$uniqueCount;
-        PHPUnit_Framework_Assert::assertFileNotExists("public/app/code/local/Behat/$moduleName");
+        Assert::assertFileNotExists("public/app/code/local/Behat/$moduleName");
     }
 
     /**
@@ -326,7 +327,7 @@ class FeatureContext implements SnippetAcceptingContext
             throw new \RuntimeException('Element not found in config XML');
         }
 
-        PHPUnit_Framework_Assert::assertEquals($expectedClass, (string) $result[0]);
+        Assert::assertEquals($expectedClass, (string) $result[0]);
     }
 
     /**
@@ -436,7 +437,7 @@ class FeatureContext implements SnippetAcceptingContext
 
         $generatedSpec = file_get_contents($specSpecification->getFilePath());
 
-        PHPUnit_Framework_Assert::assertEquals($expectedSpec, $generatedSpec);
+        Assert::assertEquals($expectedSpec, $generatedSpec);
     }
 
     private function getTemplate($objectType)

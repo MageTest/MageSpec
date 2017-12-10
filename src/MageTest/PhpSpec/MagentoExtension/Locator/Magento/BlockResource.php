@@ -42,42 +42,42 @@ class BlockResource implements ResourceInterface
         $this->locator = $locator;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return implode('_', $this->parts);
     }
 
-    public function getSpecName()
+    public function getSpecName(): string
     {
         return $this->getName() . 'Spec';
     }
 
-    public function getSrcFilename()
+    public function getSrcFilename(): string
     {
         return $this->locator->getFullSrcPath() . implode(DIRECTORY_SEPARATOR, $this->parts) . '.php';
     }
 
-    public function getSrcNamespace()
+    public function getSrcNamespace(): string
     {
         return '';
     }
 
-    public function getSrcClassname()
+    public function getSrcClassname(): string
     {
         return implode('_', $this->parts);
     }
 
-    public function getSpecFilename()
+    public function getSpecFilename(): string
     {
         return $this->locator->getFullSpecPath() . implode(DIRECTORY_SEPARATOR, $this->parts) . 'Spec.php';
     }
 
-    public function getSpecNamespace()
+    public function getSpecNamespace(): string
     {
         return rtrim($this->locator->getSpecNamespace(), '/\\');
     }
 
-    public function getSpecClassname()
+    public function getSpecClassname(): string
     {
         return $this->locator->getSpecNamespace() . implode('_', $this->parts).'Spec';
     }

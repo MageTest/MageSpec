@@ -21,9 +21,8 @@
  */
 namespace MageTest\PhpSpec\MagentoExtension\Locator\Magento;
 
-use InvalidArgumentException;
+use PhpSpec\Locator\Resource as ResourceInterface;
 use PhpSpec\Locator\ResourceLocator;
-use PhpSpec\Util\Filesystem;
 
 /**
  * ModelLocator
@@ -38,27 +37,17 @@ class ModelLocator extends AbstractResourceLocator implements ResourceLocator
     /**
      * @return int
      */
-    public function getPriority()
+    public function getPriority(): int
     {
         return 40;
     }
 
-    /**
-     * @param string $file
-     * @return bool
-     */
-    protected function isSupported($file)
+    protected function isSupported(string $file): bool
     {
         return strpos($file, 'Model') > 0;
     }
 
-    /**
-     * @param array $parts
-     * @param ResourceLocator $locator
-     * @return ModelResource
-     * @throws \InvalidArgumentException
-     */
-    protected function getResource(array $parts, ResourceLocator $locator)
+    protected function getResource(array $parts, ResourceLocator $locator): ResourceInterface
     {
         if (!$locator instanceof ModelLocator) {
             throw new \InvalidArgumentException('Model resource requires a model locator');
@@ -66,18 +55,12 @@ class ModelLocator extends AbstractResourceLocator implements ResourceLocator
         return new ModelResource($parts, $locator);
     }
 
-    /**
-     * @return string
-     */
-    protected function getClassType()
+    protected function getClassType(): string
     {
         return 'Model';
     }
 
-    /**
-     * @return string
-     */
-    protected function getValidator()
+    protected function getValidator(): string
     {
         return '/^(model):([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)(_[\w]+)?$/';
     }

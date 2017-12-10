@@ -114,11 +114,7 @@ class ModuleUpdateListener implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param string $className
-     * @return string
-     */
-    private function getClassType($className)
+    private function getClassType(string $className): string
     {
         $parts = explode('_', $className);
         if (!isset($parts[2])) {
@@ -130,21 +126,13 @@ class ModuleUpdateListener implements EventSubscriberInterface
         return strtolower($parts[2]);
     }
 
-    /**
-     * @param string $part
-     * @return bool
-     */
-    private function partIsController($part)
+    private function partIsController(string $part): bool
     {
         $element = 'Controller';
         return strlen($part) - strlen($element) === strrpos($part, $element);
     }
 
-    /**
-     * @param \Exception $exception
-     * @return bool
-     */
-    protected function exceptionIsNotUsable($exception)
+    protected function exceptionIsNotUsable($exception): bool
     {
         if (null === $exception) {
             return true;
